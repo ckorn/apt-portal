@@ -1,0 +1,31 @@
+<%inherit file="base.html"/>
+<%def name="page_head()">
+</%def>
+<%def name="title()">
+${_("Package Copy")}
+</%def>
+<%def name="body()">
+% if asking:
+<form style="text-align:center" method="get" action="${self_url}">
+<input type="hidden" name="package_id" value="${package_id}" />
+<input type="hidden" name="source_list_id" value="${source_list_id}" />
+Please select the target package list:<br />
+<select name="target_list">
+	<option value="-1" selected="selected">(please select:)</option>	
+% for repository in repository_list:
+	<option value="${repository}">${repository}</option>
+% endfor
+</select>
+<br /><br />
+<input type="submit" value="Submit" />
+<form>
+% else:
+<p style="text-align:center">
+	Your command was inserted in the automated execution queue.<br />
+	Ticket name: ${ticket_name}<br />
+	<br />
+	An email will be sent after execution with the results.<br /><br />
+	Go back to the <a href="${base_url}/packages/">Packages</a> page.
+</p>
+% endif
+</%def>

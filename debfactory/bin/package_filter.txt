@@ -1,0 +1,6 @@
+#Filter all packages ending on
+.*-dev\b|.*-doc\b|.*-dbg\b
+#Filter all packages starting with
+\bfont-.*|\btask-.*|\bttf-.*|\blocale-.*|\blib.*|\bkernel-.*|\bperl-.*|\blocale-.*|\bpython-.*|\butil-linux-.*|\balsautils.*|\blocale-.*|\bpython-.*|\butil-linux-.*|\balsa-.*|\babiword-.*|\bevas-.*|\betk-.*|\becore-.*|\be2fsprogs-.*|\bconnman-.*|\bclasspath-.*|\bedbus-.*|\bedje-.*|\befrecet-.*|\bemotion-.*|\bepsilon-.*|\bewl-.*|\bfinch-.*|\bframeworkd-.*|\bgdk-.*|\bglibc-.*|\bgnome-vfs-.*|\bgpsd-.*|\bgst-.*|\bgtk-.*|\biputils-.*|\bmidpath-.*|\bopenssh-.*|\bpam-.*|\bpango-.*|\bpidgin-.*|\bppp-.*|\bpulseaudio-.*|\btzdata-.*|\bxserver-.*|\bavahi.*|\bfso-.*|\bmatchbox-.*|\bntp.*
+#Other filters
+.*-locale.*|\be-wm-(?!theme).*

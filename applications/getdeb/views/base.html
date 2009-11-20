@@ -1,0 +1,107 @@
+## -*- coding: utf-8 -*-
+## base.html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="The GetDeb Team" />
+<meta name="description" content="Software you want" />
+<meta name="keywords" content="ubuntu, repository, apps, applications, software, open source" />
+<meta name="google-site-verification" content="Jz7r9nfRKQIfmNt-ZsW51Fa201DxpII-lKhG-5_5GBg" />
+<title>GetDeb.net V2 Beta - Software for Ubuntu Linux - ${self.title()}</title>
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+<script type="text/javascript" src="/js/browser_selector.js"></script>	
+<!-- <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script> -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+${self.page_head()}
+<script type="text/javascript">
+<!-- This code highlight the currently selected page -->
+$(document).ready(function() {
+	$("a#${pagename|u}").addClass("selected");
+	$("#select_release option[value='${release|u}']").attr("selected", "selected");
+	$("#select_release option[value='${release|u}']").attr("selected", "selected");
+    $("#select_release").change(function() {
+		var release = $("option:selected", this).val();
+		$.cookie('release', release, { path: '/', expires: 30 }); 
+		window.location.reload(true);
+    });
+});
+</script>
+<script language="javascript" type="text/javascript">
+<!--
+var win=null;
+function NewWindow(mypage,myname,w,h,scroll,pos){
+if(pos=="random"){LeftPosition=(screen.width)?Math.floor(Math.random()*(screen.width-w)):100;TopPosition=(screen.height)?Math.floor(Math.random()*((screen.height-h)-75)):100;}
+if(pos=="center"){LeftPosition=(screen.width)?(screen.width-w)/2:100;TopPosition=(screen.height)?(screen.height-h)/2:100;}
+else if((pos!="center" && pos!="random") || pos==null){LeftPosition=0;TopPosition=20}
+settings='width='+w+',height='+h+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',location=no,directories=no,status=no,menubar=no,toolbar=no,resizable=yes';
+win=window.open(mypage,myname,settings);}
+// -->
+</script>
+</head>
+<body>
+<div id="content">    
+    <div id="top">
+        <ul id="countrytabs" class="shadetabs">        
+        <li><a id="welcome" href="${base_url}/welcome/">Welcome</a></li>
+        <li><a id="updates" href="${base_url}/updates/">Apps</a></li>
+        <li><a id="contact" href="${base_url}/contact/">Contact Us</a></li>
+        <li><a id="sponsors" href="${base_url}/sponsors/">Sponsors</a></li>
+% if session("is_admin"):
+		<li><a href="${base_url}/packages/" title="Package management" id="packages">Packages</a></li>
+% endif			        
+        </ul>
+        <a href="${base_url}/" id="logo-link"><img id="logo" src="/images/logo.png" alt="GetDeb"></a>                
+        <div id="searchbox">
+            <form name="sitesearch" id="sitesearch" action="${base_url}/updates/" method="get">
+                <p>
+                    <label>Search</label>
+                    <input type="text" value="Search" name="q" onfocus="if(this.value == 'Search') this.value='';" size="10"/>
+                    
+                </p> 
+            </form>
+        </div>
+    </div>
+    <div id="middle">		
+		<form name="form1" method="post" action="" id="user_info">
+			<p class="top_user_info">
+			Welcome
+			% if session("login_username"):
+						${session("login_username")}, you can\
+							<a href="${base_url}/logout/" title="logout" id="logout">logout</a>.\
+			% else:        
+					Guest, you can <a href="${base_url}/login/">login</a>  or <a href="${base_url}/register/">register</a>.\
+			% endif
+			Browsing software for:
+			<select style="border: 1px solid rgb(153, 153, 153); font-weight: inherit; font-family: trebuchet ms,arial,sans; font-size: 11px; background-color: rgb(238, 238, 238);" name="select_r"  id="select_release">
+				<option value="all">${_("All releases")}</option>
+				<option value="9.04">Ubuntu 9.04</option>
+				<option value="9.10">Ubuntu 9.10</option>
+			  </select>
+			</p>				  
+		</form>
+	${self.body()}
+    <br>We no longer provide updates for applications prior to Ubuntu 9.04, you still can get packages from our <a href="http://old.getdeb.net">legacy website</a> .        
+    </div>
+    <div id="bottom">
+&copy; 2009 The GetDeb Team | Based on the design by <a href="http://www.rafaellaguna.com/">
+Rafael Laguna</a> | Powered by <a href="https://launchpad.net/apt-portal">APT-Portal</a>
+##  - For additional copyright and legal information read <a href="${base_url}/copyright"
+##onclick="NewWindow(this.href,'Asemar: Copyright & Legal','640','480','yes','center');return false" onfocus="this.blur()">this</A> page .
+    </div>
+</div>
+<!-- google analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-294097-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- end of google analytics -->
+</body>
+</html>

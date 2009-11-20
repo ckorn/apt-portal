@@ -1,0 +1,25 @@
+<%inherit file="base.html"/>
+<%def name="page_head()">
+</%def>
+<%def name="title()">
+${_("Package Removal")}
+</%def>
+<%def name="body()">
+% if confirm != 'Y':
+<p style="text-align:center">
+Do you really want to remove ${package.package} ${package.version} from repository ${packagelist.suite} ? 
+</p>
+<p style="text-align:center">
+<a href="${self_url}?package_id=${package.id}&amp;list_id=${packagelist.id}&amp;confirm=Y">Yes</a> , <a href="${base_url}/packages/">No</a>
+</p>
+% else:
+<p style="text-align:center">
+	Your command was inserted in the automated execution queue.<br />
+	Ticket name: ${ticket_name}<br />
+	<br />
+	An email will be sent after execution with the results.<br /><br />
+	Go back to the <a href="${base_url}/packages/">Packages</a> page.
+</p>
+% endif
+</%def>
+

@@ -1,0 +1,106 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+	<script type="text/javascript" src="/base/js/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		//custom validation rule - text only
+		$.validator.addMethod("usernameOnly", 
+			function(value, element) {
+				 return /^[a-zA-Z0-9\.]*$/.test(value);
+			}, "Alpha/digit characters Only."
+		);
+		$("#registerForm").validate({
+			rules: {
+				name: {
+					required: true,
+					usernameOnly: true
+				},				
+				password1: {
+					required: true,
+					minlength: 5
+				},
+				password2: {
+					required: true,
+					minlength: 5,
+					equalTo: "#rpassword1"
+				}
+			},
+			messages: {
+				password1: {
+					required: "Please provide a password",
+					minlength: "At least 5 characters long"
+				},
+				password2: {
+					required: "Please provide a password",
+					minlength: "At least 5 characters long",
+					equalTo: "Same password as the first"
+				},
+			}
+		});
+	});	
+	</script>
+</%def>
+<%def name="title()">
+${_("User registration")}
+</%def>
+<%def name="body()">
+% if submit:
+	% if user_already_exists:
+		<h2>Problem</h2>
+		<p>That user already exists please use a different user.</p>
+	% elif user_email_exists:
+		<h2>Problem</h2>
+		<p>There is already an user registered with that email address, use the recover password page.</p>
+	% else:
+			<h2>Thank You</h2>
+			<p>Please check your mail for instructions on how to complete the registration.</p>
+	% endif
+% else:
+			<div class="info">
+				<div class="info_header"><h2>Looking to do more with GetDeb?</h2></div>
+				<div class="info_content">
+					<form id="registerForm" class="login_or_register" method="post" action="${self_url}submit/">
+						<fieldset>
+							<legend>Register an account</legend>
+							<p class="note"><span>*</span> denotes a required field</p>
+							<p>
+								<label for="rusername">Username</label><em>*</em>
+								<input id="rusername" name="name" size="25" class="required" />
+							</p>
+							<p>
+								<label for="remail">E-Mail</label><em>*</em>
+								<input id="remail" name="email" size="25"  class="required email" />
+							</p>
+
+							<p class="clear">
+								<label for="rpassword1">Password</label><em>*</em>
+								<input id="rpassword1" type="password" name="password1" size="25"  class="required password" />
+							</p>
+							<p>
+								<label for="rpassword2">Password Repeat</label><em>*</em>
+								<input id="rpassword2" type="password" name="password2" size="25"  class="required password" />
+							</p>
+							<p class="button">
+								<input class="submit" type="submit" value="Register" />
+							</p>
+						</fieldset>
+					</form>
+<!--					
+					<p class="extra">Privacy Policy and TOS</p>
+					<h3>Why Sign up?</h3>					
+					<p class="faq">Users can interact with the website, such as comment and rate submissions.</p>
+-->
+				</div>
+				<div class="info_footer"></div>
+			</div>
+			<br style="clear:both;" />
+% endif
+</%def>
+
+## Contact email settings
+<%def name="sender_email()">
+## mangle to avoid spambots
+${"%s@%s" % ('noreply','getdeb.net')}
+</%def>
+

@@ -1,0 +1,64 @@
+## -*- coding: utf-8 -*-
+<%page args="package, app, app_extra"/>
+<!-- game -->
+<div class="game">
+	<div class="game_header">
+<%doc>
+		<!-- rating -->
+		<div class="rating_container">
+			<form class="the_stars" id="nexuiz_rating">
+				<input class="star" type="radio" name="nexuiz_rating" />
+				<input class="star" type="radio" name="nexuiz_rating" />
+				<input class="star" type="radio" name="nexuiz_rating" />
+				<input class="star" type="radio" name="nexuiz_rating" />
+				<input class="star" type="radio" name="nexuiz_rating" />
+			</form>
+		</div>
+		<!-- rating end -->
+</%doc>		
+		<h2><a href="#${package.package}" name="${package.package}" title="${app.name} - ${package.description|h}">${app.name|h} <span class="smaller">- ${package.description|h}</span> </a></h2>
+	</div>
+	<div class="left">
+		<a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+		<a href="${base_url}/install/${package.package | u}/${package.version| u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this game!">Install this now</a>
+	</div>
+	<div class="details">
+		<h3 class="version">
+##% if app_extra_info[package.package+package.version]['only_on_testing']:
+##		**ON TESTING**:
+##% endif				
+		Version: ${package.version}
+		</h3>
+##		<a href="#" class="featured_icon" title="This game is featured!">Featured Game</a>
+<p>
+		 ${app.descr | h}
+</p>
+		<!-- available for -->
+		<h3 class="available_for">Available for Ubuntu: 
+		${', '.join(app_extra['releases'])}		
+		</h3>
+		<!-- end available for -->		
+		<h3 class="more_links">
+% if app.video_link:
+		<a href="${app.video_link}&amp;autoplay=1" rel="shadowbox[video];width=580;height=520" title="${app.name}" class="video">Watch Video</a> |
+% endif
+		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
+		| License: ${app.license}
+##		| <a href="#" class="comments">Comments</a>
+		</h3>
+		<h3 class="updated">Updated: ${package.last_modified} | <a href="${base_url}/updates/${app.name}" 
+		title="You can use this link to directly reference the latest package for ${app.name}">
+		App Link</a></h3>
+<%doc>
+		<!-- tags -->
+		<h3 class="tags_container"><span class="tags"> Tags: <a href="#">fps</a>, <a href="#">space</a>, <a href="#">quake-based</a></span> <span class="descript">|</span> <a href="#" class="add_new_tag">+</a>
+			<div class="add_tag">
+				<input type="text" name="add_tag_box" class="add_tag_box" />
+				<input type="submit" value="add" class="add_tag_submit" />
+			</div>
+		</h3>	
+		<!-- end tags -->
+</%doc>	
+	</div>
+</div>
+<!-- end game -->

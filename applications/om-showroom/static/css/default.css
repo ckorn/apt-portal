@@ -1,0 +1,569 @@
+/* Stylesheet for playdeb.net written by Tyler Mulligan of www.detrition.net */
+
+/* Fonts */
+@font-face {
+	font-family: Bebas;
+	src: url('fonts/Bebas.ttf');
+}
+
+/* General / Global */
+* {
+	padding:0;
+	margin:0;
+}
+body {
+	background:#ffffff;
+	font-family:Sans Serif, Verdana, Arial, Tahoma;
+}
+h1 {
+	font-size:25px;
+	padding:14px 10px 4px 10px;
+	color:#9a9a9a;
+}
+p {
+	padding:10px;
+}
+a:active, a:focus { outline: 0; } /* fixes annoying image border links bug on firefox */
+#container, #content_frame, #footer { width:910px; }
+
+#header{ width:100%; }
+#header { margin:0px auto; }
+
+#container { 
+margin:0px auto;
+padding-bottom:100px;
+}
+.selected { font-weight:bold; }
+
+/* Header */
+#header {
+	position:relative;
+	height:125px;
+	background-color:#fff;
+	#background:url('img/playdeb_header.png') no-repeat 0 0; */
+}
+#logo, #playdeb, #playdeb_slogan, #filter_status {
+	display:block;
+	position:absolute;	
+	
+}
+#logo {
+	width:100px;
+	height:104px;
+	top:10px;
+	left:5px;
+	background:url('img/playdeb_logo_100.png') no-repeat 0 0;
+}
+
+#a#logo:hover { background:url('img/playdeb_logo_100.png') no-repeat 0 0; }
+
+#playdeb {
+	width:500px;
+	height:48px;
+	left:140px;
+	top:20px;
+	font-size:40px;	
+	color:#9a9a9a;
+	text-decoration: none;
+	font-family: Lucida Grande, Sans-Serif;
+	text-shadow:5px 5px #2D2D2D;
+}
+
+#playdeb_slogan {
+	width:500px;
+	height:35px;
+	left:140px;
+	top:60px;
+	font-size:20px;
+	color: #9a9a9a;
+	text-decoration: none;
+	text-shadow:5px 5px #2D2D2D;
+}
+
+#filter_status {
+	width:600px;
+	height:48px;
+	left:140px;
+	top:98px;
+	font-size:14px;
+	color: #aaa;
+	text-decoration: none;
+	font-weight:bold;
+	
+}
+
+#filter_status a {
+	color:#798ec9;
+	text-decoration:none;
+}
+#filter_status a:hover { 
+	text-decoration:underline; 
+}
+
+a#playdeb:hover { 
+	color: #9a9a9a;
+}
+
+/* a#playdeb:hover { background:url('img/playdeb.png') no-repeat 0 0; } */
+
+#search_top{
+	position:relative;
+	width:400px;
+	float:right;
+	top:5px;
+	right:10px;
+	
+}
+
+#search_top h2 {
+	float:left;
+	font-size:14px;
+	height:16px;
+#	background:url('img/find_a_game.png') no-repeat 0 0;
+	color:#bbb;
+	text-transform:uppercase;
+	font-family:Bebas,Arial,Helvetica,Sans-serif;
+#	word-spacing: -1px;
+	padding-left:45px;
+	padding-top:3px;	
+}
+.opera10 #search_top h2, .ff3 #search_top h2, .webkit #search_top h2 {
+	top:5px;
+	left:557px;
+}
+
+#search_box_top {
+	position:relative;
+	font-size:14px;
+	font-weight:bold;
+	color: #9a9a9a;
+	height:28px;
+	width:220px;
+	background:url('img/search_box_top.png') no-repeat 0 0;
+	border:0;
+	padding:6px 0 0 6px;
+	bottom:1px;
+	float:right;
+
+}
+/* opera fix */
+.opera #search_box_top { background-position: 0px 6px; top: 10px;}
+
+#search_top p#login_note {
+	float:right;
+	margin:0 4px 0 0;
+	color:#9a9a9a;
+	display:block;
+	font-size:12px;
+	height:18px;
+}
+
+#search_top p#login_filter {
+	float:right;
+	margin-top:38px;
+	color:#9a9a9a;
+	font-size:12px;
+}
+
+#search_top a { color:#999; }
+#search_top a:hover { color:#bbb; }
+
+#search_top #logo_tuxbrain {
+	position:relative;
+	float:right;
+	width:139px;
+	height:50px;
+	top:14px;
+	right:-245px;
+	background:url('img/tuxbrain_logo50.png') no-repeat 0 0;
+}
+
+/* Main Menu */
+#main_menu {
+	height:55px;
+	width:910px;
+	background:url('img/menu_bg_shadow.png') repeat-x 0 0;
+;
+}
+#main_menu a {
+	margin-top:8px;
+	text-decoration:none;
+	padding:7px 15px 0 28px;
+	color:#ddd;
+	font-size:15pt;
+	vertical-align:middle;
+	border-right:2px solid #999;
+}
+.opera10 #main_menu a, .ff3 #main_menu a, .webkit #main_menu a {
+	font-family:Arial,Helvetica,Georgia,Sans Serif,Verdana,Tahoma;
+	font-weight:bold;
+	word-spacing:2px;
+}
+#main_menu a:hover {
+	color:#fff;
+}
+#main_menu ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#main_menu li {	float:left; padding-left:10px; }
+#main_menu li#first { padding-left:0 !important; }
+#main_menu #left_cap {
+	width:16px;
+	background:url('img/menu_left_cap_shadow.png') no-repeat 0 0;
+
+}
+#main_menu #left_cap, #main_menu a#welcome, #main_menu a#updates, #main_menu a#about, #main_menu a#contact, #main_menu a#mirrors, #main_menu #right_cap
+	, #main_menu a#packages{
+	height:32px;
+	display:block;
+	color:#798ec9;	
+
+}
+
+#main_menu #left_cap, #main_menu #right_cap {
+	height:55px;
+	padding:0;
+	border-bottom:0px;
+}
+#main_menu a#welcome {
+	background:url('img/icon_welcome.png') no-repeat 0 8px;
+}
+#main_menu a#updates {
+	background:url('img/icon_updates.png') no-repeat 0 8px;
+}
+#main_menu a#about {
+	background:url('img/icon_about_us.png') no-repeat 0 8px;
+}
+#main_menu a#contact {
+	background:url('img/icon_contact_us.png') no-repeat 0 9px;
+}
+#main_menu a#mirrors {
+	background:url('img/icon_mirrors.png') no-repeat 0 9px;
+}
+#main_menu a#packages {
+	background:url('img/icon_packages.png') no-repeat 0 9px;
+}
+#main_menu #right_cap {
+	width:16px;
+	background:url('img/menu_right_cap_shadow.png') no-repeat top right;
+	float:right;
+}
+
+#main_menu a#packages:hover, #main_menu a#mirrors:hover, #main_menu a#updates:hover, #main_menu a#welcome:hover
+	, #main_menu a#packages {
+	/*background-position: 0 -48px !important;*/
+	color:#ff630f;
+ }
+
+#main_menu a#about:hover, #main_menu a#contact:hover, #main_menu a#bugs:hover, #main_menu a#ideas:hover, #main_menu a#friends:hover
+	, #main_menu a#packages {
+	/*background-position: 0 -48px !important;*/
+	color:#ff630f;
+ }
+ 
+#main_menu a#menu_item:hover {
+	/*background-position: 0 -48px !important;*/
+	color:#fff;
+ }
+ 
+#main_menu a.selected {
+	color:#fff;
+}
+#main_menu li:hover {
+	background:url('img/menu_bg_shadow_inv.png') repeat-x top right;
+}
+ #main_menu a#games_list:hover { background-position: 0 -55px !important; }
+
+/* Content */
+
+#content_frame {
+
+		background: url('img/menu_left_cap_v_shadow.png') repeat-y top left;
+
+
+}
+
+#content_frame{ 
+	min-height:500px;
+	height:auto !important;
+#	height:500px;
+
+}
+
+#content_frame #content {
+	height:100%;
+	width:auto;
+	#margin-right:10px;
+	top:0px;
+	padding-left:10px;
+	#background-color:#000;
+	background:url('img/menu_right_cap_v_shadow.png') repeat-y top right;
+		min-height:500px;
+}
+
+#content_left { 
+	position:relative;
+	float:left;
+	width:4px;
+	height:100%;
+	top:0px;
+	left:0px;
+	background:url('img/menu_left_cap_v_shadow.png') repeat-y 0 0;
+	#background-color:#a5a8e2
+}
+
+/*IN CASE RIGHT BG COLUM NEEDED
+/*
+#content_frame  #content #content_right { 
+	position:relative;
+	float:right;
+	width:4px;
+	height:100%;
+	background:url('img/menu_right_cap_v_shadow.png') repeat-y 0 0;
+#	background-color:#000;
+	#bottom:500px;
+}
+*/
+
+#content {
+	position;relative;
+	background:#fff;
+	#background:#fff url('img/content_bg.png') repeat-x 0 0;	
+	color:#aaaaaa;
+	font-weight:bold;
+}
+#content ul {
+	margin-left:30px;
+	list-style:disc;
+}
+#content ol {
+	margin-left:40px;
+	margin-bottom:0;
+}
+#content ol li { padding:2px 0 5px 0; }
+#content ul li { padding:0; }
+#content ol p {
+	padding:6px 0 0 0;
+	margin:6px 0 0 0;	
+}
+#content ul p {
+	margin:0;
+	padding:1px 0 0 0;
+}
+#content a {
+	color:#798ec9;
+	text-decoration:none;
+}
+.highlight {
+	color:#798ec9;
+	text-decoration:none;
+}
+
+#content a:hover { text-decoration:underline; }
+#content a:hover img { 	background: transparent; }
+#content a img { border: 2px solid #000; }
+#content a:hover img, #content a:active img { border: 2px solid #382F0C; } 
+
+#content code {
+	margin:0;
+	position:relative;
+	padding:3px;
+	top:4px;
+	background-color:#554819;
+	color:#CFA53E;
+	border:2px solid #8E6F22;
+}
+
+/* Info Box */
+.info {
+	padding:18px 0 0 0;
+}
+.info_header, .info_content, .info_footer {
+	width:866px;
+	margin:0 15px;
+}
+.info_header {
+	height:57px;
+	background:url('img/info_header.gif') no-repeat 0 0;
+}
+.info_header h2 {
+	font-size:18px;
+	height:30px;
+	color:#ccc;
+	background:url('img/info_icon.gif') no-repeat 0 15px;
+	margin:0 0 0 14px;
+	padding:18px 0 0 36px;
+}
+.info_content {
+	background:url('img/info_content.gif') repeat-y 0 0;
+	color:#C0A258;
+}
+.info_content p.light {
+	color:#ccc;
+}
+.info_content .note {
+	font-size:12px;
+	margin:0 0 0 62px;
+	padding:8px;
+	color:#83661E;
+	font-weight:normal;
+}
+.info_content .extra {
+	text-align:right !important;
+	padding:3px 0 8px 0;
+	width:840px;
+	font-size:13px;
+}
+.info_content h3 {
+	color:#fff;
+	font-size:20px;
+	padding:8px 0 3px 26px;
+}
+.info_content p.faq {
+	padding:0 0 6px 26px;
+}
+.info .hide_text {
+	text-align:right;
+	font-size:10px;
+	padding:2px 12px;
+}
+.info .hide_text a {
+	color:#4F400A !important;
+}
+.info_footer {
+	height:7px;
+	background:url('img/info_footer.gif') no-repeat 0 0;
+}
+
+/* Login or register */
+.login_or_register { 
+	margin:0 auto;
+	width:816px;
+}
+.login_or_register fieldset {
+	border:2px solid #594B29;
+	padding:4px;
+	background-color:#302606;
+}
+legend { margin-left:10px; }
+.login_or_register label, .login_or_register em, .login_or_register input, .login_or_register p { float:left; }
+.login_or_register input, .login_or_register textarea {
+	background-color:#0F0C02;
+	color:#AEA258;
+	border:2px solid #594B29;
+	padding:4px;
+	font-size:15px;
+	clear:left;
+}
+.login_or_register input:hover, .login_or_register textarea:hover {
+	background-color:#111;
+	color:#AEA258;
+	border:2px solid #7A6E43;
+}
+.login_or_register input:focus, .login_or_register textarea:focus {
+	background-color:#0A0801;
+	color:#A8975C;
+	border:2px solid #A8975C;
+}
+.login_or_register label { margin-bottom: 2px; }
+.login_or_register input { width:236px; }
+.login_or_register em, .login_or_register .note span { color:#D18F2C; }
+.login_or_register label.error { 
+	clear:left;
+	color:#A77103;
+	background:url('img/xicon_error.png') no-repeat 0 0;
+	margin-top:5px;
+	padding:1px 0 2px 24px;
+	font-size:13px;
+	height:22px;
+	font-weight:normal;
+}
+.login_or_register .note {
+	text-align:right;
+	font-size:14px;
+	color:#9E8F5E;
+	margin:0;
+	padding:3px 0 0 0;
+	width:796px;
+}
+.login_or_register input.submit {
+	float:right !important;
+	width:248px;
+	background:#322814 !important;
+}
+.login_or_register p.button {
+	margin-top:20px;
+}
+.login_or_register p.clear { clear:left; }
+
+#register {
+	padding-top:16px;
+}
+
+#content #sig {
+	font-size:1.1em;
+	color:#9a9a9a;
+}
+
+/* Footer */
+#footer { 
+	background:url('img/menu_right_cap_v_shadow.png') repeat-y top right;
+	#background:url('img/footer.png') repeat-x 0 0;
+	#background-color:#fff;
+	width:auto;
+	padding-left:10px;
+	padding-top:20px;
+}
+
+#footer p {
+	padding-top:20px;
+	margin-left:-12px;
+	color:#9a9a9a;;
+	text-align:center;
+}
+
+#footer a { color:#798ec9; }
+#footer a:hover { color:#798ec9; text-decoration:none; }
+#footer a#tuxbrain_link {
+	background:url('img/tuxbrain_logo24.png') no-repeat 0px -3px;
+	padding:0 0 3px 24px;
+}
+#footer a#ninja:hover { background-position: 0 -22px; }
+
+#endline { 
+	position:relative;
+	background:url('img/left_bottom_corner_shadow.png') repeat-x top right;
+	width:100%;
+	height:4px;
+	left:0px;
+	top:0px;
+	
+}
+
+#endline_center { 
+	position:relative;
+	background:url('img/bottom_v_shadow.png') repeat-x 0 0;
+	width:auto;
+	height:4px;
+	margin-left:4px;
+}
+
+#endline_right { 
+	position:relative;
+	float:right;
+	width:4px;
+	height:4px;
+	background:url('img/left_bottom_corner_shadow.png') no-repeat 0 0;
+}
+
+.hide {
+	display: none;
+}
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+

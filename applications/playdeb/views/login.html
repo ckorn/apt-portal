@@ -1,0 +1,47 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+	<script type="text/javascript" src="/common/js/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#loginForm").validate();
+	});		
+	</script>
+</%def>	
+<%def name="title()">
+${_("Login")}
+</%def>
+<%def name="body()">
+			<div class="info">
+				<div class="info_header"><h2>Looking to do more with Playdeb?</h2></div>
+				<div class="info_content">
+% if error_reason == "failed":
+                    <p style="color:red;margin-left:text-align: center">Invalid user/password, please try again.</p>
+% elif error_reason == "auth":
+    <p style="color:red;margin-left:text-align: center">Please check your email to complete registration.</p>
+% endif
+					<form id="loginForm" class="login_or_register" style="padding-top:10px;" method="post" action="${base_url}/login/">
+						<fieldset>
+							<input name="submitting" value="1" type="hidden" />
+                            <input name="referer" value="${referer}" type="hidden" />
+							<legend>Login to your account</legend>
+							<p>
+								<label for="lusername">Username</label>
+								<input id="lusername" name="name" size="25" class="required" />
+							</p>
+							<p>
+								<label for="lpassword">Password</label>
+								<input id="lpassword" type="password" name="password" size="25"  class="required password" />
+							</p>
+							<p class="button">
+								<input class="submit" type="submit" value="Login"/>
+							</p>
+						</fieldset>       
+					</form>
+					<p class="extra">Forgot your password?</p>
+				</div>
+				<div class="info_footer"></div>
+			</div>
+			<br style="clear:both;" />
+</%def>
+

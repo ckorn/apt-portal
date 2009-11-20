@@ -1,0 +1,24 @@
+<%inherit file="base.html"/>
+<%def name="page_head()">
+<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />	
+</%def>
+<%def name="title()">
+${_("Ubuntu release selection page")}
+</%def>
+<%def name="body()">		
+		<form action="${self_url}" >
+		<h2>${_("Please select a release version")}</h1>
+		Only packages for the selected release will be shown.<br>		
+		<select name="release">
+		<option value="all" selected>${_("All releases")}</option>
+		<option value="9.04">9.04</option>
+		<option value="9.10">9.10</option>
+		</select>
+		<br /><br />
+		${_("Include packages from the testing repository")}
+		<input type="checkbox" name="testing" title="${_("Enable this only if you plan to participate on new packages testing.")}">		  		
+		<br /><br />
+		<input type="submit" value="${_("Submit")}">
+		</form>
+</%def>
+

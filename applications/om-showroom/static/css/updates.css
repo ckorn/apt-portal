@@ -1,0 +1,318 @@
+/* Stylesheet for playdeb.net written by Tyler Mulligan of www.detrition.net */
+
+/* Games List */
+.navigate {
+	position:relative;
+	width:860px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.navigate a.first, .navigate a.prev, .navigate a.next, .navigate a.last {
+	width:29px;
+	height:26px;
+	display:block;
+	float:left;
+	margin-top:14px;
+}
+.navigate a.next, .navigate a.last {
+	float:right;
+}
+.navigate a.first { background:url('img/nav_first.gif') no-repeat 0 0; }
+.navigate a.prev { background:url('img/nav_prev.gif') no-repeat 0 0; }
+.navigate a.next { background:url('img/nav_next.gif') no-repeat 0 0; }
+.navigate a.last { background:url('img/nav_last.gif') no-repeat 0 0; }
+
+.navigate a.first:hover, .navigate a.prev:hover, .navigate a.next:hover, .navigate a.last:hover {
+	background-position:0 -26px;
+}
+
+.navigate #search_content h2 {
+	font-size:22px;
+	float:left;
+	padding:5px 6px 0 0;
+}
+.navigate #search_content {
+	position:absolute;
+	top:10px;
+	left:150px;
+}
+.navigate #search_box_content {
+	background:url('img/search_box_content.gif') no-repeat 0 0;
+	border:0;
+	height:35px;
+	width:282px;
+	float:left;
+	padding:7px 0 2px 6px;
+	font-size:17px;
+	font-weight:bold;
+	color:#fff;
+}
+/* opera fix */
+.opera #search_box_content { padding:1px 0 0 6px; }
+.navigate #genre {
+	margin:0;
+	padding:0;
+	float:left;
+	list-style:none;
+}
+.navigate #search_content a#search_genre {
+	background:url('img/search_genre.gif') no-repeat 0 0;
+	width:89px;
+	height:35px;
+	display:block;
+}
+.navigate #search_content a#search_genre:hover { background-position: 0 -35px; }
+.navigate #page_numbers {
+	width:720px;
+	text-align:center;
+	float:left;
+	font-size:20px;
+	margin-top:6px;
+}
+.navigate #page_numbers a { color:#555; }
+.navigate #page_numbers a:hover { color:#999; }
+
+.navigate #page_numbers a.highlight
+{
+	color: #ffffff;
+}
+
+/* Game Container */
+.game {
+	background:url('img/game_bg.gif') no-repeat 0 18px;
+	width:867px;
+	height:323px;
+	padding-top:18px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+}
+.game .rating_container {
+	position:absolute;
+	top:29px;
+	right:2px;
+	background:url('img/rating_bg.gif') no-repeat 0 0;
+	width:110px;
+	height:29px;
+}
+.game .the_stars { 
+	padding-top:4px;
+	padding-left:7px;
+}
+.game h2 {
+	font-size:20px;
+	color:#eee;
+	padding:12px;
+	width:720px;
+}
+.game .thumb {
+	float:left;
+	height:211px;
+	width:158px;
+	margin:1px 6px 1px 6px;
+	border:2px solid #222;
+}
+.game a.install_now {
+	clear:left;
+	float:left;
+	margin:3px 6px;
+	background:url('img/install_now.png') no-repeat 0 0;
+	width:272px;
+	height:49px;
+	display:block;
+	font-size:13pt;
+	color:#C0C0C0 !important;
+	line-height:48px;
+	text-shadow:2px 2px #000000;
+	padding-left:25px;
+	word-spacing:-2px;
+	font-family:Arial,Sans Serif,Verdana,Tahoma;
+}
+.game a.install_now:hover {
+	background-position:0 -49px;
+	text-decoration:none !important;
+}
+
+/* Game Container Content */
+.game .details h3.version {	color:#fff; }
+.game .details a.featured_icon {
+	position:absolute;
+	top:68px;
+	right:8px;
+	height:22px;
+	width:200px;
+	background:url('img/xicon_featured.png') no-repeat top right;
+	padding:3px 24px 0 0;
+	color:#bbb !important;
+	text-align:right;
+	font-size:11px;
+}
+.game .details p {
+	color:#eee;
+	font-size:14px;
+	font-weight:normal;
+	padding:4px 6px;
+}
+.game .details h3 {
+	font-size:14px;
+	padding:5px;
+	color:#ccc;
+}
+
+/* Game Container Footer */
+.game .details h3.more_links a { color:#bbb !important; }
+.game .details h3.more_links a:hover { color:#eee !important; }
+.game .details h3.available_for a { color:#bbb !important; }
+.game .details h3.available_for a:hover { color:#eee !important; }
+
+.game .details a.video, .game .details a.homepage, .game .details a.comments { padding-left:20px; }
+.game .details a.video { background:url('img/xicon_video.png') no-repeat 0 0; }
+.game .details a.homepage { background:url('img/xicon_homepage.png') no-repeat 0 0; }
+.game .details a.comments { background:url('img/xicon_comments.png') no-repeat 0 0; }
+
+.game .details .updated {
+	position:absolute;
+	bottom:5px;
+	left:280px;
+	font-weight:normal;
+}
+.game .details .more_links, .game .details .descript { color:#666; }
+.game .details .more_links {
+	position:absolute;
+	bottom:25px;
+	left:280px;
+	width:568px;
+	border-bottom:2px solid #777;
+	padding:0 0 5px 0;
+	margin:0 0 5px 5px;
+}
+.game .details .available_for {
+	position:absolute;
+	bottom:50px;
+	left:280px;
+	width:568px;
+	//border-bottom:2px solid #777;
+	padding:0 0 5px 0;
+	margin:0 0 5px 5px;
+}
+.game .details .tags_container {
+	position:absolute;
+	bottom:5px;
+	right:12px;
+}
+.game .details .tags {
+	background:url('img/xicon_tags.png') no-repeat 0 1px;
+	padding-left:16px;
+}
+.game .details .add_tag_box {
+	position:absolute;
+	bottom:33px;
+	right:4px;
+	height:18px;
+	width:100px;
+	padding-right:28px;
+	border:2px solid #999;
+	background-color:#333;
+	color:#bbb;
+}
+.game .details .add_tag_submit {
+	position:absolute;
+	bottom:35px;
+	right:12px;
+	height:18px;
+	width:26px;
+	font-size:10px;
+	font-weight:bold;
+	padding:0;
+	background-color:#333;
+	border:none;
+	border-left:2px solid #666;
+	color:#ccc;	
+
+}
+.game_header {height:50px;overflow:hidden;}
+
+.smaller {
+	font-size:14px;
+}
+
+/* Navigation */
+.drop_down, .drop_down ul { 
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.drop_down {
+  font-family: Arial, Helvetica, sans-serif;
+  z-index: 100;
+  position: relative;
+}
+.drop_down li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.drop_down li a, .drop_down li a:link, .drop_down li a:active, .drop_down li a:visited {
+  font-size: 14px;
+  background: #565656;
+  color: #959595;
+  display: block;
+  padding: 0 9px;
+  text-transform: lowercase;
+  text-decoration: none;
+}
+
+.drop_down li a:hover {
+  background: #ccc;
+  color: #000;	
+
+}
+#genre li:hover a, 
+#genre li.sfHover a {
+  background: #ccc;
+  color: #000;
+}
+#genre li:hover ul a, 
+#genre li.sfHover ul a {
+  background: #444;
+  color: #959595;	
+}
+#genre li:hover ul a:hover, 
+#genre li.sfHover ul a:hover {
+  background: #ccc;
+  color: #000;	
+}
+
+.drop_down ul {
+  background: #444;
+  border-bottom: 2px solid #818181;
+  list-style: none;
+  margin: 0;
+  width: 87px;
+  position: absolute;
+  top: -999em;
+  left: 0px;
+}
+.drop_down li:hover ul,
+.drop_down li.sfHover ul {
+  top: 28px;
+}
+.drop_down ul li {
+  border: 0;
+  float: none;
+}
+.drop_down ul a {
+  border: 2px solid #818181;
+  border-bottom: 0;
+  padding-right: 20px;
+  width: 67px;
+  white-space: nowrap;
+}
+.drop_down ul a:hover {
+  background: #ccc;
+  color: #000;
+}
+
+

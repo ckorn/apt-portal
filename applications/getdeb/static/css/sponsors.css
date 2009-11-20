@@ -1,0 +1,12 @@
+#sponsoring {
+	border: 1px dotted #999999;
+	display:block;
+	font-weight: bold;
+	margin: 15px auto 5px auto;
+	padding: 5px;
+	text-align: center;
+}
+#sponsoring input[type="image"] {
+	position: relative;
+	top: 4px;
+}

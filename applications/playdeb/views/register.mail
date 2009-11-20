@@ -1,0 +1,14 @@
+Return-Path: NoReply <noreply@playdeb.net>
+From: ${sender}
+Subject: PlayDeb.net - ${_("User registration")}
+To: ${destination}
+
+Hello,
+
+We received a request to register the user ${username} with this email address at PlayDeb.net.
+If you made this request, please click on the link to validate the email and finish the registration:
+
+${base_url}/auth/?user=${username}&key=${authkey}
+
+The PlayDeb Team
+http://www.playdeb.net

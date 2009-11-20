@@ -1,0 +1,67 @@
+To run locally, you must have Ubuntu 9.10 and run the following instructions:
+
+-------------
+   GetDeb
+-------------
+# (1) Make sure required dependencies are installed
+sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
+
+# (2) Run instance of the GetDeb application
+#     You can now browse to http://localhost:8080 to view
+./apt-portal.py getdeb
+
+# (3) Populate the packages database
+debfactory/bin/apt2sql.py -fd  sqlite:///getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
+
+# (4) You should now travel to http://localhost:8080/register/ and register a user. 
+#     If you dont have an SMTP service running on localhost you will get 
+#     an internal server error sending the authentication email, just ignore it.
+
+# (5) Add yourself into the admin group will allow you to see a new menu entry "Packages".
+#     It allows you to classifiy packages an link them to application records.
+./apt-portal.py getdeb --add-admin your_username
+
+
+---------------
+    PlayDeb
+---------------
+# (1) Make sure required dependencies are installed
+sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
+
+# (2) Run instance of the PlayDeb application
+#     You can now browse to http://localhost:8080 to view
+./apt-portal.py playdeb
+
+# (3) Populate the packages database
+debfactory/bin/apt2sql.py -fd  sqlite:///playdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb games
+
+# (4) You should now travel to http://localhost:8080/register/ and register a user. 
+#     If you dont have an SMTP service running on localhost you will get 
+#     an internal server error sending the authentication email, just ignore it.
+
+# (5) Add yourself into the admin group will allow you to see a new menu entry "Packages".
+#     It allows you to classifiy packages an link them to application records.
+./apt-portal.py playdeb --add-admin your_username
+
+
+-------------------------
+   Directory Structure
+-------------------------
+debfactory/                 - apt2sql and related utilities from the debfactory project
+i18n/                       - translation utilities *NOT USED YET*
+docs/                       - some documentation *NEEDS TO BE UPDATED*
+media/                      - media dir
+media/screens/              - Used to store the application screenshots
+media/sponsors/             - Used to keep the sponsor banners
+common/                     - can be used by any application
+common/modules/             - modules which provide a set of functions
+common/models/              - database models definition
+common/views/               - common views
+common/controllers/         - common controllers
+common/static/              - common static data
+applications/               - implemented applications
+applications/*/static/      - static content (imgs/css/js)
+applications/*/controllers/ - application specific controllers
+applications/*/views/       - templates / html
+logs/*                      - keep application access and error logs
+

@@ -1,0 +1,13 @@
+tr { 
+	color: white 
+} 
+
+tr:hover {
+	background-color: blue; 
+}
+
+button:hover{ 
+	background-color: blue; 
+	color: white 
+}
+

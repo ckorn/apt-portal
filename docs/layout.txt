@@ -1,0 +1,23 @@
+Site structure:
+welcome | updates | browse | about | contact | mirrors
+
+Description
+welcome - Provides instructions on how to setup the repository, new
+          users will be redirect to it when accessing the home page
+updates - Shows latest updates to the repository, it's the default
+          homepage for returning users
+browse  - browse packages by name, category, etc
+contact - provide a contact us function
+mirrors - list the mirrors
+
+
+Directories strcture
+ docs/                  Documentation
+ models/                Database model files
+ applications/          Applications implementation
+    appname/static      Static contents, images, css, etc
+    appname/views       .HTML template files
+    applications
+controllers/            Common URL handlers 
+*.py
+

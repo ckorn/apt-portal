@@ -1,0 +1,35 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+<link rel="stylesheet" href="/css/welcome.css" type="text/css" media="screen" />	
+</%def>
+<%def name="title()">
+${_("Welcome")}
+</%def>
+<%def name="body()">
+			<div id="welcome_text">
+				<h1>Welcome to PlayDeb.net</h1>
+				<p>The creators of <a href="http://www.getdeb.net" title="getdeb.net" target="_blank">getdeb.net</a> present to you our latest service
+ that caters to the Ubuntu gamer.</p>
+				<p>Not sure what game you want?  Just looking for something to kill some time?  All games are well categorized and we offer a 
+				comprehensive search.</p>
+				<p>To learn more about this project, its creators and participants, visit our "<a href="${base_url}/about">About</a>" page.</p>
+				<p>To see the recently updateds we offer, check out the "<a href="${base_url}/updates/">updates</a>" page.</p>
+				<p>For other up-to-date Ubuntu software and recommendations, Check out our sister site <a href="http://www.getdeb.net" title="Getdeb.n
+et" target="_blank">www.getdeb.net</a>.</p>
+				<p>If you have questions, <a href="${base_url}/contact" title="Contact Playdeb Beta">just ask!</a></p>
+				<p id="sig">- PlayDeb Staff</p>
+			</div>
+			<div id="home_featured_game">
+				<h2 id="featured_game_header">Featured Game</h2>
+				<a href="${base_url}/updates/nexuiz" title="Learn More about Nexuiz"><img src="/images/featured/nexuiz_25.png" alt="Nexuiz - A Fast-pa
+ced First Person Shooter" title="Nexuiz - A Fast-paced First Person Shooter" /></a>
+				<h2 id="featured_game_name">Nexuiz, A Futuristic First Person Shooter</h2>
+				<a href="${base_url}/updates/nexuiz" id="download" title="Learn more about Nexuiz and Download"></a>
+			</div>
+			<div id="home_install">
+				<p>Learn how to install games from this website by <a href="${base_url}/updates#how_to_install" title="Learn to install with playdeb">clicking here</a></p>
+			</div>
+			<br style="clear:both;" />
+</%def>
+

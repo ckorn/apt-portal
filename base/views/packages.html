@@ -1,0 +1,94 @@
+<%inherit file="base.html"/>
+<%def name="page_head()">
+<link rel="stylesheet" href="/common/css/packages.css" type="text/css" media="screen" />	
+<script type="text/javascript" src="/common/js/packages.js"></script>
+<script type='text/javascript' src='/common/js/jquery.autocomplete.js'></script>
+</%def>
+<%def name="title()">
+${_("Packages management")}
+</%def>
+<%def name="body()">
+<form action="" onsubmit="return false;">	<p>
+		Search:
+		<input type="text" id="SearchPackage" value="${q or ""}" style="width: 200px;" />
+	</p>
+</form>
+		<p>There are 
+		<span class="highlight">${stats.total}</span> total packages, 
+		<span class="highlight">${stats.unclassified}</span> unclassified, 
+		<span class="highlight">${stats.unlinked}</span> unlinked</p>
+		<h1>Packages List</h1>
+<!-- Table markup-->
+<table id="box-table-a">
+	<!-- Table header -->
+		<thead>
+			<tr>
+				<th>Package</th>
+				<th>Version</th>
+				<th>Source</th>
+				<th>Class</th>
+				<th>App</th>
+			</tr>
+		</thead>
+	<!-- Table footer -->
+		<tfoot>
+	        <tr>
+	              <td colspan="5" id="table_footer">&nbsp;</td>
+	        </tr>
+		</tfoot>
+	<!-- Table body -->
+		<tbody>
+% for package in packages:
+<tr>
+	<td>${package.package}</td>
+	<td>${package.version}</td>
+% if package.source:
+	<td>${package.source}</td>	
+% else:
+	<td></td>
+% endif
+	<td><button type="button" id="main_${package.id}" value="M" 
+% if package.install_class == "M": 
+	class="down"
+% endif	
+	title="Main install package">Main</button>
+	<button type="button" id="optional_${package.id}" value="O"
+% if package.install_class == "O": 
+	class="down"
+% endif		
+	title="Show as install option">Opt.</button>
+	<button type="button" id="internal_${package.id}" value="I"
+% if package.install_class == "I": 
+	class="down"
+% endif		
+	title="Hide from the application info">Int.</button>
+	</td>
+	<td>
+	<a
+% if package.install_class == "M":
+	class="add_app"
+% endif	
+	id="linked_app_${package.id}" href="${base_url}/appinfo/edit?for_package_id=${package.id}">Linked App</a>
+	</td>
+</tr>
+## The shown list below is used to avoid presenting duplicated suite entries
+<% shown = [] %>
+% 	for package_list  in package.lists:
+% 		if package_list.suite not in shown:
+<% shown.append(package_list.suite) %>
+		<tr>
+		<td></td>
+		<td colspan="3"> ${package_list.suite} ${package_list.version}</td>
+		<td>
+		| <a class="add_app" href="copy?package_id=${package.id}&amp;source_list_id=${package_list.id}&amp;target_list=">copy</a>
+<!-- Broken
+		| <a class="add_app" href="remove?package_id=${package.id}&amp;list_id=${package_list.id}">remove</a> 		
+-->
+		</td>
+		</tr>
+% 		endif
+%	endfor
+% endfor
+		</tbody>
+</table>
+</%def>

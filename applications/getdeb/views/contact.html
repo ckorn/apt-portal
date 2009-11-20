@@ -1,0 +1,55 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+	<link rel="stylesheet" href="/css/contact.css" type="text/css" media="screen" />	
+	<script type="text/javascript" src="/common/js/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#commentForm").validate();
+			/* anti-spam code */
+			trickit = "${self_url}";
+	   		trickit = trickit.replace(/!/g, "t");
+	   		document.forms.commentForm.action = trickit;			
+		});
+	</script>
+</%def>
+<%def name="title()">
+${_("Contact")}
+</%def>
+<%def name="body()">
+% if contact_received==1:
+		<h2>Thank You</h2>
+		<p>${_("We have received your message and will contact you as soon as we can.")}</p> 
+% else:
+			<h2>Email</h2>
+			<form id="commentForm" method="post" action="spam">
+				<fieldset>
+                    <input name="submitting" value="1" type="hidden" />
+					<legend>You can use the following form to contact us</legend>
+					<p class="note"><span>*</span> denotes a required field</p>
+					<p>
+						<label for="cname">Name</label><em>*</em>
+						<input id="cname" name="name" size="25" class="required" />
+					</p>
+					<p>
+						<label for="cemail">E-Mail</label><em>*</em>
+						<input id="cemail" name="email" size="25"  class="required email" />
+					</p>
+					<p class="clear">
+						<label for="ccomment">Your comment</label><em>*</em>
+						<textarea id="ccomment" name="comment" cols="22"  rows="5" class="required" style="clear:both;"></textarea>
+					</p>
+					<p class="clear">
+						<input class="submit" type="submit" value="Submit" />
+					</p>
+				</fieldset>                
+			</form>
+			<h2>IRC</h2>
+			<p>You can find us in <a href="irc://irc.freenode.net">#getdeb on irc.freenode.net</a>.</p>
+% endif
+</%def>
+## Contact email settings
+<%def name="destination_email()">
+## mangle to avoid spambots
+${"%s@%s" % ('contact','getdeb.net')}
+</%def>

@@ -1,0 +1,120 @@
+## -*- coding: utf-8 -*-
+## This is the base template, all pages should inherit this template 
+## which includes the top logo, menu, search button, and the 
+## board alike format 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">  
+<head>
+<% slogan = _("Openmoko Packages Resource") %>
+	<link rel="shortcut icon" href="/common/css/img/favicon.ico" type="image/x-icon" />
+	<!-- google webmaster tools verification code -->
+	<meta name="verify-v1" content="a/46dXFT0TVCfEVdqDB7iF5e7K9Ny2xbeuIkxFG4fHs=" />
+	<!-- end of google wbemaster tools authentication -->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
+	<meta name="author" content="inox"/>
+	<meta name="Description" content="${slogan}" />
+	<meta name="Keywords" content="OpenMoko, freerunner, neo, repository, app, aplications, open-source" />
+	<title>OM-Showroom - ${self.title()} </title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="/js/browser_selector.js"></script>	
+	<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>	
+	${self.page_head()}
+	<script type="text/javascript">
+	<!-- This code highligh the currentlt selected page -->
+	$(document).ready(function() {
+		$("a#${pagename|u}").addClass("selected");
+	});
+	</script>
+	<!-- -->
+</head>
+<body>
+
+<div id="container">
+
+	<div id="header">
+	<!-- -->
+		<a href="/" id="logo" title="OM-Showroom.org - ${slogan}"></a>
+		<h2><a href="/" id="playdeb" title="OM-Showroom.org - ${slogan}">OM-Showroom</a></h2>
+		<h2><a href="/" id="playdeb_slogan">${slogan}</a></h2>		
+		<div id="filter_status">
+		${_("Browsing packages for")}
+		<a href="${base_url}/release_select" title="Click to change the version filter">		
+% if release == "all" or release == None:
+		${_("All releases")}\
+% else:
+		Ubuntu ${release|h}\
+% endif
+</a>, language set to <a href="#" title="Click to change the page display language">English</a>
+		</div>
+		<div id="search_top">
+			<p id="login_note">
+            Welcome
+% if session("login_username"):
+            ${session("login_username")}, you can
+				<a href="${base_url}/logout/" title="logout" id="logout">logout</a>
+% else:
+            Guest, you can
+			<a id="login" href="${base_url}/login/" title="login">login</a>
+			or 
+			<a id="register" href="${base_url}/register/" title="register">register</a>
+% endif
+			</p>
+			
+			<h2>Find Packages:</h2>
+			<form action="${base_url}/updates/" method="get">
+			<input type="text" name="q" id="search_box_top" />			
+			</form>
+			<a href="http://www.tuxbrain.com" id="logo_tuxbrain" title="Tuxbrain.com" target="_blank"></a>
+		</div>
+	</div>
+	<div id="main_menu">
+		<ul>
+			<li id="left_cap"></li>
+			<li id="first"><a title="Welcome" href="${base_url}/welcome/"  id="welcome">Welcome</a></li>
+			<li><a href="${base_url}/updates/" title="Explore Packages - om-showroom.org" id="updates">Explore</a></li>
+			<li><a href="${base_url}/about/" title="About Us - om-showroom.org" id="about" >About Us</a></li>
+			<li><a href="${base_url}/contact/" title="Contact Us - om-showroom.org" id="contact">Contact Us</a></li>
+			<li><a href="${base_url}/sponsors/" title="Bugs - om-showroom.org" id="mirrors">Sponsors</a></li>
+% if session("is_admin"):
+			<li><a href="${base_url}/packages/" title="Package management" id="packages">Packages</a></li>
+% endif			
+			<li id="right_cap"></li>
+		</ul>                
+	</div>
+	
+	<div id="content_frame">
+		<div id="content">
+${self.body()}
+		<!-- <div id="content_right"></div> right shadow -->	
+	</div><!-- end content_frame -->				
+
+	<div id="footer">
+		<p>A service by <a href="http://tuxbrain.com" title="tuxbrain.com" id="tuxbrain_link" target="_blank">Tuxbrain</a> -page adapted by Tharkos from the original <a href="http://www.playdeb.net" title="PlayDeb.net Beta - The Ubuntu gamer's most up-to-date package resource">playdeb.net</a> designed by <a href="http://www.nexuizninjaz.com" title="Tyler '-z-' Mulligan of Nexuiz Ninjaz" target="_blank" id="ninja">a ninja</a>.</p>		
+        <p>This site is powered by <a href="https://launchpad.net/apt-portal">APT-Portal</a> </p>
+
+		</div>
+
+		
+	</div> <!-- end content -->
+	
+	<div id="endline">
+		<div id="endline_center">
+		<div id="endline_right"></div></div>	
+	</div>	
+	
+</div>
+<!-- end container -->
+<!-- google analytics -->
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-9963022-1");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>	
+<!-- end of google analytics -->
+</body>
+</html>

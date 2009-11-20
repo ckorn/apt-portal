@@ -1,0 +1,8 @@
+To Do List
+
+    Replace the current authentication code with a better module:
+    http://tools.cherrypy.org/wiki/AuthenticationAndAccessRestrictions
+    
+    Internationalization support
+
+    Application comments (with i18n support)

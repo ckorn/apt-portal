@@ -1,0 +1,65 @@
+/* Stylesheet for playdeb.net written by Tyler Mulligan of www.detrition.net */
+
+/* Comment Form */
+#commentForm { 
+	width: 870px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#commentForm fieldset {
+	border:2px solid #111;
+	border-style: groove;
+	padding:4px;
+	background:url('img/email_bg.gif') no-repeat bottom right;
+}
+legend { margin-left:10px; }
+#commentForm label, #commentForm em, #commentForm input, #commentForm p { float:left; }
+#commentForm input, #commentForm textarea {
+	background-color:#000;
+	color:#777;
+	border:2px solid #444;
+	padding:4px;
+	font-size:15px;
+	clear:left;
+}
+#commentForm input:hover, #commentForm textarea:hover {
+	background-color:#111;
+	color:#555;
+	border:2px solid #555;
+}
+#commentForm input:focus, #commentForm textarea:focus {
+	background-color:#000;
+	color:#555;
+	border:2px solid #777;
+}
+#commentForm label { margin-bottom: 2px; }
+#commentForm input { width:254px; }
+#commentForm em, #commentForm .note span { color:#D18F2C; }
+#commentForm label.error { 
+	clear:left;
+	color:#A77103;
+	background:url('img/xicon_error.png') no-repeat 0 0;
+	margin-top:5px;
+	padding:1px 0 2px 24px;
+	font-size:13px;
+	height:22px;
+	font-weight:normal;
+}
+#commentForm .note {
+	text-align:right;
+	font-size:14px;
+	color:#666;
+	margin:0;
+	padding:3px 0 0 0;
+	width:848px;
+}
+textarea {
+	width:540px;
+	height:150px;
+	float:left !important;
+}
+#commentForm input.submit {
+	float:right !important;
+	background:#222 !important;
+}
+#commentForm p.clear { clear:left; }

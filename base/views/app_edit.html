@@ -1,0 +1,82 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+	<link rel="stylesheet" href="/css/app_edit.css" type="text/css" media="screen" />		
+	<script type="text/javascript" src="/common/js/jquery.form.js"></script>
+	<script type="text/javascript" src="/common/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="/common/js/jquery.selectboxes.min.js"></script>	
+	<script type="text/javascript" src="/common/js/ajaxupload.3.5.js"></script>
+	<script type="text/javascript" src="/common/js/app_edit.js"></script>	
+	<!-- Keep the scrip inlined, we have translated messages in it -->
+	<script type= "text/javascript">	
+	var str_only_png_error = '${_("Error: Only .png images are allowed!")}';
+	var str_update_was_successful = '${_("Update was successful.")}';
+	var str_uploading = '${_("Uploading")}';
+	var str_upload = '${_("Upload screenshot")}';	
+% if application.category:	
+	$(document).ready(function() { 
+		$("#category").selectOptions('${application.category.name}', true);
+	});
+% endif
+	</script>
+</%def>
+<%def name="title()">
+${_("Application information")}
+</%def>
+<%def name="body()">
+			<h1>Application</h1>
+			<br />
+			<form id="applicationForm" method="post" action="${self_url}_submit">
+				<fieldset>
+					<input name="id" id="app_id" value="${application.id}" type="hidden" />
+					<input name="source_package" value="${application.source_package}" type="hidden" />
+					<p class="note"><span>*</span> denotes a required field</p>
+					<p>
+						<label for="cname">Name</label><em>*</em>
+						<input id="cname" name="name" value="${application.name}" size="25" class="required" />
+					</p>
+					<p>
+						<label for="curl">Homepage</label><em>*</em>
+						<input id="curl" name="homepage" value="${application.homepage}" size="64"  class="required url" />
+					</p>
+					<p>
+						<label for="license">License</label><em>*</em>
+						<input id="license" value="${application.license}" name="license" size="20"  class="required" />
+					</p>
+					<p>
+						<label for="video_link">Video link</label><em></em>
+						<input id="video_link" value="${application.video_link}" class="url" name="video_link" size="64" />
+					</p>
+					<br />
+					<p>		
+						Category:<br />
+						<select id="category" name="category">
+							<option value="0" selected="selected">(please select:)</option>
+% for category in categories:							
+							<option value="${category.name}">${category.name}</option>
+% endfor
+							<option value="add">(add new)</option>
+							<option value="del">(del existing)</option>
+						</select>						
+					</p>
+					<p id="new_category_section" class="hide">
+						<br />
+						<input id="new_category" size="10"/>
+						<button id="new_category_button">Add</button>
+					</p>
+					<p class="clear">
+						<label for="descr">Application Description</label><em>*</em>
+						<textarea id="descr" name="descr" cols="22" rows="5" class="required" style="clear:both;" >${application.descr}</textarea>
+					</p>					
+					<div id="upload_status_msg"></div>
+					<p>
+					<img id="sreenshot_thumb" src="${screenshot_filename}" border="1" alt="sreenshot_thumb" />	
+					</p>
+					<p class="clear">
+						<input class="submit" type="submit" value="${_("Update")}" />
+					</p>	
+					<p id="update_status"></p>		
+				</fieldset>                
+			</form>
+			<div id="upload_button">Upload screenshot</div>			
+</%def>

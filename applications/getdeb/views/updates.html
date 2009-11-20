@@ -1,0 +1,104 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />	
+	<script type="text/javascript" src="/js/shadowbox-2.0.js"></script>
+	<script type="text/javascript" src="/js/page.updates.js"></script>
+	<!-- we need cookie for the infobox handler -->
+	<script type="text/javascript" src="/js/infobox.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// make sure current category is selected
+			$("#genre option[value='${cat and cat.name}']").attr("selected", "selected");
+			
+			// reload the window when an option has been selected
+			$("#genre").change(function () {
+				// don't allow 'Choose one...' to be selected
+				if ($("#genre option:selected").val() != 'null') {
+					// go to the URL of the category selected in the drop-down box
+					window.location.replace("${base_url}/updates/category/"+$("#genre option:selected").val());
+				}
+			});
+		});
+	</script>	
+</%def>
+<%def name="title()">
+${_("Latest updates")}
+</%def>
+<%def name="body()">
+% if page == 1:
+			<%include file="how_to_install.html"/>
+% endif			
+			<!--start top navigation -->
+			<div class="navigate">
+% if page > 2:
+				<a href="${search_str}page=1" class="first" title="First Page"></a>
+% endif
+% if page > 1:				
+				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
+% endif
+				<div id="search_content">
+					<div id="filter"> Filter by genre:
+						<select id="genre">
+							<option value="null">Choose one...</option>
+% for category in categories:
+							<option value="${category.name}">${category.name}</option>
+% endfor
+						</select>
+					</div>
+				</div>
+
+% if page < page_count - 1:
+				<a href="${search_str}page=${page_count}" class="last" title="Last Page"></a>
+% endif
+% if page < page_count:				
+				<a href="${search_str}page=${page + 1}" class="next" title="Forward 1 Page"></a>
+% else:
+				<br/>
+% endif
+			</div>
+			<!-- end top navigation -->
+			<br style="clear:both;" />
+
+% for package in packages_to_show:
+	<%include file="app_info.html" args="package=package, app=app_list[package.package+package.version], app_extra=app_extra_info[package.package+package.version]" />
+% endfor
+			<div class="navigate">
+% if page > 2:
+				<a href="${search_str}page=1" class="first" title="First Page"></a>
+% endif
+% if page > 1:		
+				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
+% endif
+% if len(app_list) == 0:
+<p>No packages available for the selected criteria.</p>
+% endif
+	<p id="page_numbers">
+% if page_count > 1:
+<%
+	paging_start = page - 10
+	paging_end = page + 10
+	if paging_start < 1:
+		paging_start = 1
+	if paging_end > page_count + 1:
+		paging_end = page_count + 1
+%>
+%	for n in range(paging_start, paging_end):
+	<a href="${search_str}page=${n}"
+% if n == page:
+	class="highlight"
+% endif
+	>${n}</a> 
+%	endfor
+% endif
+	</p>
+% if page < page_count - 1:
+				<a href="${search_str}page=${page_count}" class="last" title="Last Page"></a>
+% endif	
+% if page < page_count:					
+				<a href="${search_str}page=${page + 1}" class="next" title="Forward 1 Page"></a>
+% endif				
+			</div>
+			<br style="clear:both;" />
+</%def>
+
