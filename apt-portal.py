@@ -84,7 +84,7 @@ def command_line_parser():
 		help = "specificy the database URI\n\n" \
 		"Examples\n\n" \
 		"   mysql://user:password@localhost/database" \
-		"   sqlite:///database" \
+		"   sqlite:////database" \
 		)        
 	parser.add_option("-e", "--daemon", \
 		action = "store_true", dest="daemon", default=False, \
@@ -167,9 +167,9 @@ if __name__ == '__main__':
 	# We set the database engine here
 	db_url = options.database 
 	if not db_url:
-		db_path = os.path.join(os.environ['HOME'], "."+app_name)		
-		db_url = "sqlite:////%s.db" % db_path
-		print "No database name specified, using", db_url 
+		db_path = os.path.join(os.environ['HOME'], "."+app_name)+".db"		
+		db_url = "sqlite:///" + db_path
+		print "No database name specified, using sqlite3 db", db_path 
 	
 	# stdin is a special url which prompts for the database url
 	# this allows to start the process without having the url included
@@ -207,6 +207,8 @@ if __name__ == '__main__':
 		, os.path.join(tempfile.mkdtemp())
 		)
 	
+	def base_url():
+		return cherrypy.request.base
 	
 	# Set the web root handler
 	# If the force view parameter is used then we need to use a special
@@ -216,14 +218,14 @@ if __name__ == '__main__':
 		print "Forcing the template to", options.force_View
 	else:                   
 		app_startup_module = os.path.join(app_dir, 'startup.py')
-		if os.path.exists(app_startup_module):		
-			sys.path.insert(0, app_dir)
-			import startup
-			sys.path.remove(app_dir)
+		exec("import applications."+app_name)
+#		if os.path.exists(app_startup_module):		
+#			sys.path.insert(0, app_dir)
+#			import startup
+#			sys.path.remove(app_dir)
 		
 	apt_portal.merge_config(os.path.join(base_dir, 'applications' \
 		, app_name, 'config', 'base.conf'))
-	
 	
 	apt_portal.start(run_on_foreground)
 		

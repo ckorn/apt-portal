@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-from cherrypy_mako import *
-
+from apt_portal import controller, template
 							
 class Welcome(object):
-	@cherrypy.expose
+	@controller.publish
 	def index(self):
-		return serve_template("welcome.html")
+		return template.render("welcome.html")
 
-# set the mount point
-cherrypy.root.welcome = Welcome()
+controller.attach(Welcome(), "/welcome") 
 
 
 

@@ -1,5 +1,4 @@
-from cherrypy_mako import *
-from models.sponsor import *
+from base.models.sponsor import Sponsor
 
 from threading import Lock
 from sqlalchemy import desc

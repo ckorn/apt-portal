@@ -21,20 +21,18 @@
 	/register/ controller
 	User registration form
 """
+import apt_portal   # we need get_config
+from datetime import datetime
 from apt_portal import controller, template
 from base.models.user import User
 from base.modules import userinfo
 
 class Register_View(object):
-	
+		
 	@controller.publish
-	def index(self):
-		return template.render("register.html")
-	
-	@controller.publish
-	def submit(self, name, email, password1, password2):
+	def index(self, name=None, email=None, password1=None, password2=None):
 		if not name:
-			return template.render("register.html", submit=False)
+			return template.render("register.html")
 		# Server side validation
 		if not userinfo.validateUsername(name):
 			return "Invalid username"		
@@ -67,16 +65,16 @@ class Register_View(object):
 			t_register = datetime.now(), \
 			t_login = datetime.now(), \
 			t_seen = datetime.now() )
-		session.commit()
-		sender = get_template_def(\
-			"register.html", "sender_email").strip()
-		send_mail(template_name = "register.mail" \
+		print apt_portal.config
+		sender = apt_portal.get_config("mail", "register_sender")
+		print sender
+		template.sendmail(template_name = "register.mail" \
 			, sender = sender \
 			, destination = email \
 			, username = name \
 			, authkey = authkey \
 			, sitename = "localhost" \
-			)
+		)
 		return template.render("register.html", submit=True)
 
 controller.attach(Register_View(), "/register") 

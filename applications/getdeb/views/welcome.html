@@ -18,13 +18,13 @@ There is a short and limited testing phase instead of a full testing cycle to en
 <div id="home_install">
 	<p>Learn how to install applications from this website by <a href="${base_url}/updates#how_to_install" title="Learn to install with getdeb">clicking here</a></p>
 </div>
-% if sponsor:
+% if not sponsor is UNDEFINED and sponsor:
 			<p>
 			GetDeb is sponsored by:<br>
 			<a rel="external" href="${sponsor.url}"><img src="/media/sponsors/${sponsor.id}.png"></a>
 			<a rel="external" href="${sponsor.url}">${sponsor.name}</a>
-			</p>
-% endif			
+			</p>			
 			<p>This month we are running with <span class="highlight">${sponsor_total} €</span> from sponsorship.</p>
+% endif			
 </%def>
 

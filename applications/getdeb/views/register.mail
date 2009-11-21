@@ -7,8 +7,9 @@ Hello,
 
 We received a request to register the user ${username} with this email address at GetDeb.net.
 If you made this request, please click on the link to validate the email and finish the registration:
-
 ${base_url}/auth/?user=${username}&key=${authkey}
+
+If you did not register just ignore this message, you will get no further messages.
 
 The GetDeb Team
 http://beta.getdeb.net

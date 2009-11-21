@@ -37,6 +37,8 @@
 import re
 import cgi
 import cherrypy
+import smtplib
+import apt_portal
 
 from urlparse import urlparse
 from mako.template import Template
@@ -76,7 +78,7 @@ def render(templatename, **kwargs):
 		
 	# Check if we need to use a lang prefix
 	kwargs["pagename"] = pagename()
-	kwargs["base_url"] = cherrypy.request.base
+	kwargs["base_url"] = apt_portal.base_url()
 	kwargs["self_url"] = cherrypy.request.path_info
 	kwargs["release"] = cherrypy.request.release
 	kwargs["login_username"] = None
@@ -113,6 +115,25 @@ def session(key):
 		return None
 	return cherrypy.session.get(key, None)
 
+def sendmail(template_name=None, mail_template=None, **kwargs):
+	"""
+	Sends a mails using a mako template file
+	"""
+	if template_name:
+		message = render(template_name, **kwargs)
+	elif mail_template:
+		message = mail_template.render(**kwargs)
+	else:
+		raise
+	fromaddr = kwargs['sender']
+	toaddrs = kwargs['destination']
+	try:
+		server = smtplib.SMTP('localhost')
+		server.sendmail(fromaddr, toaddrs, message)
+		server.quit() 
+	except Exception:
+		print "There was an error sending mail"
+		pass
 
 # Because the unicode filter returns "None" for None strings
 # We want to return '' for those

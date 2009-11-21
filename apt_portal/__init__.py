@@ -29,6 +29,7 @@ import sys
 import cherrypy
 from cherrypy import _cplogging
 from logging import handlers, DEBUG
+from ConfigParser import ConfigParser
 
 
 from apt_portal import template, database, controller
@@ -38,7 +39,7 @@ from apt_portal import template, database, controller
 """  
 def set_default_config(application_name, options): 
     """ Set the cherrypy web server configuration """
-    global app_name, base_dir
+    global app_name, base_dir, config
     app_name = application_name    
 
     aptportal_threads = int(os.environ.get('APTPORTAL_THREADS', 100))
@@ -73,8 +74,15 @@ def set_default_config(application_name, options):
     # Enable the precontroller tool
     cherrypy.config.update({'tools.precontroller.on': 'True'})
     
+    
+    config.read(os.path.join(base_dir, "..", 'applications' , app_name
+                             , 'config', 'global.conf'))
+
+    config.set("mail", "register_sender", 
+               eval(config.get("mail", "register_sender")))
+    
     # Set log rotation
-    _logs_rotation(app, app_name)    
+    _set_rotated_logs()    
     _enable_base_static()
     _enable_app_static()
 
@@ -86,7 +94,7 @@ def _enable_base_static():
         conf['/base/'+dir] = {\
                 'tools.staticdir.on': True \
                 ,'tools.staticdir.dir': os.path.join(base_dir \
-                , 'base', 'static',dir)}
+                , '..', 'base', 'static',dir)}
     merge_config(conf)
     
 def _enable_app_static():
@@ -99,13 +107,13 @@ def _enable_app_static():
                 , '..', 'applications', app_name, 'static')}
             }
     
-    
-    cherrypy.config.update(os.path.join(base_dir, "..", 'applications' \
-        , app_name, 'config', 'base.conf'))
-    
     merge_config(conf)
+        
+    merge_config(os.path.join(base_dir, "..", 'applications' \
+        , app_name, 'config', 'base.conf'))
 
-def _logs_rotation(rot_maxBytes = 10000000, rot_backupCount = 1000):
+def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
+    """ Set rotated logs """
     global app, app_name, base_dir
     
     """ Set rotated logs for app """
@@ -158,11 +166,22 @@ def start(run_on_foreground):
         sys.exit(1)
     else:        
         engine.block()
+        
+def http_redirect(url):
+    raise cherrypy.HTTPRedirect(url)
+
+def base_url():
+    """ Return the site base url, TODO: hostname+language""" 
+    return cherrypy.request.base
 
 def merge_config(conf):
     """ merge configuration into the current application config """
     global app
-    app.merge(conf)    
+    app.merge(conf)
+    
+def get_config(*args):
+    global config
+    return config.get(*args)   
 
 class Root(object):
     @cherrypy.expose
@@ -183,6 +202,7 @@ class RootForce(object):
 
 
 app_name = None
+config = ConfigParser()
 base_dir = os.path.dirname(os.path.abspath(__file__))
 print "bd:", base_dir
 cherrypy.root = Root()

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from cherrypy_mako import *
-from models.user import *
-import userinfo
+import apt_portal
+from apt_portal import controller
+from base.models.user import User
+from base.modules import userinfo
+import cherrypy
 
 class Auth(object):
-	@cherrypy.expose
+	@controller.publish
 	def index(self, user = None, key = None):
 		if not user or not key:
 			return "Direct access is not allowed"
@@ -12,9 +14,9 @@ class Auth(object):
 		if user:
 			user.auth = 1
 			user.authkey = None
-			session.commit()
-			userinfo.set_login_sesion_info(user)			
-			raise cherrypy.HTTPRedirect(cherrypy.request.base + '/welcome/')            
+			userinfo.set_login_sesion_info(user)		
+			apt_portal.http_redirect(apt_portal.base_url()+ "/welcome/")	
+            
 		return "Auth key or user are no longer valid!"
 
-cherrypy.root.auth = Auth()
+controller.attach(Auth(), "/auth") 

@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-from cherrypy_mako import *
-from common.modules import sponsors
-							
+from apt_portal import controller, template
+from base.modules import sponsors
+
 class Welcome(object):
-	@cherrypy.expose
-	
+	@controller.publish
 	def index(self):
 		(sponsor, sponsor_total) = sponsors.get_sponsor()
-		return serve_template("welcome.html", \
-			sponsor = sponsor, sponsor_total = sponsor_total
-		)
+		return template.render("welcome.html", sponsor = sponsor
+							   , sponsor_total = sponsor_total)
 
-# set the mount point
-cherrypy.root.welcome = Welcome()
+controller.attach(Welcome(), "/welcome") 
