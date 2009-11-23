@@ -2,7 +2,7 @@
 <%inherit file="base.html"/>
 <%def name="page_head()">
 	<link rel="stylesheet" href="/css/contact.css" type="text/css" media="screen" />	
-	<script type="text/javascript" src="/common/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="/base/js/jquery.validate.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#commentForm").validate();
@@ -24,7 +24,6 @@ ${_("Contact")}
 			<h1>Email</h1>
 			<form id="commentForm" method="post" action="spam">
 				<fieldset>
-                    <input name="submitting" value="1" type="hidden" />
 					<legend>You can use the form below to contact us</legend>
 					<p class="note"><span>*</span> denotes a required field</p>
 					<p>

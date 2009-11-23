@@ -1,38 +1,62 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#   (C) Copyright 2009, APT-Portal Developers
-#    https://launchpad.net/~apt-portal-devs
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 """
+@copyright:
+ 
+    (C) Copyright 2009, APT-Portal Developers
+    https://launchpad.net/~apt-portal-devs
+
+@license:
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+@author: João Pinto <joao.pinto at getdeb.net>
+
     apt_portal package
     The following modules are provided:
         controller - controller setup
         database - database setup / low level interface
         template - template rendering
 """
+
 import os
 import sys
+import signal
 import cherrypy
+from cherrypy.process import plugins, servers
 from cherrypy import _cplogging
 from logging import handlers, DEBUG
 from ConfigParser import ConfigParser
 
 
 from apt_portal import template, database, controller
+
+class Root(object):
+    @cherrypy.expose
+    def index(self):        
+        controllers.redirect('./welcome/')
+
+class RootForce(object):
+    def __init__(self, view):
+        self.view = view
+
+    @cherrypy.expose
+    def index(self):
+        return serve_template(self.view)
+      
+    @cherrypy.expose
+    def default(self, *args):
+       raise controllers.redirect('/')
 
 """
     Set cherrypy global configuration 
@@ -77,14 +101,21 @@ def set_default_config(application_name, options):
     
     config.read(os.path.join(base_dir, "..", 'applications' , app_name
                              , 'config', 'global.conf'))
-
-    config.set("mail", "register_sender", 
-               eval(config.get("mail", "register_sender")))
+    
+    # Evalute all config items
+    for section in config.sections():
+        for key,value in config.items(section):            
+            config.set(section, key, eval(value))
+        
+#    config.set("mail", "register_sender", 
+#               eval(config.get("mail", "register_sender")))
+#    config.set("mail", "register_sender", 
+#              eval(config.get("mail", "register_sender")))
+    
     
     # Set log rotation
     _set_rotated_logs()    
     _enable_base_static()
-    _enable_app_static()
 
 def _enable_base_static():
     global app_name, base_dir    
@@ -94,23 +125,10 @@ def _enable_base_static():
         conf['/base/'+dir] = {\
                 'tools.staticdir.on': True \
                 ,'tools.staticdir.dir': os.path.join(base_dir \
-                , '..', 'base', 'static',dir)}
+                , '..', 'base', 'static', dir)}
     merge_config(conf)
     
-def _enable_app_static():
-    """ """
-    global app_name, base_dir
-    _enable_base_static()
-    
-    # Setup the application related static content directories    
-    conf = {'/':   {'tools.staticdir.root': os.path.join(base_dir \
-                , '..', 'applications', app_name, 'static')}
-            }
-    
-    merge_config(conf)
         
-    merge_config(os.path.join(base_dir, "..", 'applications' \
-        , app_name, 'config', 'base.conf'))
 
 def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
     """ Set rotated logs """
@@ -147,6 +165,9 @@ def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
 
 def start(run_on_foreground):    
     engine = cherrypy.engine
+    pid_dir = os.path.join(base_dir, '..', 'var', 'run')        
+    pid_file = os.path.join(pid_dir, app_name+'.pid') 
+    
     if not run_on_foreground:        
         print "Running in background"
         if not os.path.exists(pid_dir):
@@ -165,14 +186,7 @@ def start(run_on_foreground):
         print "ERROR: Unable to start engine, check the error log"
         sys.exit(1)
     else:        
-        engine.block()
-        
-def http_redirect(url):
-    raise cherrypy.HTTPRedirect(url)
-
-def base_url():
-    """ Return the site base url, TODO: hostname+language""" 
-    return cherrypy.request.base
+        engine.block()        
 
 def merge_config(conf):
     """ merge configuration into the current application config """
@@ -183,27 +197,62 @@ def get_config(*args):
     global config
     return config.get(*args)   
 
-class Root(object):
-    @cherrypy.expose
-    def index(self):        
-        raise cherrypy.HTTPRedirect('./welcome/')
+def is_running(app_name):
+    """ Check if a given app is running based on it's pidfile """
+    global base_dir
+    pid_dir = os.path.join(base_dir, '..', 'var', 'run')        
+    pid_file = os.path.join(pid_dir, app_name+'.pid') 
+    # Check if there is a running pid
+    try:
+        f = open(pid_file, 'r')
+    except IOError: # Unable to open
+        return 0
+    else:
+        running_pid = int(f.readline())
+        f.close()
+    try:
+        os.kill(running_pid, 0)
+    except OSError:
+        print "Application is not running, removing stale .pid file"
+        os.unlink(pid_file)
+        return 0
+    else:
+        return running_pid
 
-class RootForce(object):
-    def __init__(self, view):
-        self.view = view
+def stop(app_name):
+    """ Stop application using it's .pid file """    
+    running_pid = is_running(app_name)
+    if not running_pid:
+        print "Application was not running"
+        return        
+    print "Killing PID", running_pid     
+    try:
+        os.kill(running_pid, signal.SIGTERM)
+    except OSError: # No such process
+        print "Application was not running"
 
-    @cherrypy.expose
-    def index(self):
-        return serve_template(self.view)
-      
-    @cherrypy.expose
-    def default(self, *args):
-       raise cherrypy.HTTPRedirect('/')
+def set_app_static_dirs(directory_list):
+    global app_name, base_dir
+    conf = {'/':   {'tools.staticdir.root': os.path.join(base_dir \
+            , '..', 'applications', app_name, 'static')}
+        }
+    
+    # Setup the application related static content directories
+    for dir in directory_list:
+        conf['/'+dir] = {\
+                'tools.staticdir.on': True \
+                ,'tools.staticdir.dir': dir
+                }    
+    merge_config(conf)
+    
+    """ Add list of directories from the application dir as static contents """
 
+    
+    
 
 app_name = None
 config = ConfigParser()
 base_dir = os.path.dirname(os.path.abspath(__file__))
-print "bd:", base_dir
+
 cherrypy.root = Root()
 app = cherrypy.tree.mount(cherrypy.root, '/')

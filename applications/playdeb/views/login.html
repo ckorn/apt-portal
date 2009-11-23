@@ -1,7 +1,7 @@
 ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
-	<script type="text/javascript" src="/common/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="/base/js/jquery.validate.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$("#loginForm").validate();
@@ -22,7 +22,6 @@ ${_("Login")}
 % endif
 					<form id="loginForm" class="login_or_register" style="padding-top:10px;" method="post" action="${base_url}/login/">
 						<fieldset>
-							<input name="submitting" value="1" type="hidden" />
                             <input name="referer" value="${referer}" type="hidden" />
 							<legend>Login to your account</legend>
 							<p>

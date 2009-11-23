@@ -1,44 +1,55 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from cherrypy_mako import *
-from mako.template import Template
-from mako_mail import send_mail
-from urlparse import urlparse
+"""
+@copyright:
+ 
+    (C) Copyright 2009, APT-Portal Developers
+    https://launchpad.net/~apt-portal-devs
+
+@license:
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+@author: João Pinto <joao.pinto at getdeb.net>
+"""
+import time
+import apt_portal
+from apt_portal import controller, template
 
 class Contact(object):
-	@cherrypy.expose
-	def index(self, name = None, email = None \
-		, comment = None, submitting=None):		
-		if not submitting:
-			return serve_template("contact.html")
+    @controller.publish
+    def index(self, name = None, email = None, comment = None):
+        if not name:
+            return template.render("contact.html")
+    	# server side input validation
+    	if not name:
+    		return "Name is missing"
+    	if not email:
+    		return "Email is missing"
+    	if not comment or len(comment)<10:
+    		return "Comment is missing"
+    	referer = controller.get_header('Referer')
+    	if not (referer and referer.startswith(controller.base_url())):
+    	       return "Not Allowed"		
+        contact_recipient = apt_portal.get_config("mail", "contact_recipient")
+        id = int(time.time())
+        template.sendmail('contact.mail'\
+    		, sender = '"%s" <%s>' % (name, email)
+    		, destination = contact_recipient
+    		, comment = comment
+            , app_name = apt_portal.app_name
+            , id = id
+    	)  
+    	return template.render("contact.html", contact_received=1)
 
-		# server side input validation
-		if not name:
-			return "Name is missing"
-		if not email:
-			return "Email is missing"
-		if not comment or len(comment)<10:
-			return "Comment is missing"
-
-		referer_url = urlparse(cherrypy.request.headers['Referer'])
-		referer_base = "%s://%s" % (referer_url.scheme, referer_url.netloc)		
-		our_base = cherrypy.request.base
-		if(referer_base != our_base):
-			return "Not Allowed"
-		destination = get_template_def(\
-			"contact.html", "destination_email").strip()
-		contact_mail = Template("""\
-Return-Path: ${sender}
-From: ${sender}
-Subject: Contact Form
-To: ${destination}
-
-${comment}
-""", input_encoding='utf-8', disable_unicode=True) # we alredy get unicode
-		send_mail(mail_template = contact_mail\
-			, sender = '"%s" <%s>' % (name, email) \
-			, destination = destination \
-			, comment = comment \
-		)  
-		return serve_template("contact.html", contact_received=1)
-
-cherrypy.root.contact = Contact()
+controller.attach(Contact(), "/contact") 
