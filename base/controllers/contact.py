@@ -40,7 +40,7 @@ class Contact(object):
         if not userinfo.validateEmail(email):            
             return "Invalid email"  
         referer = controller.get_header('Referer')
-        if not (referer and referer.startswith(controller.base_url())):
+        if not referer or not referer.startswith(controller.base_url()):
             return "Not Allowed"		
         contact_recipient = apt_portal.get_config("mail", "contact_recipient")
         id = int(time.time())
