@@ -65,7 +65,7 @@ def configure_session(dburi='sqlite:///database.sqlite',
 		elixir.metadata.bind = engine
 
 def configure_session_for_app(app, echo=False, convert_unicode=True):
-    '''Useful when you are at the interpreter, or whenever you are outside
+    ''' Useful when you are at the interpreter, or whenever you are outside
     a request and need to bind the session in the current thread.
     Assuming app is configured with a SQLAlchemy connection string,
     binds the session to the corresponding engine.

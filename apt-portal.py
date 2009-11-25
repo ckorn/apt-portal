@@ -21,107 +21,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
 @author: João Pinto <joao.pinto at getdeb.net>
+
+     This is the application manager script
+     
 """
 
-
-# This is the main script
-
+import warnings
 import sys
 import os
 import tempfile
 import time
-from optparse import OptionParser
 
-import cherrypy
-from cherrypy.lib import cptools
+import apt_portal
+from apt_portal import database, main
+
+# suppress the deprecation warning in elixir 0.6.1 import warnings 
+warnings.simplefilter('ignore', DeprecationWarning, 412) # 
 
 # Setup 
-import apt_portal
-from apt_portal import database
-	
-""" Add an username to the admin group """
-def add_admin(username):
-		from base.models.user import User, UsersGroup
-		admin_group = UsersGroup.query.filter_by(name = "Admin").first()
-		if not admin_group: # if not found create it
-			admin_group = UsersGroup(name = "Admin")
-		user = User.query.filter_by(username = username).first()
-		if not user:
-			print "User %s is not registed" % username
-			return 2
-		if admin_group in user.groups:
-			print "User %s is already on the admin group." \
-				% username
-			return 1
-		else: # add it
-			user.groups.append(admin_group)		
-			user.auth = 1            
-			database.commit()
-			print "User %s added to the admin group." \
-				% username
-		return 0
-
-""" 
-	Returns an option parser object with the available 
-	command line parameters
-"""	
-def command_line_parser():
-	parser = OptionParser()
-	parser.add_option("-a", "--add-admin",
-		action = "store", type="string", dest="add_admin",
-		help = "Add an user to the admin group" \
-		)        				
-	parser.add_option("-b", "--bindip", \
-		action = "store", type="string", dest="host", \
-		help = "set bind address for the listener (default=127.0.0.1)" \
-		, default="127.0.0.1")
-	parser.add_option("-d", "--database",
-		action = "store", type="string", dest="database",
-		help = "specificy the database URI\n\n" \
-		"Examples\n\n" \
-		"   mysql://user:password@localhost/database" \
-		"   sqlite:////database" \
-		)        
-	parser.add_option("-e", "--daemon", \
-		action = "store_true", dest="daemon", default=False, \
-		help = "run process as a daemon (background)")		
-	parser.add_option("-f", "--force-view", \
-		action = "store", type="string", dest="force_view", \
-		help = "force a specific view to be server for all requests\n" \
-			"Usefull if you need to provide a maintenance warning")
-	parser.add_option("-l", "--console-log", \
-		action = "store_true", dest="console_log", default=False, \
-		help = "print the http log to the console")
-	parser.add_option("-p", "--port", \
-		action = "store", type="string", dest="port", \
-		help = "set bind address for the listener (default=8080)" \
-			, default="8080" )                  
-	parser.add_option("-s", "--sql-echo", \
-		action = "store_true", dest="sql_echo", default=False, \
-		help = "echo the sql statements")
-	return parser
-
 
 """ Main code """
-if __name__ == '__main__':   
-    	
+if __name__ == '__main__':       	
     run_on_foreground = False
-    
-    
-    # We need this for common models import
-    #commons_dir = os.path.join(base_dir, 'common')
-    #if not commons_dir in sys.path:
-    #	sys.path.insert(0, commons_dir)            
-       
-       # Get the command line options
-    (options, args) = command_line_parser().parse_args()
+          
+    # Get the command line options
+    (options, args) = main.command_line_parser().parse_args()
     if len(args) < 1:
     	print "Usage: %s app_name [cmd] [options]" % os.path.basename(__file__)
     	sys.exit(2)
     	
     app_name = args[0]
     appcmd = None
-    
+        
     if len(args) > 1:
     	appcmd = args[1]
     	
@@ -136,7 +67,7 @@ if __name__ == '__main__':
     		% app_name
     	sys.exit(3)
     	
-    # We set the database engine here
+    # Set the database engine here
     db_url = options.database 
     if not db_url:
         db_path = os.path.join(os.environ['HOME'], "."+app_name)+".db"		
@@ -154,7 +85,7 @@ if __name__ == '__main__':
     
        # Handle --add-admin
     if options.add_admin:
-    	rc = add_admin(options.add_admin)
+    	rc = main.add_admin(options.add_admin)
     	sys.exit(rc)
     
     is_running = apt_portal.is_running(app_name)
@@ -185,13 +116,10 @@ if __name__ == '__main__':
     	, os.path.join(tempfile.mkdtemp())
     	)
     
-    # Set the web root handler
-    # If the force view parameter is used then we need to use a special
-    # web root controlller which handles web_root/* unlike the regular
     if options.force_view:
     	apt_portal.force_root(options.force_view)
     	print "Forcing the template to", options.force_View
-    else:                   
+    else: # regular startup                   
     	app_startup_module = os.path.join(app_dir, 'startup.py')
     	exec("import applications."+app_name)
     
