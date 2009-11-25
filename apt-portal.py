@@ -38,18 +38,10 @@ from cherrypy.lib import cptools
 # Setup 
 import apt_portal
 from apt_portal import database
-"""
-	Set the access logs to be rotated when they reach rot_maxBytes
-	keeping a max of rot_backupCount log files
-"""
-
- 
-
-	
 	
 """ Add an username to the admin group """
 def add_admin(username):
-		from models.user import User, UsersGroup
+		from base.models.user import User, UsersGroup
 		admin_group = UsersGroup.query.filter_by(name = "Admin").first()
 		if not admin_group: # if not found create it
 			admin_group = UsersGroup(name = "Admin")
@@ -63,8 +55,8 @@ def add_admin(username):
 			return 1
 		else: # add it
 			user.groups.append(admin_group)		
-			user.auth = 1
-			session.commit()
+			user.auth = 1            
+			database.commit()
 			print "User %s added to the admin group." \
 				% username
 		return 0
@@ -112,99 +104,96 @@ def command_line_parser():
 
 """ Main code """
 if __name__ == '__main__':   
- 	
-	run_on_foreground = False
-	
-
-	# We need this for common models import
-	#commons_dir = os.path.join(base_dir, 'common')
-	#if not commons_dir in sys.path:
-	#	sys.path.insert(0, commons_dir)            
+    	
+    run_on_foreground = False
     
-    # Get the command line options
-	(options, args) = command_line_parser().parse_args()
-	if len(args) < 1:
-		print "Usage: %s app_name [cmd] [options]" % os.path.basename(__file__)
-		sys.exit(2)
-		
-	app_name = args[0]
-	appcmd = None
-	
-	if len(args) > 1:
-		appcmd = args[1]
-		
-	if options.console_log:
-		run_on_foreground = True
     
-	# Check if there is an application on the expected directory
-	base_dir = os.path.dirname(os.path.abspath(__file__))
-	if not os.path.isdir(os.path.join(base_dir, "applications" \
-		, app_name)):
-		print "No application %s on the applications directory" \
-			% app_name
-		sys.exit(3)
-		
-	# We set the database engine here
-	db_url = options.database 
-	if not db_url:
-		db_path = os.path.join(os.environ['HOME'], "."+app_name)+".db"		
-		db_url = "sqlite:///" + db_path
-		print "No database specified, using sqlite3 db", db_path 
-	
-	# stdin is a special url which prompts for the database url
-	# this allows to start the process without having the url included
-	# on the system command startup arguments
-	if db_url == 'stdin': # special case to request from stdin (secure)
-		db_url = raw_input('Please enter the db url:')
-		print
-	
-	database.setup(db_url, options.sql_echo)
-
-    # Handle --add-admin
-	if options.add_admin:
-		rc = add_admin(options.add_admin)
-		sys.exit(rc)
-
-	is_running = apt_portal.is_running(app_name)
-	if appcmd in ("stop", "restart"): # Stop running application
-		if is_running:						
-			apt_portal.stop(app_name)
-		if appcmd == "stop": 
-			sys.exit(0)
-		else: # restart
-			time.sleep(2)
-			
-	# Check again - application could still be running
-	is_running = apt_portal.is_running(app_name)		
-	if is_running:
-		print "The application is already running with pid", is_running
-		print "You can't run multiple instances of the same application"
-		sys.exit(2)
-					
-	# Set the app server configuration	
-	apt_portal.set_default_config(app_name, options)	
-		
-	# Set directories for the templating engine
-	app_dir = os.path.join(base_dir, 'applications', app_name)
-	apt_portal.template.set_directories(
-		[os.path.join(app_dir,'views') \
-			, os.path.join(base_dir, 'base', 'views') \
-		] \
-		, os.path.join(tempfile.mkdtemp())
-		)
-	
-	def base_url():
-		return cherrypy.request.base
-	
-	# Set the web root handler
-	# If the force view parameter is used then we need to use a special
-	# web root controlller which handles web_root/* unlike the regular
-	if options.force_view:
-		apt_portal.force_root(options.force_view)
-		print "Forcing the template to", options.force_View
-	else:                   
-		app_startup_module = os.path.join(app_dir, 'startup.py')
-		exec("import applications."+app_name)
-	
-	apt_portal.start(run_on_foreground)
-		
+    # We need this for common models import
+    #commons_dir = os.path.join(base_dir, 'common')
+    #if not commons_dir in sys.path:
+    #	sys.path.insert(0, commons_dir)            
+       
+       # Get the command line options
+    (options, args) = command_line_parser().parse_args()
+    if len(args) < 1:
+    	print "Usage: %s app_name [cmd] [options]" % os.path.basename(__file__)
+    	sys.exit(2)
+    	
+    app_name = args[0]
+    appcmd = None
+    
+    if len(args) > 1:
+    	appcmd = args[1]
+    	
+    if options.console_log:
+    	run_on_foreground = True
+       
+    # Check if there is an application on the expected directory
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    if not os.path.isdir(os.path.join(base_dir, "applications" \
+    	, app_name)):
+    	print "No application %s on the applications directory" \
+    		% app_name
+    	sys.exit(3)
+    	
+    # We set the database engine here
+    db_url = options.database 
+    if not db_url:
+        db_path = os.path.join(os.environ['HOME'], "."+app_name)+".db"		
+        db_url = "sqlite:///" + db_path
+        print "No database specified, using sqlite3 db", db_path 
+    
+    # stdin is a special url which prompts for the database url
+    # this allows to start the process without having the url included
+    # on the system command startup arguments
+    if db_url == 'stdin': # special case to request from stdin (secure)
+        db_url = raw_input('Please enter the db url:')
+        print
+    
+    database.setup(db_url, options.sql_echo)
+    
+       # Handle --add-admin
+    if options.add_admin:
+    	rc = add_admin(options.add_admin)
+    	sys.exit(rc)
+    
+    is_running = apt_portal.is_running(app_name)
+    if appcmd in ("stop", "restart"): # Stop running application
+    	if is_running:						
+    		apt_portal.stop(app_name)
+    	if appcmd == "stop": 
+    		sys.exit(0)
+    	else: # restart
+    		time.sleep(2)
+    		
+    # Check again - application could still be running
+    is_running = apt_portal.is_running(app_name)		
+    if is_running:
+    	print "The application is already running with pid", is_running
+    	print "You can't run multiple instances of the same application"
+    	sys.exit(2)
+    				
+    # Set the app server configuration	
+    apt_portal.set_default_config(app_name, options)	
+    	
+    # Set directories for the templating engine
+    app_dir = os.path.join(base_dir, 'applications', app_name)
+    apt_portal.template.set_directories(
+    	[os.path.join(app_dir,'views') \
+    		, os.path.join(base_dir, 'base', 'views') \
+    	] \
+    	, os.path.join(tempfile.mkdtemp())
+    	)
+    
+    # Set the web root handler
+    # If the force view parameter is used then we need to use a special
+    # web root controlller which handles web_root/* unlike the regular
+    if options.force_view:
+    	apt_portal.force_root(options.force_view)
+    	print "Forcing the template to", options.force_View
+    else:                   
+    	app_startup_module = os.path.join(app_dir, 'startup.py')
+    	exec("import applications."+app_name)
+    
+    apt_portal.start(run_on_foreground)
+    	

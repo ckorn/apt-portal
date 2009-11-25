@@ -24,6 +24,7 @@
 """
 
 import cherrypy
+from apt_portal import database
 from base.models.package import PackageList
 
 def get_applications_list(q, exact_search, cat, limit = 10, page = 1):
@@ -87,7 +88,7 @@ def get_applications_list(q, exact_search, cat, limit = 10, page = 1):
          + sql_where +\
         " AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
         sql_order = " ORDER BY last_modified DESC "
-        engine = metadata.bind
+        engine = database.engine()
         count_sql = engine.text(sql_count+sql_body)
         select_sql = engine.text(sql_select+sql_body+sql_order+sql_limit)                
         count = count_sql.execute(**sql_args).fetchone()[0]

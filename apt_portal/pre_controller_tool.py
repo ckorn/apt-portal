@@ -31,7 +31,7 @@ def precontroller():
 	if cherrypy.request.config.get('tools.staticdir.on', False) or \
 		cherrypy.request.config.get('tools.staticfile.on', False):
 			return
-
+	
 	release = None
 	cherrypy.request.user_distro_name = None
 	cherrypy.request.user_distro_version = None

@@ -28,7 +28,10 @@ import cherrypy
 def attach(controller, controller_path_name):    
     controller_path_name = controller_path_name.strip("/")
     setattr(cherrypy.root, controller_path_name, controller)
-    
+   
+def attach_error_handler(http_error_code, func): 
+ cherrypy.config.update({'error_page.%s' % http_error_code : func})
+ 
 def publish(func=None, *args):   
     return cherrypy.expose(func, *args)
 
@@ -37,6 +40,9 @@ def set_cache_expires(secs=0, force=False):
 
 def http_redirect(url):
     raise cherrypy.HTTPRedirect(url)
+
+def http_error(http_error_code):
+    raise cherrypy.HTTPError(403)
 
 def base_url():
     """ Return the site base url, TODO: hostname+language""" 
@@ -55,5 +61,15 @@ def get_header(header, default_value=None):
     @return: request header value
     """
     return cherrypy.request.headers.get(header, default_value)
-    
+
+def session(item, default=None):
+    return cherrypy.session.get(item, default)
+
+def delete_session():
+    """
+    Delete the current request session 
+    """
+    cherrypy.session.delete()
+    cherrypy.lib.sessions.expire()
+        
 from apt_portal import pre_controller_tool

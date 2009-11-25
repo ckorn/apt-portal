@@ -22,13 +22,13 @@
     
 @author: João Pinto <joao.pinto at getdeb.net>
 """
-from cherrypy_mako import *
 
-class Logout(object):
-	@cherrypy.expose
+from apt_portal import controller
+
+class LogOut(object):
+	@controller.publish
 	def index(self,):		
-		cherrypy.session.delete()
-		cherrypy.lib.sessions.expire()
-		raise cherrypy.HTTPRedirect(cherrypy.request.base+'/welcome')            		
+		controller.delete_session()
+		raise controller.http_redirect(controller.base_url()+'/welcome')            		
 
-cherrypy.root.logout = Logout()
+controller.attach(LogOut(), "/logout")

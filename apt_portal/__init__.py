@@ -44,7 +44,7 @@ from apt_portal import template, database, controller
 class Root(object):
     @cherrypy.expose
     def index(self):        
-        controllers.redirect('./welcome/')
+        controller.http_redirect('./welcome/')
 
 class RootForce(object):
     def __init__(self, view):
@@ -52,11 +52,11 @@ class RootForce(object):
 
     @cherrypy.expose
     def index(self):
-        return serve_template(self.view)
+        return template.render(self.view)
       
     @cherrypy.expose
     def default(self, *args):
-       raise controllers.redirect('/')
+        raise controller.http_redirect('/')
 
 """
     Set cherrypy global configuration 
@@ -107,12 +107,6 @@ def set_default_config(application_name, options):
         for key,value in config.items(section):            
             config.set(section, key, eval(value))
         
-#    config.set("mail", "register_sender", 
-#               eval(config.get("mail", "register_sender")))
-#    config.set("mail", "register_sender", 
-#              eval(config.get("mail", "register_sender")))
-    
-    
     # Set log rotation
     _set_rotated_logs()    
     _enable_base_static()
@@ -125,13 +119,22 @@ def _enable_base_static():
         conf['/base/'+dir] = {\
                 'tools.staticdir.on': True \
                 ,'tools.staticdir.dir': os.path.join(base_dir \
-                , '..', 'base', 'static', dir)}
+                , '..', 'base', 'static', dir)
+                }
+    conf['/media'] =  {\
+                'tools.staticdir.on': True \
+                ,'tools.staticdir.dir': os.path.join(base_dir \
+                , '..', 'media')
+                }
     merge_config(conf)
     
         
 
 def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
-    """ Set rotated logs """
+    """
+        Set the access logs to be rotated when they reach rot_maxBytes
+        keeping a max of rot_backupCount log files
+    """    
     global app, app_name, base_dir
     
     """ Set rotated logs for app """
@@ -192,6 +195,12 @@ def merge_config(conf):
     """ merge configuration into the current application config """
     global app
     app.merge(conf)
+    
+def merge_config(conf):
+    """ merge configuration into the current application config """
+    global app
+    app.merge(conf)
+    
     
 def get_config(*args):
     global config

@@ -36,3 +36,14 @@ def setup(db_url, sql_echo=False):
         , 'tools.SATransaction.dburi' : db_url \
         , 'tools.SATransaction.echo': sql_echo,
     })
+    
+def commit():
+    """ Commit transactions for the current session """
+    elixir.session.commit()
+
+def rollback():
+    """ Rollback any pending transactions for the currenet session """
+    elixir.session.rollback()
+        
+def engine():
+    return elixir.metadata.bind

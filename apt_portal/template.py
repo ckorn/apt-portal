@@ -37,6 +37,7 @@
 		release	 - the current filter Ubuntu release number
 """
 
+import time
 import cgi
 import cherrypy
 import smtplib
@@ -63,30 +64,35 @@ def set_directories(templates_directories, module_directory):
 		, output_encoding='utf-8' 
 		, encoding_errors='replace' 
 		, default_filters=['strip_none'] 
-		, imports=['from apt_portal.template import strip_none, html_line_breaks']
+		, imports=['from apt_portal.template import strip_none, html_lines']
 	)
 
 """ TODO: Translation using gettext """
 def _(txt):
 	return txt
 	
-def render(templatename, **kwargs):
-	global _template_lookup
-	mytemplate = _template_lookup.get_template(templatename)
-
-	# Global functions
-	kwargs["_"] = _
-	kwargs["session"] = session 
-		
-	# Check if we need to use a lang prefix
-	kwargs["pagename"] = pagename()
-	kwargs["base_url"] = controller.base_url()
-	kwargs["self_url"] = controller.self_url()
-	kwargs["release"] = cherrypy.request.release
-	kwargs["login_username"] = None
-	if cherrypy.session.has_key('login_username'):
-		kwargs["login_username"] = cherrypy.session['login_username']
-	return mytemplate.render(**kwargs)
+def render(template_name, **kwargs):
+    global _template_lookup
+    mytemplate = _template_lookup.get_template(template_name)
+    
+    # Global functions
+    kwargs["_"] = _
+    kwargs["session"] = controller.session 
+    	
+    # Check if we need to use a lang prefix
+    kwargs["pagename"] = pagename()
+    kwargs["base_url"] = controller.base_url()
+    kwargs["self_url"] = controller.self_url()
+    kwargs["release"] = cherrypy.request.release
+    kwargs["login_username"] = None
+    if cherrypy.session.has_key('login_username'):
+    	kwargs["login_username"] = cherrypy.session['login_username']
+    start_t = time.time()
+    template_output = mytemplate.render(**kwargs)
+    stop_t =  time.time()
+    template_output += '\n<!-- Template %s rendering took %0.3f ms -->' % \
+        (template_name, (stop_t-start_t)*1000.0)
+    return template_output
 
 def get_template_def(templatename, defname):
 	global _template_lookup
@@ -106,16 +112,6 @@ def pagename():
 	#if pagename= "" and len(path_parts)>1:
 	#    pagename = path_parts[len(path_parts) - 2]
 	return pagename
-
-
-"""
-   The following are global functions  extending the mako templates
-"""	
-def session(key):
-    """ Return value for a given session key, None if not found """
-    if not cherrypy.session:
-    	return None
-    return cherrypy.session.get(key, None)
 
 def sendmail(template_filename, **kwargs):
     """
@@ -145,7 +141,7 @@ def strip_none(text):
 	else:
 		return unicode(text)
 
-def html_line_breaks(text):
+def html_lines(text):
 	if text is None:
 		return ''
 	else:

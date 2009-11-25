@@ -29,6 +29,7 @@ print "Loading GetDeb Application controllers"
 
 apt_portal.set_app_static_dirs(['css', 'images', 'js'])
 
+import base.controllers.error_404
 import base.controllers.register 
 import base.controllers.auth
 import base.controllers.login
@@ -36,6 +37,11 @@ import base.controllers.logout
 import base.controllers.updates
 import base.controllers.contact
 import base.controllers.sponsors
+import base.controllers.install
+
+# Admin only
+import base.controllers.packages
+import base.controllers.appinfo
 
 # Application custom controllers
 import controllers.welcome

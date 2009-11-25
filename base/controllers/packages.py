@@ -1,35 +1,40 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#   (C) Copyright 2009, APT-Portal Developers
-#    https://launchpad.net/~apt-portal-devs
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# /packages/ controller
+"""
+@copyright:
+ 
+    (C) Copyright 2009, APT-Portal Developers
+    https://launchpad.net/~apt-portal-devs
 
-from cherrypy_mako import *
-from models.package import *
-from models.application import *
-from sqlalchemy import asc
+@license:
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+@author: João Pinto <joao.pinto at getdeb.net>
+"""
+
 import time
-import userinfo
+from apt_portal import controller, template
+from sqlalchemy import asc
+from base.modules import userinfo
+from base.models.application import Application
+from base.models.package import Package, PackageList
 
 repos_commands_dir = "rep_commands"
 
 class Packages(object):
-	@cherrypy.expose
-	@cherrypy.tools.expires(secs=0)
+	@controller.publish
+	@controller.set_cache_expires(secs=0)
 	def index(self, q=None):
 		"""
 		The is the main page which presents the list of packages
@@ -37,7 +42,8 @@ class Packages(object):
 		are shown.
 		"""
 		if not userinfo.is_admin():
-			raise cherrypy.HTTPError(403)			
+			controller.http_redirect(controller.base_url()+'/login')
+			
 		class Stats():
 			total = 0
 			unclassified = 0
@@ -72,34 +78,32 @@ class Packages(object):
 				).first()
 				if not app:
 					stats.unlinked += 1
-			if q \
-				or not package.install_class \
-				or (package.install_class=='M' and not app):
+			if q or not package.install_class or \
+				(package.install_class=='M' and not app):
 					packages.append(package)
-		return serve_template("packages.html", packages = packages\
+		return template.render("packages.html", packages = packages
 			, stats = stats, q=q
 		)
 		
-	@cherrypy.expose		
+	@controller.publish		
 	def set_class(self, package_id, install_class):
 		""" Set the class_value for a package, select all packages
 		which have a common name and version to the one identified
 		by the package_id parameter """
 		if not userinfo.is_admin():
-			raise cherrypy.HTTPError(403)			
+			controller.http_error(403)			
 		package = Package.query.filter_by(id = package_id).one()
 		package_list = Package.query.filter_by(\
 			package = package.package, version=package.version).all()
 		for package in package_list:
 			package.install_class = install_class
-		session.commit()
 		return None
 
-	@cherrypy.expose		
+	@controller.publish		
 	def search(self, q):
 		""" Returns list of packages for the search box """
 		if not userinfo.is_admin():
-			raise cherrypy.HTTPError(403)
+			controller.http_error(403)
 			
 		results = ""
 		last_package = ""
@@ -111,11 +115,11 @@ class Packages(object):
 			results += "%s|%d\n" % (package.package, package.id)
 		return results
 		
-	@cherrypy.expose		
+	@controller.publish		
 	def remove(self, package_id, list_id, confirm=None):
 		""" Create a command to remove a package from the repository """
 		if not userinfo.is_admin():
-			raise cherrypy.HTTPError(403)	
+			controller.http_error(403)	
 		package_id	= long(package_id)
 		list_id = long(list_id)
 		package = Package.query.filter_by(id = package_id).first()
@@ -125,7 +129,7 @@ class Packages(object):
 		if not packagelist:
 			return "List %d not found" % list_id
 		if confirm != "Y":
-			return serve_template("package_remove.html" \
+			return template.render("package_remove.html" \
 				, package = package, packagelist = packagelist)
 		source_package = package.source or package.package
 		user = userinfo.find_user()
@@ -144,14 +148,15 @@ class Packages(object):
 		os.umask(022)
 		f.write(action)
 		f.close()
-		return serve_template("package_remove.html" \
+		return template.render("package_remove.html" \
 			, ticket_name = filename, confirm='Y')
 			
-	@cherrypy.expose		
+	@controller.publish
 	def copy(self, package_id, source_list_id, target_list):
 		""" Create a command to copy a package to another repository """
 		if not userinfo.is_admin():
-			raise cherrypy.HTTPError(403)	
+			controller.http_error(403)
+				
 		package_id	= long(package_id)
 		source_list_id = long(source_list_id)
 		package = Package.query.filter_by(id = package_id).first()
@@ -170,7 +175,7 @@ class Packages(object):
 			if plist.suite not in repository_list:
 				repository_list.append(plist.suite)
 		if len(target_list) < 2:
-			return serve_template("package_copy.html" \
+			return template.render("package_copy.html" \
 				, package = package \
 				, source_packagelist = source_packagelist \
 				, target_packagelist = target_packagelist \
@@ -198,9 +203,9 @@ class Packages(object):
 		os.umask(022)
 		f.write(action)
 		f.close()
-		return serve_template("package_copy.html" \
+		return template.render("package_copy.html" \
 			, ticket_name = filename \
 			, asking = False \
 			)			
 
-cherrypy.root.packages = Packages()
+controller.attach(Packages(), "/packages")

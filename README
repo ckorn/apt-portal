@@ -10,8 +10,8 @@ sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 #     You can now browse to http://localhost:8080 to view
 ./apt-portal.py getdeb
 
-# (3) Populate the packages database
-debfactory/bin/apt2sql.py -fd  sqlite:///getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
+# (3) Populate the packages database:
+debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
 
 # (4) You should now travel to http://localhost:8080/register/ and register a user. 
 #     If you dont have an SMTP service running on localhost you will get 
