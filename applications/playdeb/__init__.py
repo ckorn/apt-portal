@@ -29,9 +29,8 @@ print "Loading PlayDeb Application controllers"
 
 apt_portal.set_app_static_dirs(['css', 'images', 'js'])
 
-# app specific controller
-import controllers.about
-
+# base controllers
+import base.controllers.about
 import base.controllers.error_404
 import base.controllers.welcome
 import base.controllers.register 
