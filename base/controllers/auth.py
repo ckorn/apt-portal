@@ -23,11 +23,9 @@
 @author: João Pinto <joao.pinto at getdeb.net>
 """
 
-import apt_portal
 from apt_portal import controller
 from base.models.user import User
 from base.modules import userinfo
-import cherrypy
 
 class Auth(object):
 	@controller.publish
@@ -39,7 +37,7 @@ class Auth(object):
 			user.auth = 1
 			user.authkey = None
 			userinfo.set_login_sesion_info(user)		
-			controller.http_redirect(apt_portal.base_url()+ "/welcome/")	
+			controller.http_redirect(controller.base_url()+ "/welcome/")	
             
 		return "Auth key or user are no longer valid!"
 

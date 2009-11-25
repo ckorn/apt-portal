@@ -22,7 +22,7 @@
     
 @author: João Pinto <joao.pinto at getdeb.net>
 
-	Application information controller
+	Application information editing
 	
 """
 import os
@@ -137,8 +137,8 @@ class AppInfo(object):
     	id = application.id
     	# db operation was succesful, update the screenshot if submited
     	username = controller.session('login_username')
-    	filename = os.path.join(apt_portal.base_dir  , '/../media/screens/%s_upload.png' % username)
-    	thumb_filename = os.path.join(apt_portal.base_dir, '/../media/screens/%s_upload_t.png' % username)
+    	filename = os.path.join(apt_portal.base_dir  , '../media/screens/%s_upload.png' % username)
+    	thumb_filename = os.path.join(apt_portal.base_dir, '../media/screens/%s_upload_t.png' % username)
     	# There is a screenshot image to be uploaded
     	if os.path.exists(filename):				
     		screen_img_dir  = os.path.join(apt_portal.base_dir, "../media/screens/%d" % id)

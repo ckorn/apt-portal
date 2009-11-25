@@ -20,17 +20,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
-@author: João Pinto <joao.pinto at getdeb.net>
+@author: Joￃﾣo Pinto <joao.pinto at getdeb.net>
 """
 
 from apt_portal import controller, template
-from base.modules import sponsors
 
-class Welcome(object):
-	@controller.publish
-	def index(self):
-		(sponsor, sponsor_total) = sponsors.get_sponsor()
-		return template.render("welcome.html", sponsor = sponsor
-							   , sponsor_total = sponsor_total)
+class About(object):
+    @controller.publish
+    def index(self):
+        return template.render("about.html")
 
-controller.attach(Welcome(), "/welcome") 
+controller.attach(About(), "/about") 

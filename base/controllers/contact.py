@@ -25,22 +25,23 @@
 import time
 import apt_portal
 from apt_portal import controller, template
+from base.modules import userinfo
 
 class Contact(object):
     @controller.publish
     def index(self, name = None, email = None, comment = None):
         if not name:
             return template.render("contact.html")
-    	# server side input validation
-    	if not name:
-    		return "Name is missing"
-    	if not email:
-    		return "Email is missing"
-    	if not comment or len(comment)<10:
-    		return "Comment is missing"
-    	referer = controller.get_header('Referer')
-    	if not (referer and referer.startswith(controller.base_url())):
-    	       return "Not Allowed"		
+        # server side input validation
+        if not email:
+            return "Email is missing"
+        if not comment or len(comment)<10:
+            return "Comment is missing"
+        if not userinfo.validateEmail(email):            
+            return "Invalid email"  
+        referer = controller.get_header('Referer')
+        if not (referer and referer.startswith(controller.base_url())):
+            return "Not Allowed"		
         contact_recipient = apt_portal.get_config("mail", "contact_recipient")
         id = int(time.time())
         template.sendmail('contact.mail'\
@@ -50,6 +51,6 @@ class Contact(object):
             , app_name = apt_portal.app_name
             , id = id
     	)  
-    	return template.render("contact.html", contact_received=1)
+        return template.render("contact.html", contact_received=1)
 
 controller.attach(Contact(), "/contact") 

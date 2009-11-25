@@ -32,51 +32,51 @@ from base.models.user import User
 from base.modules import userinfo
 
 class Register_View(object):
-		
-	@controller.publish
-	def index(self, name=None, email=None, password1=None, password2=None):
-		if not name:
-			return template.render("register.html")
-		# Server side validation
-		if not userinfo.validateUsername(name):
-			return "Invalid username"		
-		if not email:
-			return "Email is missing"
-		if not password1:
-			return "Password is missing"            
-		if not userinfo.validateEmail(email):            
-			return "Invalid email"
-			
-		if User.query.filter_by(username = name).first():
-			return template.render("register.html" \
-				, user_already_exists=True, submit=True)
 
-		if User.query.filter_by(email = email).first():
-			return serve_template("register.html" \
-			, user_email_exists=True, submit=True)        
-		authkey = userinfo.generate_auth_key()
-		password = userinfo.md5pass(password1)
-		# Clean the password fields - security
-		password1 = None
-		password2 = None
-		# Insert the new user
-		new_user = User(\
-			username = name, \
-			email = email, \
-			password = password, \
-			authkey = authkey, \
-			auth = 0, \
-			t_register = datetime.now(), \
-			t_login = datetime.now(), \
-			t_seen = datetime.now() )
-		sender = apt_portal.get_config("mail", "register_sender")
-		template.sendmail(template_name = "register.mail" \
-			, sender = sender \
-			, destination = email \
-			, username = name \
-			, authkey = authkey \
-			, sitename = "localhost" \
-		)
-		return template.render("register.html", submit=True)
+    @controller.publish
+    def index(self, name=None, email=None, password1=None, password2=None):
+        if not name:
+            return template.render("register.html")
+        # Server side validation
+        if not userinfo.validateUsername(name):
+            return "Invalid username"		
+        if not email:
+            return "Email is missing"
+        if not password1:
+            return "Password is missing"            
+        if not userinfo.validateEmail(email): 
+            return "Invalid email"
+
+        if User.query.filter_by(username = name).first():
+            return template.render("register.html" \
+        		, user_already_exists=True, submit=True)
+        
+        if User.query.filter_by(email = email).first():
+            return serve_template("register.html" \
+        	, user_email_exists=True, submit=True)        
+        authkey = userinfo.generate_auth_key()
+        password = userinfo.md5pass(password1)
+        # Clean the password fields - security
+        password1 = None
+        password2 = None
+        # Insert the new user
+        new_user = User(\
+        	username = name, \
+        	email = email, \
+        	password = password, \
+        	authkey = authkey, \
+        	auth = 0, \
+        	t_register = datetime.now(), \
+        	t_login = datetime.now(), \
+        	t_seen = datetime.now() )
+        sender = apt_portal.get_config("mail", "register_sender")
+        template.sendmail("register.mail" \
+        	, sender = sender \
+        	, destination = email \
+        	, username = name \
+        	, authkey = authkey \
+        	, sitename = "localhost" \
+        )
+        return template.render("register.html", submit=True)
 
 controller.attach(Register_View(), "/register") 

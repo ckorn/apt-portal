@@ -141,7 +141,8 @@ def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
     log = app.log
     
     # Create the application logs directory
-    logs_dir = os.path.join(base_dir, 'logs', app_name)
+    logs_dir = os.path.join(base_dir, '..', 'var', 'log', app_name)
+    print logs_dir
     if not os.path.exists(logs_dir):
         os.makedirs(logs_dir, 0700)
 

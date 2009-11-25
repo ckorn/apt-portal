@@ -29,7 +29,7 @@ import cherrypy
 from apt_portal import controller, template
 
 class Release_select(object):
-	@controoler.publish
+	@controller.publish
 	def index(self, release = None, testing = None):
 		if release:
 			cherrypy.response.cookie['release'] = release

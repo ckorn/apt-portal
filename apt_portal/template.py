@@ -50,27 +50,27 @@ from mako.lookup import TemplateLookup
 _template_lookup = None
 
 def set_directories(templates_directories, module_directory):
-	""" 
+    """ 
 	Sets the following configuration directories:
 		templates_directories - list of dirs to lookup for templates
 		module_directory - directory to keep cached template modules		
 	"""	
-	global _template_lookup
-		
-	# Template rendering with internationalization support
-	_template_lookup = TemplateLookup(directories=templates_directories 
-		, module_directory=module_directory 
-		, input_encoding='utf-8' 
-		, output_encoding='utf-8' 
-		, encoding_errors='replace' 
-		, default_filters=['strip_none'] 
-		, imports=['from apt_portal.template import strip_none, html_lines']
+    global _template_lookup
+
+    # Template rendering with internationalization support
+    _template_lookup = TemplateLookup(directories=templates_directories 
+    	, module_directory=module_directory 
+    	, input_encoding='utf-8' 
+    	, output_encoding='utf-8' 
+    	, encoding_errors='replace' 
+    	, default_filters=['strip_none'] 
+    	, imports=['from apt_portal.template import strip_none, html_lines']
 	)
 
 """ TODO: Translation using gettext """
 def _(txt):
-	return txt
-	
+    return txt
+
 def render(template_name, **kwargs):
     global _template_lookup
     mytemplate = _template_lookup.get_template(template_name)
@@ -78,20 +78,20 @@ def render(template_name, **kwargs):
     # Global functions
     kwargs["_"] = _
     kwargs["session"] = controller.session 
-    	
+
     # Check if we need to use a lang prefix
     kwargs["pagename"] = pagename()
     kwargs["base_url"] = controller.base_url()
     kwargs["self_url"] = controller.self_url()
     kwargs["release"] = cherrypy.request.release
-    kwargs["login_username"] = None
-    if cherrypy.session.has_key('login_username'):
-    	kwargs["login_username"] = cherrypy.session['login_username']
+    kwargs["login_username"] = controller.session('login_username')
+    
     start_t = time.time()
     template_output = mytemplate.render(**kwargs)
     stop_t =  time.time()
-    template_output += '\n<!-- Template %s rendering took %0.3f ms -->' % \
-        (template_name, (stop_t-start_t)*1000.0)
+    if not template_name.endswith('.mail'):
+        template_output += '\n<!-- Template %s rendering took %0.3f ms -->' % \
+            (template_name, (stop_t-start_t)*1000.0)
     return template_output
 
 def get_template_def(templatename, defname):
