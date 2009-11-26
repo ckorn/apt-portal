@@ -30,7 +30,6 @@ import warnings
 import sys
 import os
 import tempfile
-import time
 
 import apt_portal
 from apt_portal import database, main
@@ -94,8 +93,6 @@ if __name__ == '__main__':
     		apt_portal.stop(app_name)
     	if appcmd == "stop": 
     		sys.exit(0)
-    	else: # restart
-    		time.sleep(2)
     		
     # Check again - application could still be running
     is_running = apt_portal.is_running(app_name)		

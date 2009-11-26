@@ -32,6 +32,7 @@
 import os
 import sys
 import signal
+import time
 import cherrypy
 from cherrypy.process import plugins, servers
 from cherrypy import _cplogging
@@ -142,7 +143,6 @@ def _set_rotated_logs(rot_maxBytes = 10000000, rot_backupCount = 1000):
     
     # Create the application logs directory
     logs_dir = os.path.join(base_dir, '..', 'var', 'log', app_name)
-    print logs_dir
     if not os.path.exists(logs_dir):
         os.makedirs(logs_dir, 0700)
 
@@ -230,16 +230,23 @@ def is_running(app_name):
         return running_pid
 
 def stop(app_name):
-    """ Stop application using it's .pid file """    
-    running_pid = is_running(app_name)
-    if not running_pid:
-        print "Application was not running"
-        return        
-    print "Killing PID", running_pid     
-    try:
-        os.kill(running_pid, signal.SIGTERM)
-    except OSError: # No such process
-        print "Application was not running"
+    """ Stop application using it's .pid file """
+    retry = 0
+    while retry < 3:    
+        running_pid = is_running(app_name)
+        if not running_pid:            
+            if retry == 0: 
+                print "Application was not running"
+            break        
+        print "Killing PID", running_pid     
+        try:
+            os.kill(running_pid, signal.SIGTERM)
+        except OSError: # No such process
+            print "Application was not running"
+            break
+        print "Waiting 5 seconds for the application termination"
+        time.sleep(5)
+        retry += 1
 
 def set_app_static_dirs(directory_list):
     global app_name, base_dir
