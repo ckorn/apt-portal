@@ -26,6 +26,7 @@ from apt_portal import controller, template
 from base.models.package import Package
 from base.models.application import Application, ApplicationsCategory
 from base.modules import packages
+from sqlalchemy import desc, or_, text
 
 class Updates(object):
     @controller.publish
