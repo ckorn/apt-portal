@@ -44,6 +44,9 @@ def commit():
 def rollback():
     """ Rollback any pending transactions for the currenet session """
     elixir.session.rollback()
+
+def clear():
+    elixir.session.clear()
         
 def engine():
     return elixir.metadata.bind

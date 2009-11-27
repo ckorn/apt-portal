@@ -89,7 +89,7 @@ class AppInfo(object):
     	# No changes here, save will be performed on edit_submit
     	database.rollback()
     	if sa_version.split(".") < ["0", "5", "0"]:
-    		session.clear()
+    		database.clear()
     	
     	# Set the screenshot filename
     	username = controller.session('login_username')
