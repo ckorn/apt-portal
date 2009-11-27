@@ -53,7 +53,7 @@ class AppInfo(object):
     	will be redirected to the referer page
     	"""		
     	if not userinfo.is_admin():
-    		controller.http_redirect(403)
+    		controller.http_redirect(controller.base_url()+'/login/')
     
     	# We need these to fill the combo box
     	# do it here to avoid autoflush later
@@ -111,7 +111,7 @@ class AppInfo(object):
     	Add/Edit an application record - submit
     	"""
     	if not userinfo.is_admin():
-    		controller.http_redirect(403)
+    		controller.http_redirect(controller.base_url()+'/login/')
     			
     	# Keep category query on top to avoid autoflush
     	cat = ApplicationsCategory.query.filter_by(name=category).first()

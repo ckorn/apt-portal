@@ -195,7 +195,6 @@ class Packages(object):
 		time_now = time.strftime("%Y%m%d.%H%M%S", time.localtime())
 		filename = "%s_%s_%s" % (source_package, package.version, time_now)
 		full_repos_cmd_dir  = os.path.join(apt_portal.base_dir, '..', repos_commands_dir)
-		print "RDIR: %s." % full_repos_cmd_dir
 		if not os.path.isdir(full_repos_cmd_dir):
 			return "%s directory is not available, " \
 				"repository commands are not supported" % \
