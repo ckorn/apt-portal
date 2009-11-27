@@ -20,9 +20,9 @@ from sqlalchemy import UniqueConstraint
 
 class Sponsor(Entity):
 	using_options(tablename='sponsor')
-	id = Field(Integer, primary_key=True)   
-	name = Field(String(64), nullable = False, unique = True)
-	url = Field(String(128), nullable = False, unique = True)
+	id = Field(Integer, primary_key = True)   
+	name = Field(String(64), nullable = False)
+	url = Field(String(128), nullable = False)
 	ammount = Field(Integer, nullable = False)
 	using_table_options(mysql_engine='InnoDB') 
 		
