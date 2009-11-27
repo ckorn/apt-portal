@@ -68,9 +68,16 @@
 	padding:12px;
 	width:720px;
 }
-.app .thumb {
+.app .thumb_link {
+	display: block;
 	float:left;
-	margin:1px 6px 1px 6px;
+	height:209px;
+	margin:1px 9px 1px 9px;
+	width:265px;
+	text-align: center;
+}
+.app .thumb {
+	margin:0 auto;
 	border:2px solid #222;
 }
 .app a.install_now {
