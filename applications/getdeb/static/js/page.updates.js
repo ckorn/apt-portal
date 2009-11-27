@@ -88,3 +88,12 @@ $.fn.hoverClass = function(c) {
 		);
 	});
 };
+
+// Vertically-center thumbnails
+$(window).load(function(){
+	$('.app .thumb').each(function(){
+		var imageheight = $(this).height();
+		var margin = (209-imageheight)/2;
+		$(this).css('margin-top',margin-5); // -5 because there's 5px to the top
+	});
+});
