@@ -83,7 +83,7 @@ def render(template_name, **kwargs):
     kwargs["pagename"] = pagename()
     kwargs["base_url"] = controller.base_url()
     kwargs["self_url"] = controller.self_url()
-    kwargs["release"] = cherrypy.request.release
+    kwargs["release"] = controller.selected_release
     kwargs["login_username"] = controller.session('login_username')
     
     start_t = time.time()

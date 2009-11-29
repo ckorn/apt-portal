@@ -9,14 +9,14 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			// make sure current category is selected
-			$("#genre option[value='${cat and cat.name}']").attr("selected", "selected");
+			$("#genre option[value='${category and category.name}']").attr("selected", "selected");
 			
 			// reload the window when an option has been selected
 			$("#genre").change(function () {
 				// don't allow 'Choose one...' to be selected
 				if ($("#genre option:selected").val() != 'null') {
 					// go to the URL of the category selected in the drop-down box
-					window.location.replace("${base_url}/updates/category/"+$("#genre option:selected").val());
+					window.location.replace("${base_url}/updates/Ubuntu/${release}/?category="+$("#genre option:selected").val());
 				}
 			});
 		});
@@ -26,6 +26,14 @@
 ${_("Latest updates")}
 </%def>
 <%def name="body()">
+<div id="release_selector">
+			Browsing software for: really nicereally nicereally nicereally nice
+			<select id="select_release">
+				<option value="all">${_("All releases")}</option>
+				<option value="9.04">Ubuntu 9.04</option>
+				<option value="9.10">Ubuntu 9.10</option>
+			 </select>			 
+</div>
 % if page == 1:
 			<%include file="how_to_install.html"/>
 % endif			
@@ -60,8 +68,8 @@ ${_("Latest updates")}
 			<!-- end top navigation -->
 			<br style="clear:both;" />
 
-% for package in packages_to_show:
-	<%include file="app_info.html" args="package=package, app=app_list[package.package+package.version], app_extra=app_extra_info[package.package+package.version]" />
+% for app in applications_list:
+	<%include file="app_info.html" args="app=app, package=package_dict[app.id], available_for=available_for[app.id]"  />
 % endfor
 			<div class="navigate">
 % if page > 2:
@@ -70,7 +78,7 @@ ${_("Latest updates")}
 % if page > 1:		
 				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
 % endif
-% if len(app_list) == 0:
+% if len(applications_list) == 0:
 <p>No packages available for the selected criteria.</p>
 % endif
 	<p id="page_numbers">

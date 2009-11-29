@@ -26,98 +26,109 @@
 import cherrypy
 from apt_portal import database
 from base.models.package import PackageList
+from base.models.application import Application
 
-def get_applications_list(q, exact_search, cat, limit = 10, page = 1):
+def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     """
-    @param q: query text (will be matched with app names and short descriptions)
+    @summary: Returns a list of packages and the associated applications
+    
+    @param q: search keyword string (to be matched with app names and short descriptions)
     @param exact_search: flag to enable/disable exact search 
         if enabled search only for app name == q or package name == q
-    @param cat: category filter (a Category DB entity)
-    @param limit: max number of limits to return
+    @param category: category (a Category DB entity)
+    @param limit: max number of applications to return, value 1 has a special 
+        purpose, it sets the query to exact search ("=" instead of LIKE) 
     @param page: page number to be used as the initial row offset (page*limit)  
-    @return: (packages_count, data_count)
-        packages_count : number of entries matching the selection criteria
-        packages_data : list with (package_info, app_info)
-            package_info : package information (Package db entity)
-            application_info: application information (Application db entity)            
-    @note: 
-        package_count maybe > len(packages_data) because limits are not applied
+    @return: (app_list, package_dict, data_count)
+        app_list : list of applications (Application db entity)
+        app_dict: dict containing the latest modified package information for
+            packages related to the app_list.
+            The application id is the dict key.
+        page_count : total number of pages, useful for pagination
     """
     if page < 0:
         page = 1
-    try_count = 1
-    release = cherrypy.request.release
-    try:
-        show_testing = cherrypy.request.cookie["testing"].value    
-    except KeyError:
-        show_testing = None    
+        
+    # First we need to determine the ids for package lists matching the release
+    # selection filter
     if not release or release == "all":
         packagelists = PackageList.query.all()
     else:
         packagelists = PackageList.query.filter_by(version = release).all()
     packagelist_ids = []
     for plist in packagelists:
-        if show_testing != "on" and plist.suite.endswith('-testing'):
+        if plist.suite.endswith('-testing'):
             continue
         packagelist_ids.append(str(plist.id))
     if len(packagelist_ids) == 0: # an empty db
-        return (0, [])
+        return ([], {}, 0)
     selected_plists = ' ,'.join(packagelist_ids)
     sql_args = {}
-    sql_count = "SELECT COUNT(DISTINCT application.id) "
-    sql_select = "SELECT DISTINCT application.id, package"
+    
+    # We will use a 2 steps process to identify the list of packages/apps that
+    # that will be returned
+    
+    # STEP 1 - Get list of apps with updates matching the search criteria
+    # Get the list of main packages name and and related applications ids
+    # ordered with newer packages (last modified) on the top
+    sql_select_count = "SELECT COUNT(DISTINCT application.id) "
+    sql_select_data = "SELECT DISTINCT application.id, package "
     sql_where = " WHERE package.install_class='M' "    
     sql_join_where = "(application.source_package = package.package OR application.source_package = package.source)"
     sql_limit = " LIMIT :limit OFFSET :offset"
-    sql_args['limit'] = limit
-    sql_args['offset'] = (page - 1) * limit
-    if q:
-        sql_where += " AND (package.package LIKE (:q) OR package.description LIKE (:q))"
-        sql_args['q'] = '%'+q+'%'
-    elif cat:
+    sql_args['limit'] = int(items_per_page)
+    sql_args['offset'] = (page - 1) * items_per_page
+    if items_per_page == 1:
+        match_operator = '='
+    else:
+        match_operator = 'LIKE'   
+    print "q=",q
+    if q: # a search keyword was specified
+        sql_where += ' AND (package.package '+match_operator+' (:q)'
+        sql_where += ' OR application.name '+match_operator+' (:q)'
+        if items_per_page > 1: 
+            sql_where += ' OR package.description '+match_operator+' (:q)'
+        sql_where += ')';            
+        if items_per_page == 1:
+            sql_args['q'] = q
+        else:
+            sql_args['q'] = '%'+q+'%'
+    elif category: # a category was specified
         sql_join_where += " AND application.category_id=:category_id"
-        sql_args['category_id'] = cat.id
-    elif exact_search:
-        sql_where += " AND package.package = :exact_search"
-        sql_args['exact_search'] = exact_search    
-        try_count = 2
-    while try_count > 0:
-        sql_body = \
-        " FROM package" \
-        " INNER JOIN application ON (" +sql_join_where +")" \
-         + sql_where +\
-        " AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
-        sql_order = " ORDER BY last_modified DESC "
-        engine = database.engine()
-        count_sql = engine.text(sql_count+sql_body)
-        select_sql = engine.text(sql_select+sql_body+sql_order+sql_limit)                
-        count = count_sql.execute(**sql_args).fetchone()[0]
-        data = select_sql.execute(**sql_args).fetchall()
-        try_count -= 1
-        # if not found try searching by app name
-        if exact_search and try_count > 0:
-            if count == 0:
-                sql_where = " WHERE package.install_class='M' "    
-                sql_join_where += " AND application.name = :exact_search"
-                sql_body = \
-                " FROM package" \
-                " INNER JOIN application ON (" +sql_join_where +")" \
-                 + sql_where +\
-                " AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
-                sql_order = " ORDER BY last_modified DESC "                
-            else:
-                try_count -= 1
-    # We need this extra loop to obtain the package ids for the versions
-    # that are visible
-    new_data_list = []
+        sql_args['category_id'] = category.id            
+    sql_body = \
+    " FROM package" \
+    " INNER JOIN application ON (" +sql_join_where +")" \
+     + sql_where +\
+    " AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
+    sql_order = " ORDER BY last_modified DESC "
+    engine = database.engine()
+    count_sql = engine.text(sql_select_count+sql_body)
+    select_sql = engine.text(sql_select_data+sql_body+sql_order+sql_limit)                
+    row_count = count_sql.execute(**sql_args).fetchone()[0]
+    if row_count == 0: # nothing found
+        return ([], {}, 0) 
+    data = select_sql.execute(**sql_args).fetchall()
+        
+    # STEP 2 - Get specific version and application records for apps/packages
+    # listed on STEP 1
+    
+    # We already have apps ids/packages names, now we need to get specific 
+    # package and application records  
+    app_list = []
+    package_dict = {}
     for item in data:
-        sql = "SELECT id FROM package WHERE package = :pck_name "
+        sql = "SELECT * FROM package WHERE package = :pck_name "
         sql +=  "AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
         sql += " ORDER BY last_modified DESC LIMIT 1 "
         specific_sql = engine.text(sql)         
-        pck_info = specific_sql.execute(pck_name = item.package).fetchone()
-        if not pck_info: # Package was deleted ????
+        package = specific_sql.execute(pck_name = item.package).fetchone()
+        if not package: # Package was deleted ????
             continue
-        new_data = (pck_info.id, item.id)
-        new_data_list.append(new_data)
-    return (count, new_data_list)
+        app = Application.query.filter_by(id = item.id).first()
+        if not app: # App was deleted ?
+            continue
+        app_list.append(app)
+        package_dict[app.id] = package
+    page_count = ((row_count - 1) / items_per_page) + 1
+    return (app_list, package_dict, page_count)

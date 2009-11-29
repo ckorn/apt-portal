@@ -49,7 +49,7 @@ body {
 	width: 776px;
 	background-position: left center;
 	padding-left: 8px;
-    padding: 10px 20px; 
+    padding: 1px 20px; 
 }
 #middle h1 {
   font-size: 18px;
@@ -232,12 +232,6 @@ img
 {  border-style: none;
 }
 
-#user_info {
-  font-size: 12px;
-  color: #666666;
-  font-family: verdana,arial,helvetica,sans-serif;
-  width: 600px;
-}
 
 /* Login or register */
 .login_or_register { 
@@ -301,6 +295,16 @@ legend { margin-left:10px; }
 }
 .login_or_register p.clear { clear:left; }
 
+#top_user_actions {
+	float:right;
+	text-align:right;
+	width:100%;
+	font-size: 12px;	
+}
+
+#release_selector {
+}
+
 #register {
 	padding-top:16px;
 }
@@ -317,3 +321,4 @@ a:hover {
 	color: #336699 !important;
 	text-decoration: underline;
 }
+

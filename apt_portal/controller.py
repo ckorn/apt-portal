@@ -24,6 +24,13 @@
 """
 
 import cherrypy
+import re
+
+selected_distro = 'Ubuntu'
+selected_release = None
+browser_distro = None
+browser_release = None
+
 
 def attach(controller, controller_path_name):    
     controller_path_name = controller_path_name.strip("/")
@@ -71,5 +78,47 @@ def delete_session():
     """
     cherrypy.session.delete()
     cherrypy.lib.sessions.expire()
+
+
+def _precontroller():
+    """ @summary
+    The precontroller tool is used for the foollowing tasks:
+    Based on the user agent string:
+        Set cherrypy.request.user_distro_name  variable
+        Set cherrypy.request.user_distro_version
+    Based on the release cookie and cherrypy.request.user_distro_version
+        Set selected_release
+    """
+    # static resources are not under precontroller control
+    if cherrypy.request.config.get('tools.staticdir.on', False) or \
+        cherrypy.request.config.get('tools.staticfile.on', False):
+            return
         
-from apt_portal import pre_controller_tool
+    global selected_release, selected_distro, browser_distro, browser_release
+    
+    release = None
+    
+    user_agent = cherrypy.request.headers.get('User-Agent', None)    
+    if user_agent:
+        find_distro = re.findall('(Ubuntu)/([\d\.]*)', user_agent)
+        if find_distro:
+            browser_distro = find_distro[0][0]
+            browser_release = find_distro[0][1]
+            
+    try:
+        release = cherrypy.request.cookie["release"].value    
+    except KeyError:
+        pass
+        
+    if not release and browser_release:
+        release = browser_release
+    
+    if release not in ['9.04', '9.10', '10.04', '10.10']:
+        release = "all"
+    
+    selected_distro = 'Ubuntu'
+    selected_release = release     
+    print "Selected release=", release   
+    
+cherrypy.tools.precontroller = cherrypy.Tool('on_start_resource', _precontroller)
+

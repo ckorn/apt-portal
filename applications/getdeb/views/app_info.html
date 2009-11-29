@@ -1,5 +1,5 @@
 ## -*- coding: utf-8 -*-
-<%page args="package, app, app_extra"/>
+<%page args="app, package, available_for"/>
 <!-- app -->
 <div class="app">	
 	<class="app_name"><a class="app_name" href="${base_url}/updates/${package.package}" name="${package.package}" title="${app.name} - ${package.version|h}">${app.name|h} ${package.version|h}</a>
@@ -12,7 +12,7 @@
 		 <div class="description">${app.descr | html_lines}</div>
 		<!-- available for -->
 		<h3 class="available_for">Available for Ubuntu: 
-		${', '.join(app_extra['releases'])}		
+		${', '.join(available_for)}		
 		</h3>
 		<!-- end available for -->		
 		<h3 class="more_links">
