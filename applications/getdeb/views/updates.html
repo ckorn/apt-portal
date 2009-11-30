@@ -8,6 +8,15 @@
 	<script type="text/javascript" src="/js/infobox.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			// set current release to selected
+			$("#select_release option[value='${release|u}']").attr("selected", "selected");
+			// reload window when the current release is changed
+		    $("#select_release").change(function() {
+				var release = $("option:selected", this).val();
+				$.cookie('release', release, { path: '/', expires: 30 }); 
+				window.location.replace('${base_url}/updates/Ubuntu/'+release+'/');
+		    });
+									  
 			// make sure current category is selected
 			$("#genre option[value='${category and category.name}']").attr("selected", "selected");
 			
@@ -27,7 +36,7 @@ ${_("Latest updates")}
 </%def>
 <%def name="body()">
 <div id="release_selector">
-			Browsing software for: really nicereally nicereally nicereally nice
+			Browsing software for:
 			<select id="select_release">
 				<option value="all">${_("All releases")}</option>
 				<option value="9.04">Ubuntu 9.04</option>

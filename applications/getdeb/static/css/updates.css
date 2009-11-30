@@ -287,11 +287,11 @@
 /*************** HOW TO INSTAL INFO BOX ***************/
 /* Info Box */
 .info {
-	padding:18px 0 0 0;
+	padding:5x 0 0 0;
 }
 .info_header, .info_content, .info_footer {
 	width:745px;
-	margin:0 15px;
+	margin:5px 15px;
 }
 
 .info_header {

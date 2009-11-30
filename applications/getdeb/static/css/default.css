@@ -131,6 +131,7 @@ address {
   font-variant: normal;
   font-weight: bold;
   margin-top: 45px;
+  margin-bottom: 2px;
   display: inline;
 }
 .shadetabs li {

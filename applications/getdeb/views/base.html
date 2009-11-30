@@ -20,13 +20,6 @@ ${self.page_head()}
 <!-- This code highlight the currently selected page -->
 $(document).ready(function() {
 	$("a#${pagename|u}").addClass("selected");
-	$("#select_release option[value='${release|u}']").attr("selected", "selected");
-	$("#select_release option[value='${release|u}']").attr("selected", "selected");
-    $("#select_release").change(function() {
-		var release = $("option:selected", this).val();
-		$.cookie('release', release, { path: '/', expires: 30 }); 
-		window.location.reload(true);
-    });
 });
 </script>
 <script language="javascript" type="text/javascript">
@@ -64,16 +57,14 @@ win=window.open(mypage,myname,settings);}
             </form>
         </div>
     </div>
-    <div id="middle">		
-##		<form name="form1" method="post" action="" id="user_info">
-			<div id="top_user_actions">			
-			% if session("login_username"): 
-					<a href="${base_url}/logout/" title="logout" id="logout">Logout</a> ${session("login_username")}
-			% else:        
-					<a href="${base_url}/login/">Login</a>  / <a href="${base_url}/register/">Register</a>
-			% endif
-			</div>				  
-##		</form>
+    <div id="middle">
+		<div id="top_user_actions">			
+		% if session("login_username"): 
+				<a href="${base_url}/logout/" title="logout" id="logout">Logout</a> ${session("login_username")}
+		% else:        
+				<a href="${base_url}/login/">Login</a>  / <a href="${base_url}/register/">Register</a>
+		% endif
+		</div>				  
 	${self.body()}
     <br>We no longer provide updates for applications prior to Ubuntu 9.04, you still can get packages from our <a href="http://old.getdeb.net">legacy website</a> .        
     </div>
