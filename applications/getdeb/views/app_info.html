@@ -2,7 +2,7 @@
 <%page args="app, package, available_for"/>
 <!-- app -->
 <div class="app">	
-	<class="app_name"><a class="app_name" href="${base_url}/updates/${package.package}" name="${package.package}" title="${app.name} - ${package.version|h}">${app.name|h} ${package.version|h}</a>
+	<class="app_name"><a class="app_name" href="${base_url}/software/${app.name}" name="${package.package}" title="${app.name} - ${package.version|h}">${app.name|h} ${package.version|h}</a>
 	<div class="left">
 		<a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
 		<a href="${base_url}/install/${package.package | u}/${package.version| u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>

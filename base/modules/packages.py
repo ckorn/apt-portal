@@ -25,7 +25,7 @@
 
 import cherrypy
 from apt_portal import database
-from base.models.package import PackageList
+from base.models.package import Package, PackageList
 from base.models.application import Application
 
 def get_applications_list(q, category, release, page = 1, items_per_page = 10):
@@ -36,14 +36,12 @@ def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     @param exact_search: flag to enable/disable exact search 
         if enabled search only for app name == q or package name == q
     @param category: category (a Category DB entity)
-    @param limit: max number of applications to return, value 1 has a special 
-        purpose, it sets the query to exact search ("=" instead of LIKE) 
+    @param items_per_page: max number of applications to be returned
     @param page: page number to be used as the initial row offset (page*limit)  
     @return: (app_list, package_dict, data_count)
         app_list : list of applications (Application db entity)
-        app_dict: dict containing the latest modified package information for
-            packages related to the app_list.
-            The application id is the dict key.
+        app_dict: dict containing the package information for packages related 
+            to the app_list.  The application id is the dict key.
         page_count : total number of pages, useful for pagination
     """
     if page < 0:
@@ -78,21 +76,13 @@ def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     sql_limit = " LIMIT :limit OFFSET :offset"
     sql_args['limit'] = int(items_per_page)
     sql_args['offset'] = (page - 1) * items_per_page
-    if items_per_page == 1:
-        match_operator = '='
-    else:
-        match_operator = 'LIKE'   
-    print "q=",q
+    match_operator = 'LIKE'   
     if q: # a search keyword was specified
         sql_where += ' AND (package.package '+match_operator+' (:q)'
         sql_where += ' OR application.name '+match_operator+' (:q)'
-        if items_per_page > 1: 
-            sql_where += ' OR package.description '+match_operator+' (:q)'
+        sql_where += ' OR package.description '+match_operator+' (:q)'
         sql_where += ')';            
-        if items_per_page == 1:
-            sql_args['q'] = q
-        else:
-            sql_args['q'] = '%'+q+'%'
+        sql_args['q'] = '%'+q+'%'
     elif category: # a category was specified
         sql_join_where += " AND application.category_id=:category_id"
         sql_args['category_id'] = category.id            
@@ -118,15 +108,19 @@ def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     app_list = []
     package_dict = {}
     for item in data:
-        sql = "SELECT * FROM package WHERE package = :pck_name "
+        sql = "SELECT id FROM package WHERE package = :pck_name "
         sql +=  "AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
         sql += " ORDER BY last_modified DESC LIMIT 1 "
         specific_sql = engine.text(sql)         
         package = specific_sql.execute(pck_name = item.package).fetchone()
         if not package: # Package was deleted ????
             continue
+        package_id = package.id
         app = Application.query.filter_by(id = item.id).first()
         if not app: # App was deleted ?
+            continue        
+        package = Package.query.filter_by(id = package_id).first()
+        if not package:
             continue
         app_list.append(app)
         package_dict[app.id] = package

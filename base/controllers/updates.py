@@ -26,9 +26,9 @@ from apt_portal import controller, template
 from base.models.package import Package
 from base.models.application import ApplicationsCategory
 from base.modules import packages
-from sqlalchemy import desc, or_, text
+from sqlalchemy import desc
 
-def updates_page(distro, release, app_name, **kwargs):
+def updates_page(distro, release, **kwargs):
     """ Builds the updates page """
     
     try:
@@ -48,7 +48,7 @@ def updates_page(distro, release, app_name, **kwargs):
         packages.get_applications_list(q = q, category = category, page = page 
                                         , release = release , items_per_page = 5 
                                         )
-                
+                        
     # Determine the "Available for" releases 
     available_for = {}
     for app in applications_list:        
@@ -61,10 +61,13 @@ def updates_page(distro, release, app_name, **kwargs):
                 available_for[app.id].append(packagelist.version)                                
     
     search_str = controller.self_url()+"?"
-    if q:
-        search_str += "q=%s" % q
-    if not search_str.endswith("?"):
-        search_str += "&amp;"
+    param_str = ''
+    for key,value in kwargs.iteritems():
+        if key == "page": 
+            continue        
+        param_str += key + '=' + value + '&amp;'
+    if param_str:
+        search_str = controller.self_url()+ '?' + param_str 
     return template.render("updates.html"\
         , categories = categories \
         , applications_list = applications_list \
@@ -94,16 +97,12 @@ class Updates(object):
                 http://base_url/updates/distribution/release/appname            
         """
         argc = len(args)
-        if argc not in [2,3]:
-            controller.http_redirect(controller.base_url()+"/updates/ubuntu/all")
+        if argc != 2:
+            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/all")
         distro = args[0]
         release = args[1]
-        app_name = None
-        if argc > 3:
-            app_name = args[2]
 
-        return updates_page(distro, release, app_name, **kwargs)
-        #return self.index(q = q, items_per_page = 1)
+        return updates_page(distro, release, **kwargs)
 
 
 controller.attach(Updates(), "/app") 

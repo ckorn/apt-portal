@@ -90,7 +90,7 @@ def render(template_name, **kwargs):
     template_output = mytemplate.render(**kwargs)
     stop_t =  time.time()
     if not template_name.endswith('.mail'):
-        template_output += '\n<!-- Template %s rendering took %0.3f ms -->' % \
+        template_output += '\n<!-- Template %s rendering took %0.3f ms -->\n' % \
             (template_name, (stop_t-start_t)*1000.0)
     return template_output
 

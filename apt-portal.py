@@ -55,7 +55,7 @@ if __name__ == '__main__':
     if len(args) > 1:
     	appcmd = args[1]
     	
-    if options.console_log:
+    if options.console_log or options.no_fork or options.sql_echo:
     	run_on_foreground = True
        
     # Check if there is an application on the expected directory

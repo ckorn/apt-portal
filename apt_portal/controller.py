@@ -117,8 +117,7 @@ def _precontroller():
         release = "all"
     
     selected_distro = 'Ubuntu'
-    selected_release = release     
-    print "Selected release=", release   
+    selected_release = release        
     
 cherrypy.tools.precontroller = cherrypy.Tool('on_start_resource', _precontroller)
 

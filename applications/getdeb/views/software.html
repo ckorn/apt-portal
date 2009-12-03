@@ -1,0 +1,38 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+<%def name="page_head()">
+    <link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />    
+    <script type="text/javascript" src="/js/shadowbox-2.0.js"></script>
+    <script type="text/javascript" src="/js/page.updates.js"></script>
+    <!-- we need cookie for the infobox handler -->
+    <script type="text/javascript" src="/js/infobox.js"></script>
+</%def>
+<%def name="title()">
+${_("Information for "+app.name)}
+</%def>
+<%def name="body()">
+    <br>
+    <!-- app -->
+    <div class="app">    
+        <class="app_name"><a class="app_name" href="${base_url}/software/${app.name}" title="${app.name}">${app.name|h}</a>
+        <div class="left">
+            <a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+            <a href="${base_url}/install/${app.source_package | u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>
+        </div>
+        <div class="details">
+             <div class="description">${app.descr | html_lines}</div>
+            <h3 class="more_links">
+    % if app.video_link:
+            <a href="${app.video_link}&amp;autoplay=1" rel="shadowbox[video];width=580;height=520" title="${app.name}" class="video">Watch Video</a> |
+    % endif
+            <a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
+            | License: ${app.license}
+            </h3>
+        </div>
+    </div>
+    <!-- end app -->
+    Packages are available for the following releases:<br>
+    %for key,value in last_version_dict.items():
+    	Ubuntu ${key}: ${value}<br>
+    %endfor
+</%def>

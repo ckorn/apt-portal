@@ -68,9 +68,6 @@ def command_line_parser():
         "   mysql://user:password@localhost/database" \
         "   sqlite:////database" \
         )        
-    parser.add_option("-e", "--daemon", \
-        action = "store_true", dest="daemon", default=False, \
-        help = "run process as a daemon (background)")        
     parser.add_option("-f", "--force-view", \
         action = "store", type="string", dest="force_view", \
         help = "force a specific view to be server for all requests\n" \
@@ -78,6 +75,9 @@ def command_line_parser():
     parser.add_option("-l", "--console-log", \
         action = "store_true", dest="console_log", default=False, \
         help = "print the http log to the console")
+    parser.add_option("-n", "--no-fork", \
+        action = "store_true", dest="no_fork", default=False, \
+        help = "do not fork, run in the foreground")            
     parser.add_option("-p", "--port", \
         action = "store", type="string", dest="port", \
         help = "set bind address for the listener (default=8080)" \
