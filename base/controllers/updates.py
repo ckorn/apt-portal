@@ -37,6 +37,7 @@ def updates_page(distro, release, **kwargs):
         page = 1                
     q = kwargs.get("q", None)    
     category_name = kwargs.get("category", None)
+    format = kwargs.get("format", None)
     category = None    
     categories = ApplicationsCategory.query.all() 
     if category_name:
@@ -44,9 +45,13 @@ def updates_page(distro, release, **kwargs):
         if not category:
             controller.http_redirect(controller.base_url()+"/updates/ubuntu/all")
     
+    if format == "xml":
+        items_per_page = 100
+    else:
+        items_per_page = 5
     (applications_list, package_dict, page_count) = \
         packages.get_applications_list(q = q, category = category, page = page 
-                                        , release = release , items_per_page = 5 
+                                        , release = release , items_per_page = items_per_page
                                         )
                         
     # Determine the "Available for" releases 
@@ -67,19 +72,25 @@ def updates_page(distro, release, **kwargs):
             continue        
         param_str += key + '=' + value + '&amp;'
     if param_str:
-        search_str = controller.self_url()+ '?' + param_str 
-    return template.render("updates.html"\
-        , categories = categories \
-        , applications_list = applications_list \
-        , package_dict = package_dict \
-        , available_for = available_for \
-        , page = page \
-        , page_count = page_count \
-        , q = q \
-        , category = category \
-        , search_str = search_str
+        search_str = controller.self_url()+ '?' + param_str
+    if format == "xml":
+        return template.render('updates.xml' 
+            , applications_list = applications_list
+            , package_dict = package_dict 
+            , available_for = available_for             
+        )
+    else: 
+        return template.render('updates.html'
+            , categories = categories 
+            , applications_list = applications_list 
+            , package_dict = package_dict 
+            , available_for = available_for 
+            , page = page 
+            , page_count = page_count 
+            , q = q 
+            , category = category 
+            , search_str = search_str
     )
-
 
 class Updates(object):
        
@@ -105,5 +116,4 @@ class Updates(object):
         return updates_page(distro, release, **kwargs)
 
 
-controller.attach(Updates(), "/app") 
 controller.attach(Updates(), "/updates")

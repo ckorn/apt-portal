@@ -1,7 +1,10 @@
 ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
-	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />	
+	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />
+	%if not q:
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="${search_str}format=xml" />
+	%endif	
 	<script type="text/javascript" src="/js/shadowbox-2.0.js"></script>
 	<script type="text/javascript" src="/js/page.updates.js"></script>
 	<!-- we need cookie for the infobox handler -->

@@ -45,15 +45,11 @@ class Software(object):
         for plist in PackageList.query.all():
             if plist.suite.endswith('-testing'):
                 continue
-            package = Package.query.filter(and_(Package.lists.any(id=plist.id), Package.package==app_name))\
+            package = Package.query.filter(and_(Package.lists.any(id=plist.id), Package.package==application.source_package))\
                 .order_by(desc(Package.last_modified)).first()
             if package:
                 last_version_dict[plist.version] = package.version
-        print last_version_dict
-        # Now sort it
-        #items = last_version_dict.items()
-        #items.sort()
-        #last_version_dict = [value for key, value in items]        
         return template.render("software.html", app=application, last_version_dict=last_version_dict)
-
+    
+controller.attach(Software(), "/app") 
 controller.attach(Software(), "/software") 

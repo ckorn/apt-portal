@@ -1,0 +1,27 @@
+## -*- coding: utf-8 -*-
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+	<title>GetDeb Package Updates</title>
+	<link>${base_url}/updates/Ubuntu/'+release+</link>
+	<description>The latest GetDeb package updates.</description>
+	<lastBuildDate>Thu, 03 Dec 2009 22:59:09 GMT</lastBuildDate>
+	<generator>PyRSS2Gen-1.0.0</generator>
+	<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+	% for app in applications_list:
+	<% package = package_dict[app.id] %> 
+	<% av = available_for[app.id] %>
+	<item>
+		<title>${app.name} ${package.version}</title>
+		<link>${base_url}/software/${app.name}</link>
+		<description>
+		${app.descr+'<br>'|h}		
+		Available for Ubuntu: 
+		${', '.join(av)}		
+		</description>
+		<guid isPermaLink="false">${package.package}-${package.version}</guid>
+		<pubDate>${package.last_modified}</pubDate>
+	</item>
+	% endfor
+</channel>
+</rss>
