@@ -17,7 +17,7 @@
 		    $("#select_release").change(function() {
 				var release = $("option:selected", this).val();
 				$.cookie('release', release, { path: '/', expires: 30 }); 
-				window.location.replace('${base_url}/updates/Ubuntu/${release}/');
+				window.location.replace('${base_url}/updates/Ubuntu/'+release+'/');
 		    });
 									  
 			// make sure current category is selected
