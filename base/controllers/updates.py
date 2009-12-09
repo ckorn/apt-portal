@@ -34,7 +34,8 @@ def updates_page(distro, release, **kwargs):
     try:
         page = int(kwargs.get("page", 1))
     except ValueError:
-        page = 1                
+        page = 1
+    updates_release = release                        
     q = kwargs.get("q", None)    
     category_name = kwargs.get("category", None)
     format = kwargs.get("format", None)
@@ -43,7 +44,7 @@ def updates_page(distro, release, **kwargs):
     if category_name:
         category = ApplicationsCategory.query.filter_by(name=category_name).first()
         if not category:
-            controller.http_redirect(controller.base_url()+"/updates/ubuntu/all")
+            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/all")
     
     if format == "xml":
         items_per_page = 100
@@ -90,6 +91,7 @@ def updates_page(distro, release, **kwargs):
             , q = q 
             , category = category 
             , search_str = search_str
+            , updates_release = updates_release
     )
 
 class Updates(object):

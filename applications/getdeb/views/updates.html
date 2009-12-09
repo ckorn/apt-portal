@@ -12,12 +12,12 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			// set current release to selected
-			$("#select_release option[value='${release|u}']").attr("selected", "selected");
+			$("#select_release option[value='${updates_release|u}']").attr("selected", "selected");
 			// reload window when the current release is changed
 		    $("#select_release").change(function() {
 				var release = $("option:selected", this).val();
 				$.cookie('release', release, { path: '/', expires: 30 }); 
-				window.location.replace('${base_url}/updates/Ubuntu/'+release+'/');
+				window.location.replace('${base_url}/updates/Ubuntu/${release}/');
 		    });
 									  
 			// make sure current category is selected
@@ -28,7 +28,7 @@
 				// don't allow 'Choose one...' to be selected
 				if ($("#genre option:selected").val() != 'null') {
 					// go to the URL of the category selected in the drop-down box
-					window.location.replace("${base_url}/updates/Ubuntu/${release}/?category="+$("#genre option:selected").val());
+					window.location.replace("${base_url}/updates/Ubuntu/${updates_release}/?category="+$("#genre option:selected").val());
 				}
 			});
 		});
