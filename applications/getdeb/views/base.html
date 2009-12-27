@@ -40,6 +40,9 @@ win=window.open(mypage,myname,settings);}
         <ul id="countrytabs" class="shadetabs">        
         <li><a id="welcome" href="${base_url}/welcome/">Welcome</a></li>
         <li><a id="updates" href="${base_url}/updates/ubuntu/${release}/">Apps</a></li>
+% if not session("is_admin"):
+        <li><a id="games" href="http://www.playdeb.net/updates/">Games</a></li>
+% endif
         <li><a id="contact" href="${base_url}/contact/">Contact Us</a></li>
         <li><a id="sponsors" href="${base_url}/sponsors/">Sponsors</a></li>
 % if session("is_admin"):
