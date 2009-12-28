@@ -57,11 +57,19 @@
 }
 .navigate #search_content a#search_genre {
 	background:url('img/search_genre.gif') no-repeat 0 0;
-	width:89px;
-	height:35px;
+	width:79px;
+	height:29px;
+	padding:6px 0 0 10px;
+	font-size:18px;
 	display:block;
+	text-transform:none;
+	color:#b6b6b6;
 }
-.navigate #search_content a#search_genre:hover { background-position: 0 -35px; }
+.navigate #search_content a#search_genre:hover {
+    background-position: 0 -35px;
+    color:#b6b6b6; 
+    text-decoration:none;
+}
 .navigate #page_numbers {
 	width:720px;
 	text-align:center;
