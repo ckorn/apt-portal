@@ -27,10 +27,16 @@ ${_("Latest updates")}
 				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
 % endif
 				<div id="search_content">
-					<h2>Filter Games: </h2>
-<!--
-					<input type="text" id="search_box_content" />
--->					
+				<ul id="genre" class="drop_down">
+						<li>
+							<a href="#" id="search_genre"></a>
+							<ul>							
+% for release in ['9.04', '9.10']:
+								<li><a href="${base_url}/updates/$release/">Ubuntu ${release}</a></li>
+% endfor								
+							</ul>
+						</li>
+				</ul>					
 					<ul id="genre" class="drop_down">
 						<li>
 							<a href="#" id="search_genre"></a>
@@ -55,8 +61,8 @@ ${_("Latest updates")}
 			<!-- end top navigation -->
 			<br style="clear:both;" />
 
-% for package in packages_to_show:
-	<%include file="game_info.html" args="package=package, app=app_list[package.package+package.version], app_extra=app_extra_info[package.package+package.version]" />
+% for app in applications_list:
+	<%include file="game_info.html" args="app=app, package=package_dict[app.id], available_for=available_for[app.id]"  />
 % endfor
 			<div class="navigate">
 % if page > 2:
@@ -65,7 +71,7 @@ ${_("Latest updates")}
 % if page > 1:		
 				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
 % endif
-% if len(app_list) == 0:
+% if len(applications_list) == 0:
 <p>No packages available for the selected criteria.</p>
 % endif
 	<p id="page_numbers">

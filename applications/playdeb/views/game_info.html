@@ -1,5 +1,5 @@
 ## -*- coding: utf-8 -*-
-<%page args="package, app, app_extra"/>
+<%page args="app, package, available_for"/>
 <!-- game -->
 <div class="game">
 	<div class="game_header">
@@ -24,9 +24,6 @@
 	</div>
 	<div class="details">
 		<h3 class="version">
-##% if app_extra_info[package.package+package.version]['only_on_testing']:
-##		**ON TESTING**:
-##% endif				
 		Version: ${package.version}
 		</h3>
 ##		<a href="#" class="featured_icon" title="This game is featured!">Featured Game</a>
@@ -35,7 +32,7 @@
 </p>
 		<!-- available for -->
 		<h3 class="available_for">Available for Ubuntu: 
-		${', '.join(app_extra['releases'])}		
+		${', '.join(available_for)}		
 		</h3>
 		<!-- end available for -->		
 		<h3 class="more_links">

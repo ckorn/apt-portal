@@ -35,16 +35,6 @@
 		<a href="/" id="logo" title="PlayDeb.net Beta - ${slogan}"></a>
 		<h2><a href="/" id="playdeb" title="PlayDeb.net Beta - ${slogan}">PlayDeb Beta 2</a></h2>
 		<h2><a href="/" id="playdeb_slogan">${slogan}</a></h2>		
-		<div id="filter_status">
-		${_("Browsing games for")}
-		<a href="${base_url}/release_select" title="Click to change the version filter">		
-% if release == "all" or release == None:
-		${_("All releases")}\
-% else:
-		Ubuntu ${release|h}\
-% endif
-</a>, language set to <a href="#" title="Click to change the page display language">English</a>
-		</div>
 		<div id="search_top">
 			<h2>Find A Game:</h2>
 			<form action="${base_url}/updates/" method="get">
