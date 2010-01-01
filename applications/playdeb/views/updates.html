@@ -1,4 +1,4 @@
-## -*- coding: utf-8 -*-
+    ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
 	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />	
@@ -12,7 +12,10 @@
 	<!-- infobox js -->
 </%def>
 <%def name="title()">
-${_("Latest updates")}
+${_("Updates for Ubuntu ")}${updates_release}\
+% if category:
+ (${category.name})
+% endif
 </%def>
 <%def name="body()">
 % if page == 1:
@@ -29,11 +32,12 @@ ${_("Latest updates")}
 				<div id="search_content">
 				<ul id="genre" class="drop_down">
 						<li>
-							<a href="#" id="search_genre"></a>
-							<ul>							
-% for release in ['9.04', '9.10']:
-								<li><a href="${base_url}/updates/$release/">Ubuntu ${release}</a></li>
-% endfor								
+							<a href="#" id="search_genre">Release</a>
+							<ul>
+							 <li><a href="${base_url}/updates/Ubuntu/all/">${_("All releases")}</a></li>														
+% for rel  in ['9.10', '9.04']:
+								<li><a href="${base_url}/updates/Ubuntu/${rel}/">Ubuntu ${rel}</a></li>
+% endfor
 							</ul>
 						</li>
 				</ul>					
@@ -42,7 +46,7 @@ ${_("Latest updates")}
 							<a href="#" id="search_genre">Genre</a>
 							<ul>							
 % for category in categories:
-								<li><a href="${base_url}/updates/category/${category.name}">${category.name}</a></li>
+								<li><a href="${base_url}/updates/Ubuntu/${updates_release}/?category=${category.name|u}">${category.name}</a></li>
 % endfor								
 							</ul>
 						</li>

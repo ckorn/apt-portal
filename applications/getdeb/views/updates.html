@@ -35,7 +35,10 @@
 	</script>	
 </%def>
 <%def name="title()">
-${_("Latest updates")}
+${_("Updates for Ubuntu ")}${updates_release}\
+% if category:
+ (${category.name})
+% endif
 </%def>
 <%def name="body()">
 <div id="release_selector">

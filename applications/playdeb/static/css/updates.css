@@ -34,7 +34,7 @@
 .navigate #search_content {
 	position:absolute;
 	top:10px;
-	left:150px;
+	left:300px;
 }
 .navigate #search_box_content {
 	background:url('img/search_box_content.gif') no-repeat 0 0;
@@ -57,7 +57,7 @@
 }
 .navigate #search_content a#search_genre {
 	background:url('img/search_genre.gif') no-repeat 0 0;
-	width:79px;
+	width:100px;
 	height:29px;
 	padding:6px 0 0 10px;
 	font-size:18px;
@@ -273,7 +273,7 @@
   color: #959595;
   display: block;
   padding: 0 9px;
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
   text-decoration: none;
 }
 
@@ -303,7 +303,7 @@
   border-bottom: 2px solid #818181;
   list-style: none;
   margin: 0;
-  width: 87px;
+  width: 100px;
   position: absolute;
   top: -999em;
   left: 0px;
@@ -320,7 +320,7 @@
   border: 2px solid #818181;
   border-bottom: 0;
   padding-right: 20px;
-  width: 67px;
+  width: 78px;
   white-space: nowrap;
 }
 .drop_down ul a:hover {
