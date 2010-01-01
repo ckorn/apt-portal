@@ -2,8 +2,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel>
-	<title>GetDeb Package Updates</title>
-	<link>${base_url}/updates/Ubuntu/${updates_release|u}/</link>
+	<title>PlayDeb Package Updates</title>
+	<link>${base_url}/updates/Ubuntu/${updates_release|u}</link>
 	<description>The latest GetDeb package updates.</description>
 	<lastBuildDate>Thu, 03 Dec 2009 22:59:09 GMT</lastBuildDate>
 	<generator>PyRSS2Gen-1.0.0</generator>

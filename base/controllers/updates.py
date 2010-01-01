@@ -78,7 +78,8 @@ def updates_page(distro, release, **kwargs):
         return template.render('updates.xml' 
             , applications_list = applications_list
             , package_dict = package_dict 
-            , available_for = available_for             
+            , available_for = available_for    
+            , updates_release = updates_release                     
         )
     else: 
         return template.render('updates.html'
