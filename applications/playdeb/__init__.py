@@ -41,6 +41,7 @@ import base.controllers.updates
 import base.controllers.contact
 import base.controllers.sponsors
 import base.controllers.install
+import base.controllers.software
 
 # Admin only
 import base.controllers.packages

@@ -34,9 +34,9 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 						<li>
 							<a href="#" id="search_genre">Release</a>
 							<ul>
-							 <li><a href="${base_url}/updates/Ubuntu/all/">${_("All releases")}</a></li>														
+							 <li><a class="release_set" id="release_all" href="${base_url}/updates/Ubuntu/all/">${_("All releases")}</a></li>														
 % for rel  in ['9.10', '9.04']:
-								<li><a href="${base_url}/updates/Ubuntu/${rel}/">Ubuntu ${rel}</a></li>
+								<li><a class="release_set" id="release_${rel}" href="${base_url}/updates/Ubuntu/${rel}/">Ubuntu ${rel}</a></li>
 % endfor
 							</ul>
 						</li>

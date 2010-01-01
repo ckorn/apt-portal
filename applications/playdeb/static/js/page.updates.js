@@ -77,6 +77,13 @@ $(document).ready(function() {
 		hide_info("#how_to_install");
 	});
 
+	/* Set the cookie for the selected release */
+	$(".release_set").click(function(e){
+		var currentId = $(this).attr('id'); 
+		var release = currentId.replace('release_', '');
+		$.cookie('release', release, { path: '/', expires: 30 }); 		
+	});
+	
 });
 
 // Dropdown Function
