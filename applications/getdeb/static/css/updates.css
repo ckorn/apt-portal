@@ -52,7 +52,6 @@
 .app {
 	width:767px;
 	height:323px;
-#	padding-top:18px;
 	margin-left:auto;
 	margin-right:auto;
 	position:relative;
@@ -102,7 +101,6 @@
 }
 
 /* Game Container Content */
-.app .details h3.version {	color:#0; }
 .app .details a.featured_icon {
 	position:absolute;
 	top:68px;
@@ -159,7 +157,6 @@
 	bottom:50px;
 	left:280px;
 	width:568px;
-	//border-bottom:2px solid #777;
 	padding:0 0 5px 0;
 	margin:0 0 5px 5px;
 }
@@ -287,7 +284,7 @@
 /*************** HOW TO INSTAL INFO BOX ***************/
 /* Info Box */
 .info {
-	padding:5x 0 0 0;
+	padding:5px 0 0 0;
 }
 .info_header, .info_content, .info_footer {
 	width:745px;
