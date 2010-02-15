@@ -1,71 +1,100 @@
-To run locally, you must have Ubuntu 9.10 and run the following instructions:
+Thank you for your interest in apt-portal, the mother project of
+GetDeb.net and PlayDeb.net.
 
---------------------
-   GetDeb/PlayDeb
---------------------
-Step 1: Checkout apt-portal code
-
-bzr pull lp:apt-portal
+Please run the following commands before editing the code. This will ensure
+the apt-portal server is running and that any subsequent changes you make to
+the code does not break the application.
 
 
--------------
-   GetDeb
--------------
-Step 1: Make sure required dependencies are installed
+-----------
+   Notes
+-----------
+ * You will need to be running Ubuntu 9.10 or 10.04 to run apt-portal code base.
+ * apt-portal uses Launchpad and Bazaar (bzr) for development; you will need to
+   be familiar with bzr to be able to commit changes to the project
+       - if you are not familiar with bzr and are uncomfortable with the
+         command line, please see the project called Ground Control, found here:
+         https://launchpad.net/groundcontrol
+       - Ground Control creates - or uses if it exists - a folder called
+         Projects/ in your home directory. It takes care of the interface
+         between Launchpad and bzr without forcing you to use the command line 
+
+
+----------------
+   First Step
+----------------
+[Step 1] Checkout apt-portal code
+
+bzr branch lp:apt-portal
+
+
+-----------------
+   GetDeb Only
+-----------------
+[Step 2] Make sure required dependencies are installed
 
 sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 
 
-Step 2: Run instance of the GetDeb application
-        You can now browse to http://localhost:8080 to view
+[Step 3] Run instance of the GetDeb application
+         You can now browse to http://localhost:8080 to view
 
 $HOME/apt-portal/apt-portal.py getdeb
 
 
-Step 3: Populate the packages database:
+[Step 4] Populate the packages database
 
 $HOME/apt-portal/debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
 
 
-Step 4: You should now travel to http://localhost:8080/register/ and register a user. 
-        If you dont have an SMTP service running on localhost you will get 
-        an internal server error sending the authentication email, just ignore it.
+[Step 5] You should now travel to http://localhost:8080/register/ and register a user. 
+         If you dont have an SMTP service running on localhost you will get 
+         an internal server error sending the authentication email, just ignore it.
 
 
-Step 5: Add yourself into the admin group will allow you to see a new menu entry "Packages".
-        It allows you to classifiy packages an link them to application records.
+[Step 6] Add yourself into the admin group will allow you to see a new menu entry "Packages".
+         It allows you to classifiy packages an link them to application records.
 
 $HOME/apt-portal/apt-portal.py getdeb --add-admin your_username
 
 
----------------
-    PlayDeb
----------------
-Step 1: Make sure required dependencies are installed
+-------------------
+    PlayDeb Only
+-------------------
+[Step 2] Make sure required dependencies are installed
 
 sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 
 
-Step 2: Run instance of the PlayDeb application
-        You can now browse to http://localhost:8080 to view
+[Step 3] Run instance of the PlayDeb application
+         You can now browse to http://localhost:8080 to view
 
 $HOME/apt-portal/apt-portal.py playdeb
 
 
-Step 3: Populate the packages database
+[Step 4] Populate the packages database
 
 $HOME/apt-portal/debfactory/bin/apt2sql.py -fd  sqlite:///playdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb games
 
 
-Step 4: You should now travel to http://localhost:8080/register/ and register a user. 
-        If you dont have an SMTP service running on localhost you will get 
-        an internal server error sending the authentication email, just ignore it.
+[Step 5] You should now travel to http://localhost:8080/register/ and register a user. 
+         If you dont have an SMTP service running on localhost you will get 
+         an internal server error sending the authentication email, just ignore it.
 
 
-Step 5: Add yourself into the admin group will allow you to see a new menu entry "Packages".
-        It allows you to classifiy packages an link them to application records.
+[Step 6] Add yourself into the admin group will allow you to see a new menu entry "Packages".
+         It allows you to classifiy packages an link them to application records.
 
 $HOME/apt-portal/apt-portal.py playdeb --add-admin your_username
+
+
+----------------
+   Last Step
+----------------
+[Step 7] Commit changes to apt-portal project
+
+bzr commit
+bzr push lp:apt-portal
 
 
 -------------------------
