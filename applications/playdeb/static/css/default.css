@@ -197,6 +197,9 @@ a#playdeb:hover {
 #main_menu a#contact {
 	background:url('img/icon_contact_us.png') no-repeat 0 9px;
 }
+#main_menu a#getdeb{
+	background:url('img/icon_getdeb.png') no-repeat 0 9px;
+}
 #main_menu a#sponsors {
 	background:url('img/icon_sponsors.png') no-repeat 0 9px;
 }
