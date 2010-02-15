@@ -1,47 +1,71 @@
 To run locally, you must have Ubuntu 9.10 and run the following instructions:
 
+--------------------
+   GetDeb/PlayDeb
+--------------------
+Step 1: Checkout apt-portal code
+
+bzr pull lp:apt-portal
+
+
 -------------
    GetDeb
 -------------
-# (1) Make sure required dependencies are installed
+Step 1: Make sure required dependencies are installed
+
 sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 
-# (2) Run instance of the GetDeb application
-#     You can now browse to http://localhost:8080 to view
-./apt-portal.py getdeb
 
-# (3) Populate the packages database:
-debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
+Step 2: Run instance of the GetDeb application
+        You can now browse to http://localhost:8080 to view
 
-# (4) You should now travel to http://localhost:8080/register/ and register a user. 
-#     If you dont have an SMTP service running on localhost you will get 
-#     an internal server error sending the authentication email, just ignore it.
+$HOME/apt-portal/apt-portal.py getdeb
 
-# (5) Add yourself into the admin group will allow you to see a new menu entry "Packages".
-#     It allows you to classifiy packages an link them to application records.
-./apt-portal.py getdeb --add-admin your_username
+
+Step 3: Populate the packages database:
+
+$HOME/apt-portal/debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
+
+
+Step 4: You should now travel to http://localhost:8080/register/ and register a user. 
+        If you dont have an SMTP service running on localhost you will get 
+        an internal server error sending the authentication email, just ignore it.
+
+
+Step 5: Add yourself into the admin group will allow you to see a new menu entry "Packages".
+        It allows you to classifiy packages an link them to application records.
+
+$HOME/apt-portal/apt-portal.py getdeb --add-admin your_username
 
 
 ---------------
     PlayDeb
 ---------------
-# (1) Make sure required dependencies are installed
+Step 1: Make sure required dependencies are installed
+
 sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 
-# (2) Run instance of the PlayDeb application
-#     You can now browse to http://localhost:8080 to view
-./apt-portal.py playdeb
 
-# (3) Populate the packages database
-debfactory/bin/apt2sql.py -fd  sqlite:///playdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb games
+Step 2: Run instance of the PlayDeb application
+        You can now browse to http://localhost:8080 to view
 
-# (4) You should now travel to http://localhost:8080/register/ and register a user. 
-#     If you dont have an SMTP service running on localhost you will get 
-#     an internal server error sending the authentication email, just ignore it.
+$HOME/apt-portal/apt-portal.py playdeb
 
-# (5) Add yourself into the admin group will allow you to see a new menu entry "Packages".
-#     It allows you to classifiy packages an link them to application records.
-./apt-portal.py playdeb --add-admin your_username
+
+Step 3: Populate the packages database
+
+$HOME/apt-portal/debfactory/bin/apt2sql.py -fd  sqlite:///playdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb games
+
+
+Step 4: You should now travel to http://localhost:8080/register/ and register a user. 
+        If you dont have an SMTP service running on localhost you will get 
+        an internal server error sending the authentication email, just ignore it.
+
+
+Step 5: Add yourself into the admin group will allow you to see a new menu entry "Packages".
+        It allows you to classifiy packages an link them to application records.
+
+$HOME/apt-portal/apt-portal.py playdeb --add-admin your_username
 
 
 -------------------------
