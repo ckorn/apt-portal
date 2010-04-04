@@ -95,23 +95,23 @@ def render(template_name, **kwargs):
     return template_output
 
 def get_template_def(templatename, defname):
-	global _template_lookup
-	mytemplate = _template_lookup.get_template(templatename)
-	return mytemplate.get_def(defname).render()
-		
+    global _template_lookup
+    mytemplate = _template_lookup.get_template(templatename)
+    return mytemplate.get_def(defname).render()
+
 """
    The following are global variables extending the mako templates
 """
 def pagename():
-	"""
-	"""
-	page_parts = cherrypy.request.path_info.strip("/").split("/")
-	if not page_parts:
-		return None
-	pagename = page_parts[0]
-	#if pagename= "" and len(path_parts)>1:
-	#    pagename = path_parts[len(path_parts) - 2]
-	return pagename
+    """
+    """
+    page_parts = cherrypy.request.path_info.strip("/").split("/")
+    if not page_parts:
+        return None
+    pagename = page_parts[0]
+    #if pagename= "" and len(path_parts)>1:
+    #    pagename = path_parts[len(path_parts) - 2]
+    return pagename
 
 def sendmail(template_filename, **kwargs):
     """
@@ -136,14 +136,14 @@ def sendmail(template_filename, **kwargs):
 # Because the unicode filter returns "None" for None strings
 # We want to return '' for those
 def strip_none(text):
-	if text is None:
-		return ''
-	else:
-		return unicode(text)
+    if text is None:
+        return ''
+    else:
+        return unicode(text)
 
 def html_lines(text):
-	if text is None:
-		return ''
-	else:
-		text = cgi.escape(unicode(text), True)		
-		return text.replace('\n', '<br>')
+    if text is None:
+        return ''
+    else:
+        text = cgi.escape(unicode(text), True)		
+        return text.replace('\n', '<br>')
