@@ -45,8 +45,9 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 			Browsing software for:
 			<select id="select_release">
 				<option value="all">${_("All releases")}</option>
-				<option value="9.04">Ubuntu 9.04</option>
-				<option value="9.10">Ubuntu 9.10</option>
+% for rel  in ['10.04', '9.10', '9.04']:				
+				<option value="${rel}/">Ubuntu ${rel}</option>
+% endfor				
 			 </select>			 
 </div>
 % if page == 1:
