@@ -175,7 +175,7 @@ a#playdeb:hover {
 	width:16px;
 	background:url('img/menu_left_cap.png') no-repeat 0 0;
 }
-#main_menu #left_cap, #main_menu a#welcome, #main_menu a#updates, #main_menu a#about, #main_menu a#contact, #main_menu a#sponsors, #main_menu #right_cap
+#main_menu #left_cap, #main_menu a#welcome, #main_menu a#updates, #main_menu a#about, #main_menu a#getdeb, #main_menu a#contact, #main_menu a#sponsors, #main_menu #right_cap
 	, #main_menu a#packages{
 	height:32px;
 	display:block;
@@ -197,6 +197,9 @@ a#playdeb:hover {
 #main_menu a#contact {
 	background:url('img/icon_contact_us.png') no-repeat 0 9px;
 }
+#main_menu a#getdeb{
+	background:url('img/icon_getdeb.png') no-repeat 0 9px;
+}
 #main_menu a#sponsors {
 	background:url('img/icon_sponsors.png') no-repeat 0 9px;
 }
@@ -208,7 +211,7 @@ a#playdeb:hover {
 	background:url('img/menu_right_cap.png') no-repeat top right;
 	float:right;
 }
-#main_menu a#about:hover, #main_menu a#contact:hover, #main_menu a#bugs:hover, #main_menu a#ideas:hover, #main_menu a#friends:hover
+#main_menu a#about:hover, #main_menu a#getdeb:hover, #main_menu a#contact:hover, #main_menu a#bugs:hover, #main_menu a#ideas:hover, #main_menu a#friends:hover
 	, #main_menu a#packages {
 	/*background-position: 0 -48px !important;*/
 	color:#fff;
