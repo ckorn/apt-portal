@@ -179,12 +179,7 @@ def import_packages_file(archive_url, packagelist, packages_file):
         source = control['Source']
         version = control['Version']
         architecture = control['Architecture']
-        description = control['Description'].split('\n')[0]
-        
-        # We get a list unless the description detail is void
-        #if type(description) == types.ListType:
-        #    description = description[0]
-        
+        description = control['Description'].split('\n')[0].decode('utf-8')                
         homepage = control['homepage']
 
         package = Package.query.filter_by( \
@@ -202,8 +197,6 @@ def import_packages_file(archive_url, packagelist, packages_file):
             is_visible = check_visibility(package_name, check_list)                
             Log.print_("Inserting %s %s %s %s visible=%s" % (package_name, source \
                 , version, architecture, is_visible))
-            #if description:
-            #    description = description.decode('utf-8')
             package = Package( 
                 package = package_name 
                 , source = source 
