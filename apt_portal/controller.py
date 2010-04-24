@@ -3,7 +3,7 @@
 """
 @copyright:
  
-    (C) Copyright 2009, APT-Portal Developers
+    (C) Copyright 2009-2010, APT-Portal Developers
     https://launchpad.net/~apt-portal-devs
 
 @license:
@@ -37,7 +37,7 @@ def attach(controller, controller_path_name):
     setattr(cherrypy.root, controller_path_name, controller)
    
 def attach_error_handler(http_error_code, func): 
- cherrypy.config.update({'error_page.%s' % http_error_code : func})
+    cherrypy.config.update({'error_page.%s' % http_error_code : func})
  
 def publish(func=None, *args):   
     return cherrypy.expose(func, *args)

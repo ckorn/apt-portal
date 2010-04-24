@@ -3,7 +3,7 @@
 """
 @copyright:
  
-    (C) Copyright 2009, APT-Portal Developers
+    (C) Copyright 2009-2010, APT-Portal Developers
     https://launchpad.net/~apt-portal-devs
 
 @license:
@@ -25,7 +25,7 @@
 from apt_portal import controller, template
 from base.models.package import Package
 from base.models.application import ApplicationsCategory
-from base.modules import packages
+from base.modules import packages, distroinfo
 from sqlalchemy import desc
 
 def updates_page(distro, release, **kwargs):
@@ -45,7 +45,8 @@ def updates_page(distro, release, **kwargs):
         category = ApplicationsCategory.query.filter_by(name=category_name).first()
         if not category:
             controller.http_redirect(controller.base_url()+"/updates/Ubuntu/all")
-    
+    codename = distroinfo.get_codename(distro, release)
+    print "codename", codename 
     if format == "xml":
         items_per_page = 100
     else:
@@ -93,6 +94,7 @@ def updates_page(distro, release, **kwargs):
             , category = category 
             , search_str = search_str
             , updates_release = updates_release
+            , codename = codename
     )
 
 class Updates(object):
