@@ -25,7 +25,7 @@
 from apt_portal import controller, template
 from base.models.application import Application
 from base.models.package import Package, PackageList
-from sqlalchemy import and_, desc
+from sqlalchemy import and_, or_, desc
 
 class Software(object):
     @controller.publish
@@ -41,15 +41,21 @@ class Software(object):
             controller.http_redirect(controller.base_url())            
             
         # Get dict of the latest version for each distro release
-        last_version_dict = {}            
+        last_version_dict = {}        
+        last_package = None    
         for plist in PackageList.query.all():
             if plist.suite.endswith('-testing'):
                 continue
-            package = Package.query.filter(and_(Package.lists.any(id=plist.id), Package.package==application.source_package))\
+            package = Package.query.filter(and_(Package.lists.any(id=plist.id), 
+                or_(Package.package==application.source_package, Package.source==application.source_package),
+                Package.install_class=='M'))\
                 .order_by(desc(Package.last_modified)).first()
             if package:
                 last_version_dict[plist.version] = package.version
-        return template.render("software.html", app=application, last_version_dict=last_version_dict)
+                last_package = package         
+        return template.render("software.html", app=application,
+                               last_version_dict=last_version_dict, 
+                               package=package)
     
 controller.attach(Software(), "/app") 
 controller.attach(Software(), "/software") 

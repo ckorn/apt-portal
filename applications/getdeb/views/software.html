@@ -17,7 +17,7 @@ ${_("Information for "+app.name)}
         <class="app_name"><a class="app_name" href="${base_url}/software/${app.name}" title="${app.name}">${app.name|h}</a>
         <div class="left">
             <a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
-            <a href="${base_url}/install/${app.source_package | u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>
+            <a href="${base_url}/install/${package.package | u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>
         </div>
         <div class="details">
              <div class="description">${app.descr | html_lines}</div>
