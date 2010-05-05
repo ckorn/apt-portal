@@ -52,10 +52,10 @@ class Software(object):
                 .order_by(desc(Package.last_modified)).first()
             if package:
                 last_version_dict[plist.version] = package.version
-                last_package = package         
+                last_package = package  
         return template.render("software.html", app=application,
                                last_version_dict=last_version_dict, 
-                               package=package)
+                               package=last_package)
     
 controller.attach(Software(), "/app") 
 controller.attach(Software(), "/software") 
