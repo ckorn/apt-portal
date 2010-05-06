@@ -32,7 +32,7 @@ class Login(object):
     def index(self, name=None, password = None, referer=None):
         if name: # submitting
             user = User.query.filter_by(username = name).first()
-            if user.password == userinfo.md5pass(password, user.password):
+            if user and user.password == userinfo.md5pass(password, user.password):
                 if user.auth == 1:
                     userinfo.set_login_sesion_info(user)
                     if referer:
