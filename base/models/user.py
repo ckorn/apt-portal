@@ -28,7 +28,7 @@ class User(Entity):
 	id = Field(Integer, primary_key=True)    
 	username = Field(String(64), nullable = False, unique = True)
 	email = Field(String(64), nullable = False, unique = True)
-	password = Field(String(32), nullable = False)
+	password = Field(String(42), nullable = False)
 	authkey = Field(String(32), nullable = True)
 	auth = Field(Integer(1), nullable = False)
 	t_register = Field(DateTime, nullable = False)

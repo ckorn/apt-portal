@@ -3,7 +3,7 @@
 """
 @copyright:
  
-    (C) Copyright 2009, APT-Portal Developers
+    (C) Copyright 2009-2010, APT-Portal Developers
     https://launchpad.net/~apt-portal-devs
 
 @license:
@@ -25,57 +25,64 @@
 
 import hashlib
 import string
-import random
+from random import Random
 import re
 import cherrypy
 
 from base.models.user import *
 
-def md5pass(password):
-	""" Returns the md5sum for a plain text password """
-	m = hashlib.md5()
-	m.update(password)
-	return m.hexdigest()
+
+def md5pass(password, salt=None):    
+    """ Returns the md5sum for a plain text password, using 10 chars salt """
+    valid_salt_set = "0123456789"+string.letters
+    salt_size = 10
+    if salt:
+        salt = salt[:salt_size]
+    else:        
+        salt = ''.join(Random().sample(valid_salt_set, salt_size))
+    m = hashlib.md5()    
+    m.update(salt+password)
+    return salt+m.hexdigest()
 
 def is_admin(user = None):
-	""" Check if the user is member of the Admin group """
-	if not user:
-		if cherrypy.session.has_key('login_username'):
-			user = User.query.filter_by(username = \
-				cherrypy.session['login_username']).first()		
-		else:
-			return False
-	if not user:
-		return False
-	admin_group = UsersGroup.query.filter_by(name = "Admin").first()
-	if admin_group: 
-		return (admin_group in user.groups)
-	return False
+    """ Check if the user is member of the Admin group """
+    if not user:
+        if cherrypy.session.has_key('login_username'):
+            user = User.query.filter_by(username = \
+                cherrypy.session['login_username']).first()        
+        else:
+            return False
+    if not user:
+        return False
+    admin_group = UsersGroup.query.filter_by(name = "Admin").first()
+    if admin_group: 
+        return (admin_group in user.groups)
+    return False
 
 def find_user(username = None):
-	"""  Return email from user"""	
-	username = username or cherrypy.session.get('login_username', None)		
-	user = User.query.filter_by(username = username).first()
-	return user
-	
-	
+    """  Return email from user"""    
+    username = username or cherrypy.session.get('login_username', None)        
+    user = User.query.filter_by(username = username).first()
+    return user
+    
+    
 def set_login_sesion_info(user):
-	cherrypy.session['login_username'] = user.username
-	cherrypy.session['is_admin'] = is_admin(user)
+    cherrypy.session['login_username'] = user.username
+    cherrypy.session['is_admin'] = is_admin(user)
 
 def generate_auth_key(length=32, chars=string.letters + string.digits):    
-    return ''.join(random.Random().sample(chars, length))
-	
+    return ''.join(Random().sample(chars, length))
+    
 def validateEmail(email):
 
-	if len(email) > 7:
-		if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
-			return True
-	return False
+    if len(email) > 7:
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
+            return True
+    return False
 
 def validateUsername(username):
 
-	if len(username) > 0:
-		if re.match("^[a-zA-Z0-9\.]*$", username) != None:
-			return True
-	return False
+    if len(username) > 0:
+        if re.match("^[a-zA-Z0-9\.]*$", username) != None:
+            return True
+    return False

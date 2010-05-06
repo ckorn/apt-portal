@@ -26,37 +26,36 @@
 from apt_portal import controller, template
 from base.models.user import User
 from base.modules import userinfo
-	
+    
 class Login(object):
     @controller.publish
     def index(self, name=None, password = None, referer=None):
         if name: # submitting
-            user = User.query.filter_by(username = name
-                    , password = userinfo.md5pass(password)).first()
-            if user:
+            user = User.query.filter_by(username = name).first()
+            if user.password == userinfo.md5pass(password, user.password):
                 if user.auth == 1:
                     userinfo.set_login_sesion_info(user)
                     if referer:
-    				   controller.http_redirect(referer)
+                        controller.http_redirect(referer)
                     else:
                         controller.http_redirect(controller.base_url()+'/welcome/')
                 else:
-    				return template.render("login.html" 
-    					, error_reason = "auth" 
-    					, referer = referer 
-    					)                    
+                    return template.render("login.html" 
+                        , error_reason = "auth" 
+                        , referer = referer 
+                        )                    
             else:                
-    			return template.render("login.html"
-    				, error_reason = "failed" 
-    				, referer = referer 
-    				)
+                return template.render("login.html"
+                    , error_reason = "failed" 
+                    , referer = referer 
+                    )
         else:
             referer = controller.get_header('Referer')
             if not referer:
                 referer = controller.base_url()+"/welcome/"
             return template.render("login.html"
-            	, hide_login_register = True
-            	, referer = referer
-            	, error_reason = None)
-				
+                , hide_login_register = True
+                , referer = referer
+                , error_reason = None)
+                
 controller.attach(Login(), "/login")

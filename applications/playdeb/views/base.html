@@ -55,15 +55,16 @@
 			</form>
 		
 			<p id="login_note">
-            Welcome
 % if session("login_username"):
-            ${session("login_username")}, you can
+            Welcome ${session("login_username")}, you can
 				<a href="${base_url}/logout/" title="logout" id="logout">logout</a>
 % else:
-            Guest, you can
+<!-- Nothing useful yet 
+            Welcome Guest, you can
 			<a id="login" href="${base_url}/login/" title="login">login</a>
 			or 
 			<a id="register" href="${base_url}/register/" title="register">register</a>
+!-->			
 % endif
 			</p>			
 		</div>

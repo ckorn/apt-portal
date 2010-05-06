@@ -73,13 +73,15 @@ win=window.open(mypage,myname,settings);}
             </form>
         </div>
     </div>
-    <div id="middle">
-		<div id="top_user_actions">			
+    <div id="middle"> 
+		<div id="top_user_actions"> 					
 		% if session("login_username"): 
 				<a href="${base_url}/logout/" title="logout" id="logout">Logout</a> ${session("login_username")}
 		% else:        
+<!-- Nothing useful yet		
 				<a href="${base_url}/login/">Login</a>  / <a href="${base_url}/register/">Register</a>
-		% endif
+!-->				
+		% endif		
 		</div>				  
 	${self.body()}
     </div>
