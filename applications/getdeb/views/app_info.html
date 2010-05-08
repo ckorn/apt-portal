@@ -21,19 +21,10 @@
 % endif
 		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
 		| License: ${app.license}
-##		| <a href="#" class="comments">Comments</a>
 		</h3>
-		<h3 class="updated">Updated: ${package.last_modified}
-<%doc>
-		<!-- tags -->
-		<h3 class="tags_container"><span class="tags"> Tags: <a href="#">fps</a>, <a href="#">space</a>, <a href="#">quake-based</a></span> <span class="descript">|</span> <a href="#" class="add_new_tag">+</a>
-			<div class="add_tag">
-				<input type="text" name="add_tag_box" class="add_tag_box" />
-				<input type="submit" value="add" class="add_tag_submit" />
-			</div>
-		</h3>	
-		<!-- end tags -->
-</%doc>	
+		<h3 class="updated">
+		Updated: ${package.last_modified} | <A HREF="http://archive.getdeb.net/ubuntu/rpool/apps/${changelogs_dict[app.id]}">Changes</A>
+		</h3>		
 	</div>
 </div>
 <!-- end app -->

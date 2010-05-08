@@ -64,7 +64,21 @@ def updates_page(distro, release, **kwargs):
         available_for[app.id] = []
         for packagelist in package.lists:
             if packagelist.version not in available_for[app.id]:
-                available_for[app.id].append(packagelist.version)                                
+                available_for[app.id].append(packagelist.version)  
+    
+    # Build the changelogs urls
+    changelogs_dict ={}
+    for app in applications_list:        
+        package = Package.query.filter_by( id = package_dict[app.id].id)\
+             .order_by(desc(Package.last_modified)).first()
+        source_package = package.source or package.package             
+        if source_package[:3] == 'lib':
+            prefix = source_package[:4]
+        else:
+            prefix = source_package[:1]
+        
+        changelogs_dict[app.id] = '%s/%s/%s_%s_source.changelog' % \
+            (prefix, source_package, source_package, package.version)                            
     
     search_str = controller.self_url()+"?"
     param_str = ''
@@ -79,7 +93,8 @@ def updates_page(distro, release, **kwargs):
             , applications_list = applications_list
             , package_dict = package_dict 
             , available_for = available_for    
-            , updates_release = updates_release                     
+            , updates_release = updates_release 
+            , changelogs_dict = changelogs_dict                    
         )
     else: 
         return template.render('updates.html'
@@ -94,6 +109,7 @@ def updates_page(distro, release, **kwargs):
             , search_str = search_str
             , updates_release = updates_release
             , codename = codename
+            , changelogs_dict = changelogs_dict
     )
 
 class Updates(object):
