@@ -41,6 +41,7 @@ import time
 import cgi
 import cherrypy
 import smtplib
+import urllib
 import apt_portal
 from ConfigParser import NoOptionError
 from apt_portal import controller
@@ -64,7 +65,7 @@ def set_directories(templates_directories, module_directory):
     	, output_encoding='utf-8' 
     	, encoding_errors='replace' 
     	, default_filters=['strip_none'] 
-    	, imports=['from apt_portal.template import strip_none, html_lines']
+    	, imports=['from apt_portal.template import strip_none, html_lines, quote']
 	)
 
 """ TODO: Translation using gettext """
@@ -147,3 +148,6 @@ def html_lines(text):
     else:
         text = cgi.escape(unicode(text), True)		
         return text.replace('\n', '<br>')
+
+def quote(text):
+    return urllib.quote(text.decode('utf-8'))
