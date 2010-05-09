@@ -41,6 +41,7 @@ import time
 import cgi
 import cherrypy
 import smtplib
+import urllib
 import apt_portal
 from ConfigParser import NoOptionError
 from apt_portal import controller
@@ -64,7 +65,7 @@ def set_directories(templates_directories, module_directory):
     	, output_encoding='utf-8' 
     	, encoding_errors='replace' 
     	, default_filters=['strip_none'] 
-    	, imports=['from apt_portal.template import strip_none, html_lines']
+    	, imports=['from apt_portal.template import strip_none, html_lines, quote']
 	)
 
 """ TODO: Translation using gettext """
@@ -132,10 +133,11 @@ def sendmail(template_filename, **kwargs):
     server = smtplib.SMTP(mail_server)
     server.sendmail(fromaddr, toaddrs, message)
     server.quit() 
-
-# Because the unicode filter returns "None" for None strings
-# We want to return '' for those
+    
+### Filters to extend teamples ####
 def strip_none(text):
+    """ Because the unicode filter returns "None" for None strings 
+    we want to return '' for those """    
     if text is None:
         return ''
     else:
@@ -147,3 +149,6 @@ def html_lines(text):
     else:
         text = cgi.escape(unicode(text), True)		
         return text.replace('\n', '<br>')
+
+def quote(text):
+    return urllib.quote(text.encode('utf-8'))

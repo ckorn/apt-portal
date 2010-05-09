@@ -41,7 +41,7 @@
 % endif
 		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
 		| License: ${app.license}
-        | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|u}/software/${app.name}&amp;title=${app.name}%20${package.version.split('-')[0]|u}%20available%20for%20Ubuntu"></a>
+        | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|quote}/software/${app.name|quote}&title=${app.name+' '+package.version.split('-')[0]+' available for Ubuntu'|quote}></a>
 		</h3>
 		<h3 class="updated">Updated: ${package.last_modified}
 		| <A HREF="http://archive.getdeb.net/ubuntu/rpool/games/${changelogs_dict[app.id]}">Changes</A>
