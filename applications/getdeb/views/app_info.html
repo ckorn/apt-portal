@@ -21,10 +21,10 @@
 % endif
 		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
 		| License: ${app.license}
+        | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|u}/software/${app.name|u}&amp;title=${app.name|u}%20${package.version.split('-')[0]|u}%20available%20for%20Ubuntu"></a>		
 		</h3>
 		<h3 class="updated">
-		Updated: ${package.last_modified} | <A HREF="http://archive.getdeb.net/ubuntu/rpool/apps/${changelogs_dict[app.id]}">Changes</A>
-		</h3>		
+		Updated: ${package.last_modified} | <A HREF="http://archive.getdeb.net/ubuntu/rpool/apps/${changelogs_dict[app.id]}">Changes</A>		
 	</div>
 </div>
 <!-- end app -->

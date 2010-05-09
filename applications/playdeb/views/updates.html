@@ -1,6 +1,15 @@
     ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
+<script type="text/javascript">
+(function() {
+var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
+s.type = 'text/javascript';
+s.async = true;
+s.src = 'http://widgets.digg.com/buttons.js';
+s1.parentNode.insertBefore(s, s1);
+})();
+</script>
     %if not q:
         <link rel="alternate" type="application/rss+xml" title="RSS" href="${search_str}format=xml" />
     %endif
@@ -108,5 +117,14 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 % endif				
 			</div>
 			<br style="clear:both;" />
+<script type="text/javascript">
+(function() {
+var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
+s.type = 'text/javascript';
+s.async = true;
+s.src = 'http://widgets.digg.com/buttons.js';
+s1.parentNode.insertBefore(s, s1);
+})();
+</script>			
 </%def>
 
