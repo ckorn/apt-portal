@@ -32,7 +32,7 @@ class Software(object):
     def default(self, *args):
         if len(args) < 1:
             controller.http_redirect(controller.base_url())
-        app_name = args[0]        
+        app_name = args[0].replace('+',' ')        
         application = Application.query.filter_by(name = app_name).first()
         if not application:
             application = Application.query.filter_by(\
