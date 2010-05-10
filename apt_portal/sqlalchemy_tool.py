@@ -37,8 +37,7 @@ When you are at the interpreter you can do:
     configure_session_for_app(your_cherrypy_app)
 '''
 
-from sqlalchemy import create_engine, MetaData, __version__ as sa_version
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import create_engine
 import elixir
 
 # A dict in which keys are connection strings and values are SA engine objects
@@ -97,8 +96,7 @@ class SATransaction(cherrypy.Tool):
 		# If this priority is not appropriate for both hook points, know that
 		# you can set a 'priority' attribute on the actual functions.
 		# Tool.priority is just a shortcut for that.
-		#self.is_sqa05 = sa_version.split(".") < ["0", "5", "0"]
-		self.is_sqa05 = False
+		self.is_sqa05 = True
 
 	def _setup(self):
 		'''This method is called on each request to attach this tool's hooks,
