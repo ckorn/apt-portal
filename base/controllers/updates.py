@@ -44,7 +44,8 @@ def updates_page(distro, release, **kwargs):
     if category_name:
         category = ApplicationsCategory.query.filter_by(name=category_name).first()
         if not category:
-            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/all")
+            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/" + \
+                controller.current_release)
     codename = distroinfo.get_codename(distro, release) 
     if format == "xml":
         items_per_page = 100
@@ -129,7 +130,8 @@ class Updates(object):
         """
         argc = len(args)
         if argc != 2:
-            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/all")
+            controller.http_redirect(controller.base_url()+"/updates/Ubuntu/"\
+                                     +controller.current_release)
         distro = args[0]
         release = args[1]
 

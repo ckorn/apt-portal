@@ -26,7 +26,7 @@
     Distro informations functions
 """
 def get_codename(distro, release):
-    """ Retur the codename for a given distro release """
+    """ Return the codename for a given distro release """
     if release == 'all':
         release = '10.04'
     codemap = {}

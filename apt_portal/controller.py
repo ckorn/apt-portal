@@ -26,7 +26,10 @@
 import cherrypy
 import re
 
+# FIXME: selected_distro and current_release must be moved to a config file 
 selected_distro = 'Ubuntu'
+current_release  = '10.04'
+
 selected_release = None
 browser_distro = None
 browser_release = None
@@ -114,7 +117,7 @@ def _precontroller():
         release = browser_release
     
     if release not in ['9.04', '9.10', '10.04', '10.10']:
-        release = "all"
+        release = current_release
     
     selected_distro = 'Ubuntu'
     selected_release = release        
