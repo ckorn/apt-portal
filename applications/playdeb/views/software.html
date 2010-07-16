@@ -18,7 +18,7 @@ ${_("Information for "+app.name)}
 		<h2><a href="${base_url}/software/${app.name}" name="${app.name}" title="${app.name}">${app.name|h}</a></h2>
 	</div>
 	<div class="left">
-		<a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+		<a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
 		% if package:
 		<a href="${base_url}/install/${package.package | u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this game!">Install this now</a>
 		% endif

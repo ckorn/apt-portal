@@ -23,8 +23,10 @@
 @author: João Pinto <joao.pinto at getdeb.net>
 """
 
+
 import cherrypy
 import re
+import apt_portal
 
 # FIXME: selected_distro and current_release must be moved to a config file 
 selected_distro = 'Ubuntu'
@@ -33,7 +35,6 @@ current_release  = '10.04'
 selected_release = None
 browser_distro = None
 browser_release = None
-
 
 def attach(controller, controller_path_name):    
     controller_path_name = controller_path_name.strip("/")

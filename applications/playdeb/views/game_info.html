@@ -19,7 +19,7 @@
 		<h2><a href="${base_url}/software/${app.name}" name="${package.package}" title="${app.name} - ${package.description|h}">${app.name|h} <span class="smaller">- ${package.description|h}</span> </a></h2>
 	</div>
 	<div class="left">
-		<a href="/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+		<a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
 		<a href="${base_url}/install/${package.package | u}/${package.version| u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this game!">Install this now</a>
 	</div>
 	<div class="details">

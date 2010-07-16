@@ -43,12 +43,14 @@ import cherrypy
 import smtplib
 import urllib
 import apt_portal
-from ConfigParser import NoOptionError
+from ConfigParser import NoOptionError, NoSectionError
 from apt_portal import controller
 
 from mako.lookup import TemplateLookup
 
 _template_lookup = None
+
+
 
 def set_directories(templates_directories, module_directory):
     """ 
@@ -56,8 +58,12 @@ def set_directories(templates_directories, module_directory):
 		templates_directories - list of dirs to lookup for templates
 		module_directory - directory to keep cached template modules		
 	"""	
-    global _template_lookup
-
+    global _template_lookup, _media_base_url
+    try:
+        _media_base_url = apt_portal.get_config("media", "base_url") 
+    except (NoOptionError, NoSectionError):
+        _media_base_url = ''
+    
     # Template rendering with internationalization support
     _template_lookup = TemplateLookup(directories=templates_directories 
     	, module_directory=module_directory 
@@ -73,7 +79,7 @@ def _(txt):
     return txt
 
 def render(template_name, **kwargs):
-    global _template_lookup
+    global _template_lookup, _media_base_url
     mytemplate = _template_lookup.get_template(template_name)
     
     # Global functions
@@ -85,8 +91,9 @@ def render(template_name, **kwargs):
     kwargs["base_url"] = controller.base_url()
     kwargs["self_url"] = controller.self_url()
     kwargs["release"] = controller.selected_release
+    kwargs["media_base_url"] = _media_base_url
     kwargs["current_release"] = controller.current_release
-    kwargs["login_username"] = controller.session('login_username')
+    kwargs["login_username"] = controller.session('login_username')    
     
     start_t = time.time()
     template_output = mytemplate.render(**kwargs)

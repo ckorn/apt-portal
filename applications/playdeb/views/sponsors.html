@@ -52,7 +52,7 @@ Sponsor PlayDeb by donating <input name="a3" value="${maxval + 1}" size="3" type
             <th>Amount / Month</th>		
 %for sponsor  in sponsors:
 		<tr class="alt">				
-			<td><a rel="external" href="${sponsor.url}"><img src="/media/sponsors/${sponsor.id}.png"></a></td>
+			<td><a rel="external" href="${sponsor.url}"><img src="${media_base_url}/media/sponsors/${sponsor.id}.png"></a></td>
 			<td><a rel="external" href="${sponsor.url}">${sponsor.name}</a></td> 
 			<td class="donation">${sponsor.ammount} €</td>  
 		</tr>
