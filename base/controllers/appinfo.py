@@ -143,7 +143,7 @@ class AppInfo(object):
     	if os.path.exists(filename):				
     		screen_img_dir  = os.path.join(apt_portal.base_dir, "../media/screens/%d" % id)
     		if not os.path.isdir(screen_img_dir):
-    			os.makedirs(screen_img_dir, 0700)							
+    			os.makedirs(screen_img_dir, 0755)							
     		dest = "%s/%s.png" % (screen_img_dir, id)
     		thumb_dest = "%s/%d_t.png" % (screen_img_dir, id)
     		os.rename(filename, dest)									
