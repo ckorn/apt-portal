@@ -207,9 +207,11 @@ address {
         top: -55px;
         left: 452px;
 }
+/*
 .opera #searchbox {
 		top: -70px;
-}
+} 
+*/
 #searchbox p {
         line-height: 1.1em;
         position: absolute;
