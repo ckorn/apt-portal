@@ -34,6 +34,7 @@ ${_("Information for "+app.name)}
 		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
 		| License: ${app.license}
 ##		| <a href="#" class="comments">Comments</a>
+        | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|u}/software/${app.name|u}&amp;title=${app.name|u}%20available%20for%20Ubuntu"></a>
 		</h3>
 <%doc>
 		<!-- tags -->
@@ -53,4 +54,13 @@ ${_("Information for "+app.name)}
     %for key,value in last_version_dict.items():
     	Ubuntu ${key}: ${value}<br>
     %endfor
+<script type="text/javascript">
+(function() {
+var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
+s.type = 'text/javascript';
+s.async = true;
+s.src = 'http://widgets.digg.com/buttons.js';
+s1.parentNode.insertBefore(s, s1);
+})();
+</script>    
 </%def>
