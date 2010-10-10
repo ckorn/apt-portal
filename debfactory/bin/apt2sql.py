@@ -173,6 +173,9 @@ def import_packages_file(archive_url, packagelist, packages_file):
         
     keep_packages_list = [] # info from packages loaded from the file
     control = DebianControlFile(tmpfile.name)
+    if not control['Package']:
+        print "No packages defined at", packages_file
+        return
     step = 1
     while step:
         package_name = control['Package']
