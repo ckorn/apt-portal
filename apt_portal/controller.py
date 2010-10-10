@@ -30,7 +30,7 @@ import apt_portal
 
 # FIXME: selected_distro and current_release must be moved to a config file 
 selected_distro = 'Ubuntu'
-current_release  = '10.04'
+current_release  = '10.10'
 
 selected_release = None
 browser_distro = None
