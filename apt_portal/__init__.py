@@ -98,6 +98,15 @@ def set_default_config(application_name, options):
         
     # Enable the precontroller tool
     cherrypy.config.update({'tools.precontroller.on': 'True'})
+
+    # set the correct favicon.ico
+    conf = {}
+    conf['/favicon.ico'] = { \
+        'tools.staticfile.on': True, \
+        'tools.staticfile.filename': os.path.join(base_dir, "..", 'applications' \
+                                     , app_name, 'static', 'images', 'favicon.ico') \
+    }
+    merge_config(conf)
     
     
     config.read(os.path.join(base_dir, "..", 'applications' , app_name
