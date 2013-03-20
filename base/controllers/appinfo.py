@@ -29,7 +29,7 @@ import os
 import imghdr
 import Image
 
-from sqlalchemy.exceptions import IntegrityError
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy import __version__ as sa_version
 
 import apt_portal
