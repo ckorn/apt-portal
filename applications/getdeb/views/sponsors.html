@@ -28,7 +28,14 @@ This is the best form of income for GetDeb and for its developers/packagers to s
 Sponsors get their name associated with the success of GetDeb. 
 If they have a logo we show it on the front page with a link to their website (each sponsor's chances of being shown is equal to the percentage his contribution represents among other sponsors)
 </p>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sponsoring">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="sponsoring">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="57DLJS8A9HV9C">
+Sponsor GetDeb by donating once
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+</form>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sponsoring" class="sponsoring">
 <input type="hidden" name="cmd" value="_xclick-subscriptions">
 <input type="hidden" name="business" value="2LUVN5QCCSA32">
 <input type="hidden" name="item_name" value="GetDeb Sponsor">
