@@ -4,14 +4,18 @@
 				<div class="info_content">
 					<p class="light">Use the following instructions:</p>
 					<ol>
-						<li>
-							<p>Install the <a href="http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb">getdeb</a> package.</p>
-						</li>							
-						<li><p>Or configure the repository manually:</p>								
-								<p>Go to System-Administration-Software Sources, Third-Party Software tab, Add:</p>
-								<code>deb http://archive.getdeb.net/ubuntu ${codename}-getdeb apps</code>
-								<p>Add the repository GPG key, open a terminal window and type:</p>
-								<code>wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -</code>
+						<li><p>Install the repository in one of the following ways:</p>
+							<ol>
+								<li>
+									<p>Install the <a href="http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb">getdeb</a> package.</p>
+								</li>							
+								<li><p>Or configure the repository manually:</p>								
+										<p>Go to System-Administration-Software Sources, Third-Party Software tab, Add:</p>
+										<code>deb http://archive.getdeb.net/ubuntu ${codename}-getdeb apps</code>
+										<p>Add the repository GPG key, open a terminal window and type:</p>
+										<code>wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -</code>
+								</li>
+							</ol>
 						</li>
 						<li>
 							<p>Click the "Install this now" button below the screenshot of the desired application.</p>

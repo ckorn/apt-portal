@@ -34,10 +34,15 @@ ${_("Information for "+app.name)}
         </div>
     </div>
     <!-- end app -->
-    Packages are available for the following releases:<br>
+    Packages are available for the following releases:<br/>
     %for key,value in last_version_dict.items():
-    	Ubuntu ${key}: ${value}<br>
+    	Ubuntu ${key}: ${value}<br/>
     %endfor
+    % if package:
+    <p>Uninstall the application with the following command:<br/>
+    sudo apt-get remove ${package.package | u}
+    </p>
+    % endif
 <script type="text/javascript">
 (function() {
 var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
