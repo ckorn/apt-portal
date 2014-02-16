@@ -13,7 +13,7 @@
 	<% av = available_for[app.id] %>
 	<item>
 		<title>${app.name} ${package.version}</title>
-		<link>${base_url}/software/${app.name}</link>
+		<link>${base_url}/app/${app.name}</link>
 		<description>
 		${app.descr+'<br>'|h}		
 		Available for Ubuntu: 

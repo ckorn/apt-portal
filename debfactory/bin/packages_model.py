@@ -57,7 +57,7 @@ class Package(Entity):
 	"""
 	using_options(tablename='package')
 	id = Field(Integer, primary_key = True)
-	package = Field(String(64), nullable = False, index = True) 
+	package = Field(String(64), nullable = False, index = True)
 	source = Field(String(64), nullable = True, index = True)
 	version = Field(String(64), nullable = False, index = True)
 	architecture = Field(String(64), nullable = False, index = True)
@@ -65,11 +65,12 @@ class Package(Entity):
 	description = Field(String(128), nullable = False)
 	homepage = Field(String(128), nullable = True)
 	install_class = Field(String(16), nullable = True, index = True)
-	is_visible = Field(Boolean, default = True)	
+	is_visible = Field(Boolean, default = True)
+	download_count = Field(Integer, nullable = True)
 	lists = ManyToMany('PackageList', ondelete='restrict', tablename="packagelist_members")
 	using_table_options(UniqueConstraint('package', 'version'
 		, 'architecture'))
-	using_table_options(mysql_engine='InnoDB')    
+	using_table_options(mysql_engine='InnoDB')
 
 	def __repr__(self):
 			return '<Package "%s %s %s")>' % (self.package, \

@@ -14,7 +14,7 @@ ${_("Information for "+app.name)}
     <br>
     <!-- app -->
     <div class="app">    
-        <class="app_name"><a class="app_name" href="${base_url}/software/${app.name}" title="${app.name}">${app.name|h}</a>
+        <class="app_name"><a class="app_name" href="${base_url}/app/${app.name}" title="${app.name}">${app.name|h}</a>
         <div class="left">
             <a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
             % if package:
@@ -28,8 +28,7 @@ ${_("Information for "+app.name)}
             <a href="${app.video_link}&amp;autoplay=1" rel="shadowbox[video];width=580;height=520" title="${app.name}" class="video">Watch Video</a> |
     % endif
             <a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
-            | License: ${app.license}
-            | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|u}/software/${app.name|u}&amp;title=${app.name|u}%20available%20for%20Ubuntu"></a>            
+            | License: ${app.license}      
             </h3>
         </div>
     </div>
@@ -38,18 +37,14 @@ ${_("Information for "+app.name)}
     %for key,value in last_version_dict.items():
     	Ubuntu ${key}: ${value}<br/>
     %endfor
+    </p>Package downloads per version:<br/>
+    %for key,value in downloads.items():
+    	Version ${key}: ${value}<br/>
+    %endfor
+    </p>
     % if package:
     <p>Uninstall the application with the following command:<br/>
     sudo apt-get remove ${package.package | u}
     </p>
     % endif
-<script type="text/javascript">
-(function() {
-var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
-s.type = 'text/javascript';
-s.async = true;
-s.src = 'http://widgets.digg.com/buttons.js';
-s1.parentNode.insertBefore(s, s1);
-})();
-</script>               
 </%def>

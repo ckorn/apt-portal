@@ -41,8 +41,9 @@ class Software(object):
             controller.http_redirect(controller.base_url())            
             
         # Get dict of the latest version for each distro release
-        last_version_dict = {}        
-        last_package = None    
+        last_version_dict = {}
+        downloads = {}
+        last_package = None
         for plist in PackageList.query.all():
             if plist.suite.endswith('-testing'):
                 continue
@@ -52,10 +53,15 @@ class Software(object):
                 .order_by(desc(Package.last_modified)).first()
             if package:
                 last_version_dict[plist.version] = package.version
-                last_package = package  
+                downloads[package.version] = package.download_count
+                last_package = package
+        downloads_sorted = {}
+        for key,value in sorted(downloads.items()):
+                downloads_sorted[key] = value
         return template.render("software.html", app=application,
-                               last_version_dict=last_version_dict, 
+                               last_version_dict=last_version_dict, downloads=downloads_sorted,
                                package=last_package)
     
-controller.attach(Software(), "/app") 
+controller.attach(Software(), "/app")
+controller.attach(Software(), "/game")
 controller.attach(Software(), "/software") 

@@ -16,7 +16,7 @@
 		</div>
 		<!-- rating end -->
 </%doc>		
-		<h2><a href="${base_url}/software/${app.name}" name="${package.package}" title="${app.name} - ${package.description|h}">${app.name|h} <span class="smaller">- ${package.description|h}</span> </a></h2>
+		<h2><a href="${base_url}/game/${app.name}" name="${package.package}" title="${app.name} - ${package.description|h}">${app.name|h} <span class="smaller">- ${package.description|h}</span> </a></h2>
 	</div>
 	<div class="left">
 		<a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
@@ -41,7 +41,7 @@
 % endif
 		<a href="${app.homepage}" title="${app.name}" target="_blank" class="homepage">Homepage</a> 
 		| License: ${app.license}
-        | <a class="DiggThisButton DiggCompact" href="http://digg.com/submit?url=${base_url|u}/software/${app.name|u}&amp;title=${app.name|u}%20${package.version.split('-')[0]|u}%20available%20for%20Ubuntu"></a>
+        | Downloads: ${package.download_count}
 		</h3>
 		<h3 class="updated">Updated: ${package.last_modified}
 		| <A HREF="http://archive.getdeb.net/ubuntu/rpool/games/${changelogs_dict[app.id]}">Changes</A>
