@@ -27,6 +27,16 @@ from base.models.application import Application
 from base.models.package import Package, PackageList
 from sqlalchemy import and_, or_, desc
 
+### Extract the upstream version from a complete version
+### Input 1:2.7.4-1~getdeb2 -> Output: 2.7.4
+def upstreamVersion(v):
+	version = v
+	if version.find("-") != -1:
+		version = version.rsplit("-", 1)[0]
+	if version.find(":") != -1:
+		version = version.split(":")[1]
+	return version
+
 class Software(object):
     @controller.publish
     def default(self, *args):
@@ -53,13 +63,10 @@ class Software(object):
                 .order_by(desc(Package.last_modified)).first()
             if package:
                 last_version_dict[plist.version] = package.version
-                downloads[package.version] = package.download_count
+                downloads[upstreamVersion(package.version)] = package.download_count
                 last_package = package
-        downloads_sorted = {}
-        for key,value in sorted(downloads.items()):
-                downloads_sorted[key] = value
         return template.render("software.html", app=application,
-                               last_version_dict=last_version_dict, downloads=downloads_sorted,
+                               last_version_dict=last_version_dict, downloads=downloads,
                                package=last_package)
     
 controller.attach(Software(), "/app")

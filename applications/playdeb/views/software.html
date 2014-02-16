@@ -54,7 +54,7 @@ ${_("Information for "+app.name)}
     	Ubuntu ${key}: ${value}<br>
     %endfor
     </p>Package downloads per version:<br/>
-    %for key,value in downloads.items():
+    %for key,value in sorted(downloads.items()):
     	Version ${key}: ${value}<br/>
     %endfor
     </p>
