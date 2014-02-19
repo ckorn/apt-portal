@@ -4,7 +4,7 @@
 <channel>
 	<title>PlayDeb Package Updates</title>
 	<link>${base_url}/updates/Ubuntu/${updates_release|u}</link>
-	<description>The latest GetDeb package updates.</description>
+	<description>The latest PlayDeb package updates.</description>
 	<lastBuildDate>Thu, 03 Dec 2009 22:59:09 GMT</lastBuildDate>
 	<generator>PyRSS2Gen-1.0.0</generator>
 	<docs>http://blogs.law.harvard.edu/tech/rss</docs>
