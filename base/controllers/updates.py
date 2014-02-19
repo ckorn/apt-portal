@@ -79,8 +79,11 @@ def updates_page(distro, release, **kwargs):
             prefix = source_package[:1]
         
         changelogs_dict[app.id] = '%s/%s/%s_%s_source.changelog' % \
-            (prefix, source_package, source_package, package.version)                            
-    
+            (prefix, source_package, source_package, package.version)
+
+    # get the download stats
+    download_stats = packages.get_download_stats()
+
     search_str = controller.self_url()+"?"
     param_str = ''
     for key,value in kwargs.iteritems():
@@ -111,6 +114,7 @@ def updates_page(distro, release, **kwargs):
             , updates_release = updates_release
             , codename = codename
             , changelogs_dict = changelogs_dict
+            , download_stats=download_stats
     )
 
 class Updates(object):

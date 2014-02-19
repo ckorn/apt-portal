@@ -1,0 +1,50 @@
+			<!-- start download_stats -->
+			<div id="download_stats" class="info">
+				<div class="info_header"><h2><a href="#download_stats">Download statistics from GetDeb</a></h2></div>
+				<div class="info_content">
+					<table width="90%" border="0" align="center">
+						<tr>
+							<td align="center" style="color: #000000;"><b>Monthly Top 25</b></td>
+							<td>&nbsp;</td>
+							<td align="center" style="color: #000000;"><b>Daily Top 25</b></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="0" width="100%">
+									<tr>
+										<td>&nbsp;</td>
+										<td><b>Name</b></td>
+										<td><b>Clicks</b></td>
+									</tr>
+% for i, stat in enumerate(download_stats[0]):
+									<tr>
+										<td>${i+1}</td>
+										<td><a href="${base_url}/app/${stat[0]}">${stat[0]|h}</a></td>
+										<td>${stat[1]}</td>
+									</tr>
+% endfor
+								</table>
+							</td>
+							<td>&nbsp;</td>
+							<td>
+								<table border="0" width="100%">
+									<tr>
+										<td>&nbsp;</td>
+										<td><b>Name</b></td>
+										<td><b>Clicks</b></td>
+									</tr>
+% for i, stat in enumerate(download_stats[1]):
+									<tr>
+										<td>${i+1}</td>
+										<td><a href="${base_url}/app/${stat[0]}">${stat[0]|h}</a></td>
+										<td>${stat[1]}</td>
+									</tr>
+% endfor
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="info_footer"></div>
+			</div>
+			<!-- end download_stats -->

@@ -27,6 +27,14 @@ $(document).ready(function() {
 
 	}
 
+	// stats
+	if (window.location.hash!="#download_stats") {	
+		$('#download_stats .info_content').hide();
+		$('#download_stats .info_content p').hide();
+		$('#download_stats .info_content code').hide();
+		$('#download_stats .info_header h2 a').text("Click here to see some download statistics");
+	}
+
 	// Genre Dropdown
 	$('#genre li').hover(
 		function(){ $('ul', this).fadeIn('fast'); }, 

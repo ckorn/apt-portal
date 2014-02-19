@@ -1,9 +1,9 @@
 ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
-	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen">
 	%if not q:
-		<link rel="alternate" type="application/rss+xml" title="RSS" href="${search_str}format=xml" />
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="${search_str}format=xml">
 	%endif	
 	<script type="text/javascript" src="/js/shadowbox-2.0.js"></script>
 	<script type="text/javascript" src="/js/page.updates.js"></script>
@@ -51,6 +51,7 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 </div>
 % if page == 1:
 			<%include file="how_to_install.html"/>
+			<%include file="download_stats.html"/>
 % endif			
 			<!--start top navigation -->
 			<div class="navigate">
@@ -77,11 +78,11 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 % if page < page_count:				
 				<a href="${search_str}page=${page + 1}" class="next" title="Forward 1 Page"></a>
 % else:
-				<br/>
+				<br>
 % endif
 			</div>
 			<!-- end top navigation -->
-			<br style="clear:both;" />
+			<br style="clear:both;">
 
 % for app in applications_list:
 	<%include file="app_info.html" args="app=app, package=package_dict[app.id], available_for=available_for[app.id]"  />
@@ -122,5 +123,5 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 				<a href="${search_str}page=${page + 1}" class="next" title="Forward 1 Page"></a>
 % endif				
 			</div>
-			<br style="clear:both;" />			
+			<br style="clear:both;">			
 </%def>

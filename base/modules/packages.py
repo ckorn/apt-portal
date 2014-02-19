@@ -25,8 +25,59 @@
 
 import cherrypy
 from apt_portal import database
+from datetime import datetime
 from base.models.package import Package, PackageList
 from base.models.application import Application
+
+def get_package_stats(packages):
+    ret = []
+    for p in packages:
+        name = p[1]
+        # it should not happen that no app name for a package is found
+        if name is None:
+            name = p[0]
+        clicks = p[2]
+        ret.append((name, clicks))
+    return ret
+
+def get_download_stats():
+    """
+    @summary: Return a tuple (month, day) with the top 25 of downloaded apps last day and month
+    @return: (month, day)
+            month: list of (app, clicks) for the last month
+            day:   list of (app, clicks) for the current day
+    """
+    ret = ([], [])
+    now_str = datetime.now().strftime("%Y-%m-%d")
+    month = " SELECT	s.package," \
+            "           ( SELECT a.name" \
+            "             FROM application a" \
+            "                  INNER JOIN package x" \
+            "                  ON ( a.source_package = x.package OR a.source_package = x.source )" \
+            "             WHERE x.package = s.package " \
+            "             AND   x.install_class = 'M' " \
+            "             LIMIT 1  )," \
+            "           SUM(s.hits)" \
+            " FROM	package_stats s" \
+            " %(where)s " \
+            " GROUP BY	s.package, 2" \
+            " ORDER BY	SUM(s.hits)" \
+            " DESC LIMIT 25 "
+    engine = database.engine()
+    for i,l in enumerate(ret):
+        # month
+        if i == 0:
+            where = ""
+        # day
+        else:
+            where = "WHERE ddate='%(now_str)s'"%locals()
+        sql = month % locals()
+        sql = engine.text(sql)
+        package = sql.execute().fetchall()
+        # setting l = ... does not work. append all elements instead.
+        l.extend(get_package_stats(package))
+    return ret
+
 
 def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     """

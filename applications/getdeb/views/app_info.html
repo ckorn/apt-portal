@@ -2,9 +2,9 @@
 <%page args="app, package, available_for"/>
 <!-- app -->
 <div class="app">	
-	<class="app_name"><a class="app_name" href="${base_url}/app/${app.name}" name="${package.package}" title="${app.name} - ${package.version|h}">${app.name|h} ${package.version|h}</a>
+	<a class="app_name" href="${base_url}/app/${app.name}" name="${package.package}" title="${app.name} - ${package.version|h}">${app.name|h} ${package.version|h}</a>
 	<div class="left">
-		<a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+		<a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb"></a>
 		<a href="${base_url}/install/${package.package | u}/${package.version| u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>
 	</div>
 	<div class="details">
@@ -25,6 +25,7 @@
 		</h3>
 		<h3 class="updated">
 		Updated: ${package.last_modified} | <A HREF="http://archive.getdeb.net/ubuntu/rpool/apps/${changelogs_dict[app.id]}">Changes</A>
+		</h3>
 	</div>
 </div>
 <!-- end app -->

@@ -76,5 +76,18 @@ class Package(Entity):
 			return '<Package "%s %s %s")>' % (self.package, \
 				self.version, self.architecture)
 
+class PackageStats(Entity):
+	"""
+	Download statistics for packages downloaded last 30 days.
+	With date for per day statistics.
+	"""
+	using_options(tablename='package_stats')
+	ddate = Field(Date, nullable = False, primary_key=True)
+	package = Field(String(128), nullable = False, primary_key=True)
+	hits = Field(Integer, nullable = False)
+
+	def __repr__(self):
+			return '<PackageStats "%s %s %s")>' % (self.ddate, \
+				self.package, self.hits)
 
 setup_all()

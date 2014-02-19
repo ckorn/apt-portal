@@ -23,6 +23,7 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 <%def name="body()">
 % if page == 1:
 			<%include file="how_to_install.html"/>
+			<%include file="download_stats.html"/>
 % endif			
 			<!--start top navigation -->
 			<div class="navigate">
@@ -33,9 +34,9 @@ ${_("Updates for Ubuntu ")}${updates_release}\
 				<a href="${search_str}page=${page - 1}" class="prev" title="Back 1 Page"></a>				
 % endif
 				<div id="search_content">
-				<ul id="genre" class="drop_down">
+				<ul id="release" class="drop_down">
 						<li>
-							<a href="#" id="search_genre">Release</a>
+							<a href="#" id="search_release">Release</a>
 							<ul>														
 % for rel  in ['13.10', '13.04', '12.10', '12.04', '11.10', '11.04', '10.10', '10.04', '9.10']:
 								<li><a class="release_set" id="release_${rel}" href="${base_url}/updates/Ubuntu/${rel}/">Ubuntu ${rel}</a></li>

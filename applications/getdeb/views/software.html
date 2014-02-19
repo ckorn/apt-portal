@@ -1,7 +1,7 @@
 ## -*- coding: utf-8 -*-
 <%inherit file="base.html"/>
 <%def name="page_head()">
-    <link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen" />    
+    <link rel="stylesheet" href="/css/updates.css" type="text/css" media="screen">    
     <script type="text/javascript" src="/js/shadowbox-2.0.js"></script>
     <script type="text/javascript" src="/js/page.updates.js"></script>
     <!-- we need cookie for the infobox handler -->
@@ -16,7 +16,7 @@ ${_("Information for "+app.name)}
     <div class="app">    
         <class="app_name"><a class="app_name" href="${base_url}/app/${app.name}" title="${app.name}">${app.name|h}</a>
         <div class="left">
-            <a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb" /></a>
+            <a href="${media_base_url}/media/screens/${app.id}/${app.id}.png" rel="shadowbox[image]" class="thumb_link"><img src="${media_base_url}/media/screens/${app.id}/${app.id}_t.png" alt="" class="thumb"></a>
             % if package:
             <a href="${base_url}/install/${package.package | u}" target="_blank" rel="nofollow" class="install_now" title="Install the latest version of this software!">Install this now</a>
             % endif
@@ -33,17 +33,17 @@ ${_("Information for "+app.name)}
         </div>
     </div>
     <!-- end app -->
-    Packages are available for the following releases:<br/>
+    Packages are available for the following releases:<br>
     %for key,value in last_version_dict.items():
-    	Ubuntu ${key}: ${value}<br/>
+    	Ubuntu ${key}: ${value}<br>
     %endfor
-    </p>Package downloads per version:<br/>
+    </p>Package downloads per version:<br>
     %for key,value in sorted(downloads.items()):
-    	Version ${key}: ${value}<br/>
+    	Version ${key}: ${value}<br>
     %endfor
     </p>
     % if package:
-    <p>Uninstall the application with the following command:<br/>
+    <p>Uninstall the application with the following command:<br>
     sudo apt-get remove ${package.package | u}
     </p>
     % endif

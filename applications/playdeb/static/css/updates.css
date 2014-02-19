@@ -49,13 +49,15 @@
 }
 /* opera fix */
 .opera #search_box_content { padding:1px 0 0 6px; }
-.navigate #genre {
+.navigate #genre,
+.navigate #release {
 	margin:0;
 	padding:0;
 	float:left;
 	list-style:none;
 }
-.navigate #search_content a#search_genre {
+.navigate #search_content a#search_genre,
+.navigate #search_content a#search_release {
 	background:url('img/search_genre.gif') no-repeat 0 0;
 	width:100px;
 	height:29px;
@@ -65,7 +67,8 @@
 	text-transform:none;
 	color:#b6b6b6;
 }
-.navigate #search_content a#search_genre:hover {
+.navigate #search_content a#search_genre:hover,
+.navigate #search_content a#search_release:hover {
     background-position: 0 -35px;
     color:#b6b6b6; 
     text-decoration:none;
@@ -283,17 +286,23 @@
 
 }
 #genre li:hover a, 
-#genre li.sfHover a {
+#genre li.sfHover a,
+#release li:hover a, 
+#release li.sfHover a {
   background: #ccc;
   color: #000;
 }
 #genre li:hover ul a, 
-#genre li.sfHover ul a {
+#genre li.sfHover ul a,
+#release li:hover ul a, 
+#release li.sfHover ul a {
   background: #444;
   color: #959595;	
 }
 #genre li:hover ul a:hover, 
-#genre li.sfHover ul a:hover {
+#genre li.sfHover ul a:hover,
+#release li:hover ul a:hover, 
+#release li.sfHover ul a:hover {
   background: #ccc;
   color: #000;	
 }
