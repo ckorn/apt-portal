@@ -49,7 +49,7 @@ def get_download_stats():
     """
     ret = ([], [])
     now_str = datetime.now().strftime("%Y-%m-%d")
-    month = " SELECT	s.package," \
+    month = " SELECT	MAX( s.package )," \
             "           ( SELECT a.name" \
             "             FROM application a" \
             "                  INNER JOIN package x" \
@@ -60,7 +60,7 @@ def get_download_stats():
             "           SUM(s.hits)" \
             " FROM	package_stats s" \
             " %(where)s " \
-            " GROUP BY	s.package, 2" \
+            " GROUP BY	2" \
             " ORDER BY	SUM(s.hits)" \
             " DESC LIMIT 25 "
     engine = database.engine()
