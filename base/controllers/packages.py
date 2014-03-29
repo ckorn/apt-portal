@@ -45,22 +45,22 @@ class Packages(object):
 		"""
 		if not userinfo.is_admin():
 			controller.http_redirect(controller.base_url()+'/login')
-			
+
 		class Stats():
 			total = 0
 			unclassified = 0
 			unlinked = 0
-		
+
 		if q:
 			db_packages = Package.query.filter_by(package=q).order_by(\
 				asc(Package.package), asc(Package.version)).all()
 		else:
 			db_packages = Package.query.order_by( \
-				asc(Package.package), asc(Package.version)).all()		
+				asc(Package.package), asc(Package.version)).all()
 		packages = []
 		last_package_version = None
 		stats = Stats()
-		
+
 		# Walk the packages list, skip classified and linked
 		for package in db_packages:
 			package_version = package.package+"-"+package.version
@@ -68,11 +68,11 @@ class Packages(object):
 				continue
 			if len(package.lists) == 0: # package is not in a repos
 				continue
-			last_package_version = package_version				
-			stats.total += 1			
+			last_package_version = package_version
+			stats.total += 1
 			app = None
 			if package.install_class == None:
-				stats.unclassified += 1				
+				stats.unclassified += 1
 			elif package.install_class == 'M':
 				source_package = package.source or package.package
 				app = Application.query.filter_by(
@@ -86,14 +86,14 @@ class Packages(object):
 		return template.render("packages.html", packages = packages
 			, stats = stats, q=q
 		)
-		
-	@controller.publish		
+
+	@controller.publish
 	def set_class(self, package_id, install_class):
 		""" Set the class_value for a package, select all packages
 		which have a common name and version to the one identified
 		by the package_id parameter """
 		if not userinfo.is_admin():
-			controller.http_error(403)			
+			controller.http_error(403)
 		package = Package.query.filter_by(id = package_id).one()
 		package_list = Package.query.filter_by(\
 			package = package.package, version=package.version).all()
@@ -101,12 +101,12 @@ class Packages(object):
 			package.install_class = install_class
 		return None
 
-	@controller.publish		
+	@controller.publish
 	def search(self, q):
 		""" Returns list of packages for the search box """
 		if not userinfo.is_admin():
 			controller.http_error(403)
-			
+
 		results = ""
 		last_package = ""
 		package_list = Package.query.filter(Package.package.like('%'+q+'%')).order_by(Package.package)
@@ -116,12 +116,12 @@ class Packages(object):
 			last_package = package.package
 			results += "%s|%d\n" % (package.package, package.id)
 		return results
-		
-	@controller.publish		
+
+	@controller.publish
 	def remove(self, package_id, list_id, confirm=None):
 		""" Create a command to remove a package from the repository """
 		if not userinfo.is_admin():
-			controller.http_error(403)	
+			controller.http_error(403)
 		package_id	= long(package_id)
 		list_id = long(list_id)
 		package = Package.query.filter_by(id = package_id).first()
@@ -137,7 +137,7 @@ class Packages(object):
 		user = userinfo.find_user()
 		action = "%s %s %s %s %s" % (user.email, 'remove' \
 			, packagelist.suite, source_package, package.version)
-			
+
 		time_now = time.strftime("%Y%m%d.%H%M%S", time.localtime())
 		filename = "%s_%s_%s" % (source_package, package.version, time_now)
 		full_repos_cmd_dir  = os.path.join(apt_portal.base_dir, '..', repos_commands_dir)
@@ -152,13 +152,13 @@ class Packages(object):
 		f.close()
 		return template.render("package_remove.html" \
 			, ticket_name = filename, confirm='Y')
-			
+
 	@controller.publish
 	def copy(self, package_id, source_list_id, target_list):
 		""" Create a command to copy a package to another repository """
 		if not userinfo.is_admin():
 			controller.http_error(403)
-				
+
 		package_id	= long(package_id)
 		source_list_id = long(source_list_id)
 		package = Package.query.filter_by(id = package_id).first()
@@ -169,12 +169,12 @@ class Packages(object):
 		if not source_packagelist:
 			return "List %d not found" % list_id
 		if target_list and not target_packagelist:
-			return "Repository %s not found" % target_list		
+			return "Repository %s not found" % target_list
 		repository_list = []
 		for plist in PackageList.query.all():
 			if plist.suite == source_packagelist.suite:
 				continue
-			if plist.suite not in repository_list:
+			if ( plist.suite not in repository_list ) and ( plist.suite >= "p" ):
 				repository_list.append(plist.suite)
 		if len(target_list) < 2:
 			return template.render("package_copy.html" \
@@ -191,7 +191,7 @@ class Packages(object):
 		user = userinfo.find_user()
 		action = "%s %s %s %s %s %s" % (user.email, 'copy' \
 			, target_packagelist.suite, source_packagelist.suite, source_package, package.version)
-			
+
 		time_now = time.strftime("%Y%m%d.%H%M%S", time.localtime())
 		filename = "%s_%s_%s" % (source_package, package.version, time_now)
 		full_repos_cmd_dir  = os.path.join(apt_portal.base_dir, '..', repos_commands_dir)
@@ -207,6 +207,6 @@ class Packages(object):
 		return template.render("package_copy.html" \
 			, ticket_name = filename \
 			, asking = False \
-			)			
+			)
 
 controller.attach(Packages(), "/packages")
