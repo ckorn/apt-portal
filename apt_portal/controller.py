@@ -117,7 +117,7 @@ def _precontroller():
     if not release and browser_release:
         release = browser_release
     
-    if release not in ['9.04', '9.10', '10.04', '10.10', '11.04', '11.10', '12.04', '12.10', '13.04', '13.10', '14.04']:
+    if release not in ['10.04', '11.04', '12.04', '12.10', '13.04', '13.10', '14.04']:
         release = current_release
     
     selected_distro = 'Ubuntu'
