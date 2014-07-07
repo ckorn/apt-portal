@@ -31,9 +31,7 @@ def get_codename(distro, release):
         release = '14.04'
     codemap = {}
     if distro.lower() == 'ubuntu':
-        codemap = { '10.04' : 'lucid',
-                   '11.04' : 'natty',
-                   '12.04' : 'precise',
+        codemap = { '12.04' : 'precise',
                    '12.10' : 'quantal',
                    '13.04' : 'raring',
                    '13.10' : 'saucy',
