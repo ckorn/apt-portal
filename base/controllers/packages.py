@@ -174,7 +174,7 @@ class Packages(object):
 		for plist in PackageList.query.all():
 			if plist.suite == source_packagelist.suite:
 				continue
-			if ( plist.suite not in repository_list ) and ( plist.suite >= "p" ):
+			if ( plist.suite not in repository_list ) and ( plist.suite >= "t" ):
 				repository_list.append(plist.suite)
 		if len(target_list) < 2:
 			return template.render("package_copy.html" \
