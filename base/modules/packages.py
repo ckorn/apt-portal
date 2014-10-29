@@ -28,7 +28,6 @@ from apt_portal import database
 from datetime import datetime
 from base.models.package import Package, PackageList
 from base.models.application import Application
-from sqlalchemy.sql import text
 
 def get_package_stats(packages):
     ret = []
@@ -73,8 +72,8 @@ def get_download_stats():
         else:
             where = "WHERE ddate='%(now_str)s'"%locals()
         sql = month % locals()
-        sql = text(sql)
-        package = engine.execute(sql).fetchall()
+        sql = engine.text(sql)
+        package = sql.execute().fetchall()
         # setting l = ... does not work. append all elements instead.
         l.extend(get_package_stats(package))
     return ret
