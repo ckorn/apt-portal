@@ -54,10 +54,10 @@ class Packages(object):
 
 		if q:
 			db_packages = Package.query.filter_by(package=q).order_by(\
-				asc(Package.package), asc(Package.version)).all()
+				asc(Package.version), asc(Package.package)).all()
 		else:
 			db_packages = Package.query.order_by( \
-				asc(Package.package), asc(Package.version)).all()
+				asc(Package.version), asc(Package.package)).all()
 		packages = {}
 		last_package_version = None
 		stats = Stats()
