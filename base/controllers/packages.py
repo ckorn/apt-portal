@@ -3,23 +3,23 @@
 """
 @copyright:
  
-    (C) Copyright 2009, APT-Portal Developers
-    https://launchpad.net/~apt-portal-devs
+	(C) Copyright 2009, APT-Portal Developers
+	https://launchpad.net/~apt-portal-devs
 
 @license:
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 @author: João Pinto <joao.pinto at getdeb.net>
 """
 
@@ -31,6 +31,7 @@ from sqlalchemy import asc
 from base.modules import userinfo
 from base.models.application import Application
 from base.models.package import Package, PackageList
+from collections import OrderedDict
 
 repos_commands_dir = "rep_commands"
 
@@ -57,13 +58,14 @@ class Packages(object):
 		else:
 			db_packages = Package.query.order_by( \
 				asc(Package.package), asc(Package.version)).all()
-		packages = []
+		packages = {}
 		last_package_version = None
 		stats = Stats()
 
 		# Walk the packages list, skip classified and linked
 		for package in db_packages:
 			package_version = package.package+"-"+package.version
+			source_package = package.source or package.package
 			if package_version == last_package_version:
 				continue
 			if len(package.lists) == 0: # package is not in a repos
@@ -74,7 +76,6 @@ class Packages(object):
 			if package.install_class == None:
 				stats.unclassified += 1
 			elif package.install_class == 'M':
-				source_package = package.source or package.package
 				app = Application.query.filter_by(
 					source_package = source_package
 				).first()
@@ -82,8 +83,11 @@ class Packages(object):
 					stats.unlinked += 1
 			if q or not package.install_class or \
 				(package.install_class=='M' and not app):
-					packages.append(package)
-		return template.render("packages.html", packages = packages
+					if not source_package in packages.keys():
+						packages[source_package] = []
+					packages[source_package].append(package)
+		ordered_packages=OrderedDict(sorted(packages.items(), key=lambda t: t[0]))
+		return template.render("packages.html", packages = ordered_packages
 			, stats = stats, q=q
 		)
 

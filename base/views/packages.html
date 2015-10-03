@@ -23,9 +23,9 @@ ${_("Packages management")}
 	<!-- Table header -->
 		<thead>
 			<tr>
+				<th>Source</th>
 				<th>Package</th>
 				<th>Version</th>
-				<th>Source</th>
 				<th>Class</th>
 				<th>App</th>
 			</tr>
@@ -38,15 +38,16 @@ ${_("Packages management")}
 		</tfoot>
 	<!-- Table body -->
 		<tbody>
-% for package in packages:
+% for source in packages:
 <tr>
+	<td>${source}</td>
+	<td colspan="4">&nbsp;</td>
+</tr>
+%     for package in packages[source]:
+<tr>
+	<td>&nbsp;</td>
 	<td>${package.package}</td>
 	<td>${package.version}</td>
-% if package.source:
-	<td>${package.source}</td>	
-% else:
-	<td></td>
-% endif
 	<td><button type="button" id="main_${package.id}" value="M" 
 % if package.install_class == "M": 
 	class="down"
@@ -87,6 +88,7 @@ ${_("Packages management")}
 		</td>
 		</tr>
 % 		endif
+%	  endfor
 %	endfor
 % endfor
 		</tbody>
