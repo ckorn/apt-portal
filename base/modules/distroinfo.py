@@ -28,7 +28,7 @@
 def get_codename(distro, release):
     """ Return the codename for a given distro release """
     if release == 'all':
-        release = '15.04'
+        release = '15.10'
     codemap = {}
     if distro.lower() == 'ubuntu':
         codemap = { '12.04' : 'precise',
@@ -37,7 +37,8 @@ def get_codename(distro, release):
                    '13.10' : 'saucy',
                    '14.04' : 'trusty',
                    '14.10' : 'utopic',
-                   '15.04' : 'vivid'
+                   '15.04' : 'vivid',
+                   '15.10' : 'wily'
                    }
     try:
         codename = codemap[release]
