@@ -1,0 +1,14 @@
+*.pyc
+*.log
+*.db
+.project
+logs
+rep_commands
+logs/getdeb
+logs/playdeb
+media/screens
+media/sponsors
+var
+rep_commands
+*.~*
+.idea
