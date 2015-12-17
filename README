@@ -9,15 +9,15 @@ the code does not break the application.
 -----------
    Notes
 -----------
- * You will need to be running Ubuntu 9.10 or 10.04 to run apt-portal code base.
- * apt-portal uses Launchpad and Bazaar (bzr) for development; you will need to
-   be familiar with bzr to be able to commit changes to the project
-       - if you are not familiar with bzr and are uncomfortable with the
-         command line, please see the project called Ground Control, found here:
-         https://launchpad.net/groundcontrol
-       - Ground Control creates - or uses if it exists - a folder called
-         Projects/ in your home directory. It takes care of the interface
-         between Launchpad and bzr without forcing you to use the command line 
+ * You will need to be running Ubuntu 14.04 or 15.10 to run apt-portal code base.
+ * apt-portal uses GitHub (git) for development; you will need to
+   be familiar with git to be able to commit changes to the project
+       - if you are not familiar with git and are uncomfortable with the
+         command line, please see the tutorial found here:
+         http://git-scm.com/docs/gittutorial
+       - in order to contribute changes you have to create a fork,
+         push the changes there and send us pull requests:
+         https://help.github.com/articles/fork-a-repo/
 
 
 -----------------
@@ -25,13 +25,18 @@ the code does not break the application.
 -----------------
 [Step 1] Checkout apt-portal code
 
-bzr branch lp:apt-portal
+git pull https://github.com/ckorn/apt-portal.git
+
+(Or your fork directly if you want to publish changes.)
 
 
-[Step 2] Change directory to wherever you downloaded lp:apt-portal
+[Step 2] Change directory to wherever you downloaded apt-portal
          e.g. for $HOME/apt-portal/:
 
 cd $HOME/apt-portal/
+
+If you want to create a pull request, better branch from master:
+git checkout -b my_awesome_feature
 
 
 [Step 3] Make sure required dependencies are installed
@@ -51,7 +56,7 @@ sudo apt-get install python-mako python-elixir python-imaging python-cherrypy3
 
 [Step 5] Populate the packages database
 
-debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu karmic-getdeb apps
+debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.getdeb.db http://archive.getdeb.net/ubuntu wily-getdeb apps
 
 
 [Step 6] You should now travel to http://localhost:8080/register/ and register a user. 
@@ -125,10 +130,13 @@ debfactory/bin/apt2sql.py -fd  sqlite:////$HOME/.playdeb.db http://archive.getde
 ----------------
    Last Step
 ----------------
-[Step 8] Commit & push changes to apt-portal project
+[Step 8] Commit
 
-bzr commit
-bzr push lp:apt-portal
+git commit
+
+[Step 9] Push changes and send pull request
+
+git push
 
 
 -------------------------
