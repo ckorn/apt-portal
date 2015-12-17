@@ -60,8 +60,12 @@ Subscribe to GetDeb:
             <th>Amount / Month</th>		
 %for sponsor  in sponsors:
 		<tr class="alt">				
-			<td><a rel="external" href="${sponsor.url}"><img src="${media_base_url}/media/sponsors/${sponsor.id}.png"></a></td>
+			<td><a rel="external" href="${sponsor.url}"><img src="${media_base_url}/media/sponsors/${sponsor.id}.png" alt="${sponsor.name}"></a></td>
+%if sponsor.altonly:
+			<td>&nbsp;</td> 
+%else:
 			<td><a rel="external" href="${sponsor.url}">${sponsor.name}</a></td> 
+%endif
 			<td class="donation">${sponsor.ammount} €</td>  
 		</tr>
 %endfor

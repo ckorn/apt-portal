@@ -24,6 +24,7 @@ class Sponsor(Entity):
 	name = Field(String(64), nullable = False)
 	url = Field(String(128), nullable = False)
 	ammount = Field(Integer, nullable = False)
+	altonly = Field(Numeric(1,0))
 	using_table_options(mysql_engine='InnoDB') 
 		
 	def __repr__(self):
