@@ -25,6 +25,7 @@
 from apt_portal import controller, template
 from base.models.sponsor import Sponsor
 from sqlalchemy import desc
+import datetime
 
 class Sponsors(object):
 	@controller.publish

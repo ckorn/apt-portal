@@ -2,6 +2,7 @@ from base.models.sponsor import Sponsor
 
 from threading import Lock
 from sqlalchemy import desc
+import datetime
 
 
 sponsor_ads_counter_lock = Lock()
