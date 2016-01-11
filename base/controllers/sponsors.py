@@ -30,7 +30,9 @@ class Sponsors(object):
 	@controller.publish
 	def index(self):
 		maxval = 10
-		sponsors = Sponsor.query.order_by(desc(Sponsor.ammount)).all()
+		# Filter by no enddate or enddate in the future
+		sponsors = Sponsor.query.filter(Sponsor.enddate == None). \
+			union_all(Sponsor.query.filter(datetime.datetime.now()<=Sponsor.enddate).order_by(desc(Sponsor.ammount))).all()
 		for sponsor in sponsors:
 			if sponsor.ammount > maxval:
 				maxval =  sponsor.ammount

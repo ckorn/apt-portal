@@ -14,7 +14,9 @@ def get_sponsor():
 	Returns a tuple: (sponsor, total_ammount)
 	"""
 	global sponsor_ads_counter_lock, sponsor_ads_counter
-	sponsors = Sponsor.query.order_by(desc(Sponsor.ammount)).all()
+	# Filter by no enddate or enddate in the future
+	sponsors = Sponsor.query.filter(Sponsor.enddate == None). \
+		union_all(Sponsor.query.filter(datetime.datetime.now()<=Sponsor.enddate).order_by(desc(Sponsor.ammount))).all()
 	if len(sponsors) == 0:
 		return (None, 0)
 		

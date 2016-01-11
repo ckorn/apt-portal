@@ -25,6 +25,7 @@ class Sponsor(Entity):
 	url = Field(String(128), nullable = False)
 	ammount = Field(Integer, nullable = False)
 	altonly = Field(Numeric(1,0))
+	enddate = Field(DateTime)
 	using_table_options(mysql_engine='InnoDB') 
 		
 	def __repr__(self):
