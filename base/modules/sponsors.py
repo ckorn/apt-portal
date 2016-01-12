@@ -16,8 +16,13 @@ def get_sponsor():
 	"""
 	global sponsor_ads_counter_lock, sponsor_ads_counter
 	# Filter by no enddate or enddate in the future
-	sponsors = Sponsor.query.filter(Sponsor.enddate == None). \
-		union_all(Sponsor.query.filter(datetime.datetime.now()<=Sponsor.enddate).order_by(desc(Sponsor.ammount))).all()
+	sponsors = Sponsor.query.order_by(desc(Sponsor.ammount)).all()
+	# was unable to do it in the query. So manual filtering here.
+	sponsors2 = []
+	for sponsor in sponsors:
+		if (sponsor.enddate is None) or (datetime.datetime.now()<=Sponsor.enddate):
+			sponsors2.append(sponsor)
+	sponsors = sponsors2
 	if len(sponsors) == 0:
 		return (None, 0)
 		
