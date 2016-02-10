@@ -21,7 +21,7 @@ def get_sponsor():
 	sponsors2 = []
 	for sponsor in sponsors:
 		# somehow the datetime comparison did not work. So parse the string as date (e.g. '28-02-2016')
-		if (sponsor.enddate is None) or (datetime.datetime.now()<=datetime.datetime.strptime(Sponsor.enddate, '%d-%m-%Y')):
+		if (sponsor.enddate is None) or (datetime.datetime.now()<=datetime.datetime.strptime(sponsor.enddate, '%d-%m-%Y')):
 			sponsors2.append(sponsor)
 	sponsors = sponsors2
 	if len(sponsors) == 0:
