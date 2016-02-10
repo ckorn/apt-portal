@@ -36,7 +36,8 @@ class Sponsors(object):
 		# was unable to do it in the query. So manual filtering here.
 		sponsors2 = []
 		for sponsor in sponsors:
-			if (sponsor.enddate is None) or (datetime.datetime.now()<=Sponsor.enddate):
+			# somehow the datetime comparison did not work. So parse the string as date (e.g. '28-02-2016')
+			if (sponsor.enddate is None) or (datetime.datetime.now()<=datetime.datetime.strptime(Sponsor.enddate, '%d-%m-%Y')):
 				sponsors2.append(sponsor)
 		sponsors = sponsors2
 		for sponsor in sponsors:
