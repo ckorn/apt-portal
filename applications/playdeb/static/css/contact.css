@@ -23,13 +23,13 @@ legend { margin-left:10px; }
 	clear:left;
 }
 #commentForm input:hover, #commentForm textarea:hover {
-	background-color:#111;
-	color:#555;
+	/* background-color:#111; 
+	color:#555; */
 	border:2px solid #555;
 }
 #commentForm input:focus, #commentForm textarea:focus {
-	background-color:#000;
-	color:#555;
+	/* background-color:#000;
+	color:#555; */
 	border:2px solid #777;
 }
 #commentForm label { margin-bottom: 2px; }
