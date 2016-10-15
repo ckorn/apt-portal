@@ -39,7 +39,8 @@ def get_codename(distro, release):
                    '14.10' : 'utopic',
                    '15.04' : 'vivid',
                    '15.10' : 'wily',
-                   '16.04' : 'xenial'
+                   '16.04' : 'xenial',
+                   '16.10' : 'yakkety'
                    }
     try:
         codename = codemap[release]
