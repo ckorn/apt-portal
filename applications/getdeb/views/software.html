@@ -43,6 +43,9 @@ ${_("Information for "+app.name)}
     %endfor
     </p>
     % if package:
+    <p>Install the application manually with the following commands:<br>
+    sudo apt-get update && sudo apt-get install ${package.package | u}
+    </p>
     <p>Uninstall the application with the following command:<br>
     sudo apt-get remove ${package.package | u}
     </p>
