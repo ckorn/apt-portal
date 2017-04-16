@@ -30,7 +30,7 @@ import apt_portal
 
 # FIXME: selected_distro and current_release must be moved to a config file 
 selected_distro = 'Ubuntu'
-current_release  = '16.10'
+current_release  = '17.04'
 
 selected_release = None
 browser_distro = None
@@ -117,7 +117,7 @@ def _precontroller():
     if not release and browser_release:
         release = browser_release
     
-    if release not in ['12.04', '12.10', '13.04', '13.10', '14.04', '14.10', '15.04', '15.10', '16.04', '16.10']:
+    if release not in ['12.04', '12.10', '13.04', '13.10', '14.04', '14.10', '15.04', '15.10', '16.04', '16.10', '17.04']:
         release = current_release
     
     selected_distro = 'Ubuntu'
