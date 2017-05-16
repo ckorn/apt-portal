@@ -28,6 +28,7 @@ from apt_portal import database
 from datetime import datetime
 from base.models.package import Package, PackageList
 from base.models.application import Application
+from sqlalchemy.sql import text
 
 def get_package_stats(packages):
     ret = []
@@ -72,8 +73,8 @@ def get_download_stats():
         else:
             where = "WHERE ddate='%(now_str)s'"%locals()
         sql = month % locals()
-        sql = engine.text(sql)
-        package = sql.execute().fetchall()
+        sql = text(sql)
+        package = engine.execute(sql).fetchall()
         # setting l = ... does not work. append all elements instead.
         l.extend(get_package_stats(package))
     return ret
@@ -144,12 +145,12 @@ def get_applications_list(q, category, release, page = 1, items_per_page = 10):
     " AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
     sql_order = " ORDER BY last_modified DESC "
     engine = database.engine()
-    count_sql = engine.text(sql_select_count+sql_body)
-    select_sql = engine.text(sql_select_data+sql_body+sql_order+sql_limit)                
-    row_count = count_sql.execute(**sql_args).fetchone()[0]
+    count_sql = text(sql_select_count+sql_body)
+    select_sql = text(sql_select_data+sql_body+sql_order+sql_limit)                
+    row_count = engine.execute(count_sql, **sql_args).fetchone()[0]
     if row_count == 0: # nothing found
         return ([], {}, 0) 
-    data = select_sql.execute(**sql_args).fetchall()
+    data = engine.execute(select_sql, **sql_args).fetchall()
         
     # STEP 2 - Get specific version and application records for apps/packages
     # listed on STEP 1
@@ -162,8 +163,8 @@ def get_applications_list(q, category, release, page = 1, items_per_page = 10):
         sql = "SELECT id FROM package WHERE package = :pck_name "
         sql +=  "AND package.id IN (SELECT package_id FROM packagelist_members WHERE packagelist_id IN (%s)) " % selected_plists
         sql += " ORDER BY last_modified DESC LIMIT 1 "
-        specific_sql = engine.text(sql)         
-        package = specific_sql.execute(pck_name = item.package).fetchone()
+        specific_sql = text(sql)         
+        package = engine.execute(specific_sql, pck_name = item.package).fetchone()
         if not package: # Package was deleted ????
             continue
         package_id = package.id
